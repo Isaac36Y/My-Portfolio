@@ -1,0 +1,106 @@
+:root {
+    --color-bg: rgb(236, 254, 255);
+    --color-primary: rgb(0, 0, 54);
+    --color-accent-300: rgb(100,220,230);
+    --color-accent-500: rgb(0,150,199);
+
+    --font-heading: var(--font-space-grotesk);
+    --font-body: var(--font-dm-sans);
+    --font-tech: var(--font-courier-prime);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    linear-gradient(rgba(0, 0, 54, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 54, 0.1) 1px, transparent 1px);
+  background-size: 124px 124px;
+  background-color: var(--color-bg);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+  font-family: var(--font-heading), sans-serif;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  text-decoration: none;
+}
+
+
+//utils 
+
+.primary-text {
+    color: var(--color-primary);
+}
+
+.secondary-text {
+    color: var(--color-accent-500);
+}
+
+.body-text {
+    font-family: var(--font-body);
+}
+
+.tech {
+    font-family: var(--font-tech), monospace;
+}

@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    
+    .hero {
+        padding-block: 1rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+
+        .heroName {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+            font-size: 4rem;
+
+            .lastName {
+                font-size: 3rem;
+                letter-spacing: 0.1rem;
+            }
+        }
+    }
+
+    .headerNav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+
+        .headerNavBtn {
+            background-color: var(--color-primary);
+            width: 100%;
+            padding-block: var(--space-sm);
+            font-weight: 600;
+            box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    .milesLink, .currentRead {
+        text-decoration: underline;
+        text-underline-offset: 0.2rem;
+
+        &:link {
+            color: var(--color-accent-500)
+        }
+        &:visited {
+            color: var(--color-accent-500)
+        }
+    }
+
+}
+

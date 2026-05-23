@@ -7,6 +7,13 @@
     --font-heading: var(--font-space-grotesk);
     --font-body: var(--font-dm-sans);
     --font-tech: var(--font-courier-prime);
+    
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 0.75rem;
+    --space-lg: 1rem;
+    --space-xl: 1.5rem;
+    --space-xxl: 2rem;
 }
 
 *,
@@ -27,13 +34,13 @@
 }
 
 body {
-  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   background-image:
     linear-gradient(rgba(0, 0, 54, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 54, 0.1) 1px, transparent 1px);
   background-size: 124px 124px;
   background-color: var(--color-bg);
+  padding-inline: 5vw;
 }
 
 img,
@@ -69,6 +76,7 @@ h6 {
 
 p {
   text-wrap: pretty;
+  line-height: 1.5;
 }
 
 h1,
@@ -97,7 +105,11 @@ ol[role="list"] {
     color: var(--color-accent-500);
 }
 
-.body-text {
+.light-text {
+    color: var(--color-accent-300);
+}
+
+.body {
     font-family: var(--font-body);
 }
 

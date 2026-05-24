@@ -26,6 +26,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Isaac Young - Developer",
   description: "Self taught",
+  
 };
 
 export default function RootLayout({

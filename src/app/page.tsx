@@ -1,3 +1,4 @@
+import ParticleBackground from '@/components/ParticleBackground/ParticleBackground'
 import styles  from './page.module.scss'
 import Link from 'next/link'
 
@@ -7,7 +8,7 @@ function Hero() {
         <div className={styles.hero}>
             <h1 className={`${styles.heroName} primary-text`}>Isaac <span className={`${styles.lastName} secondary-text`}>Young.</span></h1>
             <p className="tech secondary-text">// software engineer & creative dev</p>
-            <p className="body primary-text">I'm self taught, full-stack developer, eager to learn more everyday. I enjoy audiobooks, running and lifting, and building fun,
+            <p className="body primary-text">I'm a self taught, full-stack developer, eager to learn more everyday. I enjoy audiobooks, running and lifting, and building fun,
             useful things for the web</p>
         </div>
     )
@@ -33,7 +34,7 @@ function MobileTempNav() {
 
 function CurrentRead() {
     return (
-        <p className='body primary-text'>I am currently reading/listening to <a href='' className={styles.currentRead}>The Midnight Library by Matt Haig</a></p>
+        <p className='body primary-text'>I am currently listening to <a href='' className={styles.currentRead}>The Midnight Library by Matt Haig</a></p>
     )
 }
 
@@ -109,6 +110,7 @@ function AboutMeRecents() {
 export default function Home() {
   return (
     <div>
+        <ParticleBackground />
         <header className={styles.header}>
             <Hero />
             <AboutMeRecents />

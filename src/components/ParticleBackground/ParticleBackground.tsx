@@ -14,21 +14,34 @@ export default function ParticleBackground() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     
-        let particles: { x: number, y: number, radius: number }[] = []
+        const particles: { x: number, y: number, radius: number }[] = []
 
-        for (let i = 0; i < 50; i++ ) {
+        for (let i = 0; i < 100; i++ ) {
             particles.push({ 
                 x: Math.random() * canvas.width, 
                 y: Math.random() * canvas.height, 
                 radius: 4 })
         }
 
-        ctx.fillStyle = 'rgb(100,220,230)'
+        ctx.fillStyle = 'rgba(100,220,230, 0.4)'
         for (let particle of particles ) {
             ctx.beginPath()
             ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
             ctx.fill()
         }
+        ctx.strokeStyle = 'rgba(100,220,230, 0.4)'
+        ctx.beginPath()
+        particles.forEach((particle, index) => {
+            for (let i = index + 1; i < particles.length; i++) {
+                const distance = Math.sqrt(Math.pow(particles[i].x - particle.x, 2) + Math.pow(particles[i].y - particle.y, 2))
+                if (distance <= 125) {
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(particles[i].x, particles[i].y)
+                    
+                }
+            }
+        })
+        ctx.stroke()
     }, [])
 
     return <canvas className={ styles.myCanvas } ref={canvasRef} />

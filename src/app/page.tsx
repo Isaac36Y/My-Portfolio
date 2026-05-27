@@ -1,3 +1,4 @@
+import ParticleBackground from '@/components/ParticleBackground/ParticleBackground'
 import styles  from './page.module.scss'
 import Link from 'next/link'
 
@@ -109,6 +110,7 @@ function AboutMeRecents() {
 export default function Home() {
   return (
     <div>
+        <ParticleBackground />
         <header className={styles.header}>
             <Hero />
             <AboutMeRecents />

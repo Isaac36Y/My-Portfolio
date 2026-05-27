@@ -7,8 +7,8 @@ function Hero() {
     return (
         <div className={styles.hero}>
             <h1 className={`${styles.heroName} primary-text`}>Isaac <span className={`${styles.lastName} secondary-text`}>Young.</span></h1>
-            <p className="tech secondary-text">// software engineer & creative dev</p>
-            <p className="body primary-text">I'm a self taught, full-stack developer, eager to learn more everyday. I enjoy audiobooks, running and lifting, and building fun,
+            <p className={`${styles.description} tech secondary-text`}>// software engineer & creative dev</p>
+            <p className={`${styles.bio} body primary-text`}>I'm a self taught, full-stack developer, eager to learn more everyday. I enjoy audiobooks, running and lifting, and building fun,
             useful things for the web</p>
         </div>
     )

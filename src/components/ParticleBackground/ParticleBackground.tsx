@@ -11,12 +11,14 @@ export default function ParticleBackground() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return
 
-        canvas.width = window.innerWidth - 30;
-        canvas.height = window.innerHeight - 50;
-    
+        canvas.width = window.innerWidth - (window.innerWidth * 0.1);
+        canvas.height = window.innerHeight - (window.innerHeight * 0.1);
+
+        const particleAmount = (canvas.width + canvas.height) / 15
+        
         const particles: { x: number, vx: number, y: number, vy: number, radius: number }[] = []
 
-        for (let i = 0; i < 100; i++ ) {
+        for (let i = 0; i < particleAmount; i++ ) {
             particles.push({ 
                 x: Math.random() * (canvas.width - 4),
                 vx: Math.random() * 2 - 1,

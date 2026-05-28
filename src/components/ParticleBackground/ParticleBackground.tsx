@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react';
-import styles from '@/app/page.module.scss'
+import styles from './ParticleBackground.module.scss'
 
 export default function ParticleBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -17,7 +17,7 @@ export default function ParticleBackground() {
         const particleAmount = (canvas.width + canvas.height) / 15
         
         const particles: { x: number, vx: number, y: number, vy: number, radius: number }[] = []
-
+        
         for (let i = 0; i < particleAmount; i++ ) {
             particles.push({ 
                 x: Math.random() * (canvas.width - 4),
@@ -26,8 +26,9 @@ export default function ParticleBackground() {
                 vy: Math.random() * 2 - 1,
                 radius: 4 })
         }
-        
-        
+
+        let animId: number;
+
         function draw() {
             ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
             
@@ -63,10 +64,11 @@ export default function ParticleBackground() {
                 }
             })
             ctx!.stroke()
-
-            window.requestAnimationFrame(draw);
+            
+            animId = requestAnimationFrame(draw);
         }
-        requestAnimationFrame(draw);
+        animId = requestAnimationFrame(draw);
+        return () => cancelAnimationFrame(animId)
         
     }, [])
 

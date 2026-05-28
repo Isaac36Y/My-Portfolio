@@ -1,6 +1,7 @@
 :root {
-    --color-bg: rgb(236, 254, 255);
+    --color-bg: rgb(223, 246, 247);
     --color-primary: rgb(0, 0, 42);
+    --color-accent-200: rgb(153, 238, 238);
     --color-accent-300: rgb(100,220,230);
     --color-accent-500: rgb(0,150,199);
 
@@ -15,6 +16,9 @@
     --fs-subheading: 2rem;
     --fs-heading-sm: 3rem;
     --fs-heading: 4rem;
+
+    --br-sm: 0.2rem;
+    --br-lg: 1rem;
 
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
@@ -46,8 +50,6 @@
 body {
     -webkit-font-smoothing: antialiased;
     background-color: var(--color-bg);
-    padding-inline: 5vw;
-    height: 100vh;
 }
 
 img,
@@ -98,7 +100,7 @@ h6 {
 
 ul[role="list"],
 ol[role="list"] {
-  text-decoration: none;
+  list-style-type: none;
 }
 
 
@@ -112,7 +114,7 @@ ol[role="list"] {
     color: var(--color-accent-500);
 }
 
-.light-text {
+.accent-text {
     color: var(--color-accent-300);
 }
 

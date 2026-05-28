@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
+    padding-inline: 5vw;
     
     .hero {
         padding-block: 1rem 0;
@@ -30,10 +31,11 @@
     .headerNav {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
+        gap: var(--space-sm);
 
         .headerNavBtn {
             background-color: var(--color-primary);
+            border-radius: var(--br-sm);
             width: 100%;
             padding-block: var(--space-sm);
             font-weight: 600;

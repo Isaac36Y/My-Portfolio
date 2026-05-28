@@ -14,7 +14,7 @@ function Hero() {
 
 function TempNavButton({ link, description }: { link: string, description: string }) {
     return (
-        <Link href={link} className={`${styles.headerNavBtn} body light-text`}>
+        <Link href={link} className={`${styles.headerNavBtn} body accent-text`}>
             {description}
         </Link>
     )

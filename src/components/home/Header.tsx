@@ -1,5 +1,6 @@
 import styles from './Header.module.scss'
 import Link from 'next/link'
+import filterStravaActivities from '@/lib/strava'
 
 function Hero() {
     return (
@@ -12,7 +13,7 @@ function Hero() {
     )
 }
 
-function TempNavButton({ link, description }: { link: string, description: string }) {
+function NavButton({ link, description }: { link: string, description: string }) {
     return (
         <Link href={link} className={`${styles.headerNavBtn} body accent-text`}>
             {description}
@@ -20,12 +21,12 @@ function TempNavButton({ link, description }: { link: string, description: strin
     )
 }
 
-function MobileTempNav() {
+function MobileNav() {
     return (
         <nav className={styles.headerNav}>
-            <TempNavButton link="#myWork" description='My Work' />
-            <TempNavButton link="/blog" description='My Blog' />
-            <TempNavButton link="/personal" description='My Life' />
+            <NavButton link="#myWork" description='My Work' />
+            <NavButton link="/blog" description='My Blog' />
+            <NavButton link="/personal" description='My Life' />
         </nav>
     )
 }
@@ -34,48 +35,6 @@ function CurrentRead() {
     return (
         <p className='body primary-text'>I am currently listening to <a href='' className={styles.currentRead}>The Midnight Library by Matt Haig</a></p>
     )
-}
-
-const getStravaActivities = async () => {
-    const payload = {
-        client_id: process.env.STRAVA_CLIENT_ID,
-        client_secret: process.env.STRAVA_CLIENT_SECRET,
-        refresh_token: process.env.STRAVA_REFRESH_TOKEN,
-        grant_type: 'refresh_token'
-    }
-    const res1 = await fetch('https://www.strava.com/oauth/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
-
-    const data1 = await res1.json()
-    const accessToken = data1.access_token
-
-    const res2 = await fetch('https://www.strava.com/api/v3/athlete/activities', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-
-    const activities = await res2.json()
-    return activities
-}
-
-const filterStravaActivities = async () => {
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - 7);
-    const activities = await getStravaActivities();
-    const last7Days = activities.filter((item: { start_date: string }) => {
-        const itemDate = new Date(item["start_date"]);
-        return itemDate >= cutoffDate;
-    });
-    return last7Days
-
 }
 
 async function WeeklyMiles() {
@@ -110,7 +69,7 @@ export default function Header() {
         <header className={styles.header}>
             <Hero />
             <AboutMeRecents />
-            <MobileTempNav />
+            <MobileNav />
         </header>
     )
 }

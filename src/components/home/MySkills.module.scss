@@ -8,6 +8,10 @@
     overflow: hidden;
 }
 
+.title {
+    font-size: var(--fs-subheading);
+}
+
 .markerContainer {
     display: flex;
     gap: var(--space-sm);

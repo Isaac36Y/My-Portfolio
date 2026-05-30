@@ -60,7 +60,7 @@ function SkillCards() {
                 { skillLists.map((card, i) => (
                     <div className={ styles.skillCard } key={i} ref={el => { cardRef.current[i] = el }}>
                         <h3 className={`${ styles.skillType } tech secondary-text`}>{ card.label }</h3>
-                        <ul className={`${ styles.skillList } body primary-text`} role='list' id='frontend-skill-list'>
+                        <ul className={`${ styles.skillList } body primary-text`} role='list' id={`${card.id}-skill-list`}>
                             { card.skills.map((skill, i) => (
                                 <li key={i}>{skill}</li>
                             ))}

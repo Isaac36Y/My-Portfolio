@@ -1,0 +1,19 @@
+.Nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+    padding-inline: 5vw;
+
+    .navBtn {
+        background-color: var(--color-primary);
+        border-radius: var(--br-sm);
+        width: 100%;
+        padding-block: var(--space-sm);
+        font-weight: 600;
+        box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+    }
+}

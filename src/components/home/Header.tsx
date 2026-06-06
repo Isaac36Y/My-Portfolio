@@ -12,16 +12,6 @@ function Hero() {
     )
 }
 
-function NavButton({ link, description }: { link: string, description: string }) {
-    return (
-        <Link href={link} className={`${styles.headerNavBtn} body accent-text`}>
-            {description}
-        </Link>
-    )
-}
-
-
-
 function CurrentRead() {
     return (
         <div className={`${styles.status} body primary-text`}>
@@ -74,16 +64,6 @@ function AboutMeRecents() {
     )
 }
 
-function MobileNav() {
-    return (
-        <nav className={styles.headerNav}>
-            <NavButton link="#myWork" description='My Work' />
-            <NavButton link="/blog" description='My Blog' />
-            <NavButton link="/personal" description='My Life' />
-        </nav>
-    )
-}
-
 export default function Header() {
     return (
         <header className={styles.header}>
@@ -91,7 +71,6 @@ export default function Header() {
             <hr className={`${styles.line}`} />
             <AboutMeRecents />
             <hr className={`${styles.line}`} />
-            <MobileNav />
         </header>
     )
 }

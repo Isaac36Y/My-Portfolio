@@ -28,6 +28,48 @@
 
     }
 
+    .line {
+        border: none;
+        height: 2px;
+        background-color: var(--color-primary);
+        background: linear-gradient(to right, transparent, var(--color-primary) 40%, var(--color-primary) 60%, transparent);
+    }
+
+    .aboutMeRecents {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+        padding-block: var(--space-lg);
+
+        .status { 
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            font-size: var(--fs-med);
+    
+            .label {
+                display: flex;
+                gap: 0.5rem;
+                
+                
+            }
+    
+            .milesLink, .currentRead {
+                text-decoration: underline;
+                text-underline-offset: 0.2rem;
+        
+                &:link {
+                    color: var(--color-accent-500)
+                }
+                &:visited {
+                    color: var(--color-accent-500)
+                }
+            }
+        }
+    }
+
+
+    
+    
     .headerNav {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -44,18 +86,6 @@
             justify-content: center;
             align-items: center;
             text-decoration: none;
-        }
-    }
-
-    .milesLink, .currentRead {
-        text-decoration: underline;
-        text-underline-offset: 0.2rem;
-
-        &:link {
-            color: var(--color-accent-500)
-        }
-        &:visited {
-            color: var(--color-accent-500)
         }
     }
 

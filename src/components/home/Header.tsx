@@ -68,9 +68,9 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <Hero />
-            <hr className={`${styles.line}`} />
+            <hr />
             <AboutMeRecents />
-            <hr className={`${styles.line}`} />
+            <hr />
         </header>
     )
 }

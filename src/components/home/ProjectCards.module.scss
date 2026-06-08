@@ -1,0 +1,72 @@
+@use '@/styles/mixins.scss' as *;
+
+.cardsSection {
+    width: 100%;
+    padding-inline: 5vw;
+
+    .projectCard {
+        border: 1px solid var(--color-primary);
+        border-top: 5px solid var(--color-homebase-accent);
+        border-radius: var(--br-lg);
+        width: 100%;
+        background-color: var(--color-accent-200);
+        padding: var(--space-med) var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-med);
+
+        .header {
+            display: flex;
+            flex-direction: column;
+
+            h2 { 
+                line-height: 1;
+                font-size: var(--fs-subheading);
+            }
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            
+            li {
+                border: 1px solid var(--color-primary);
+                border-radius: var(--br-sm);
+                padding: var(--space-xs) var(--space-sm) 0.15rem;
+                display: flex;
+                align-items: center;
+                line-height: 1;
+            }
+        }
+
+        hr {
+            @include divider(var(--color-homebase-accent))
+        }
+
+        .buttons {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-med);
+            align-self: center;
+
+            .button {
+                padding-block: var(--space-sm);
+                font-size: var(--fs-med);
+                display: flex;
+                justify-content: center;
+                border-radius: var(--br-med);
+            }
+
+            .caseStudy {
+                border: 1px solid var(--color-accent-500);
+            }
+
+            .demo {
+                border: 1px solid var(--color-homebase-accent);
+                color: var(--color-homebase-accent)
+            }
+        }
+    }
+}

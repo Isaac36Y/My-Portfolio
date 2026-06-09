@@ -2,7 +2,19 @@
 
 import styles from './ProjectCards.module.scss'
 import Image from 'next/image'
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useRef, useState, useLayoutEffect, Fragment } from 'react'
+
+const cardData = [
+    {
+        id: 'homebase',
+        color: 'var(--color-homebase-accent)',
+        type: '// SaaS • Full-Stack',
+        name: 'HomeBase',
+        icon: '/images/icon-192.png',
+        hook: 'A real estate platform where agents log property data on-site, offline, and without losing a single input. Back at the desk, every detail is reviewable and buyer relationships are managed in one place.',
+        tags: [ 'Node', 'Supabase', 'PWA', 'Claude API' ]
+    },
+]
 
 function HomebaseCard() {
     const [isOpen, setIsOpen] = useState(false)
@@ -72,38 +84,45 @@ function HomebaseCard() {
 
     return (
         <>
-            <div ref={cardPlaceHolder}></div>
-            <div ref={projectCard} className={`${ styles.projectCard } ${ isOpen ? styles.openCase : ''}`}>
-                <section className={ styles.hook }>
-                    <div className={ styles.header }>
-                        <div className={ styles.titles}>
-                            <p className={`${ styles.type } tech secondary-text`}>// SaaS &bull; Full-Stack</p>
-                            <h2 className='primary-text'>HomeBase</h2>
-                        </div>
-                        <Image src="/images/icon-192.png" alt="HomeBase logo" width={56} height={56}/>
-                    </div>
-                    <p className={`${ styles.description } body primary-text`}>A real estate platform where agents log property data on-site, offline, and without losing a single input. Back at the desk, every detail is reviewable and buyer relationships are managed in one place.</p>
-                    <ul className={`${ styles.tags } tech primary-text`} role='list'>
-                        <li>Node</li>
-                        <li>Supabase</li>
-                        <li>PWA</li>
-                        <li>Claude API</li>
-                    </ul>
-                </section>
-                <section className={ styles.caseStudy }>
-                    <hr />
-                        <section>
-
+            <div>
+                { cardData.map((card, i) => (
+                    <Fragment key={i}>
+                    <div ref={cardPlaceHolder}></div>
+                    <div 
+                    ref={projectCard}  
+                    style={{ borderTop: `5px solid ${card.color}`}}
+                    className={`${ styles.projectCard } ${ isOpen ? styles.openCase : ''}`}>
+                        <section className={ styles.hook }>
+                            <div className={ styles.header }>
+                                <div className={ styles.titles}>
+                                    <p className={`${ styles.type } tech secondary-text`}>{ card.type }</p>
+                                    <h2 className='primary-text'>{ card.name }</h2>
+                                </div>
+                                <Image src={card.icon} alt="HomeBase logo" width={56} height={56}/>
+                            </div>
+                            <p className={`${ styles.description } body primary-text`}>{ card.hook }</p>
+                            <ul className={`${ styles.tags } tech primary-text`} role='list'>
+                                { card.tags.map((tag, i) => (
+                                    <li key={i}>{tag}</li>
+                                ))}
+                            </ul>
                         </section>
-                    <hr />
-                </section>
-                <section className={`${ styles.buttons } `}>
-                    <button 
-                    type="button"
-                    onClick={isOpen ? closeCase : openCase}
-                    className={`${ styles.button } ${ styles.caseStudyBtn } tech secondary-text`}>Case Study</button>
-                    <a href='' className={`${ styles.button } ${ styles.demo } tech`}>Demo</a>
-                </section>
+                        <section className={ styles.caseStudy }>
+                            <hr />
+                                <section>
+                                </section>
+                            <hr />
+                        </section>
+                        <section className={`${ styles.buttons } `}>
+                            <button
+                            type="button"
+                            onClick={isOpen ? closeCase : openCase}
+                            className={`${ styles.button } ${ styles.caseStudyBtn } tech secondary-text`}>Case Study</button>
+                            <a href='' className={`${ styles.button } ${ styles.demo } tech`}>Demo</a>
+                        </section>
+                    </div>
+                    </Fragment>
+                ))}
             </div>
         </>
     )

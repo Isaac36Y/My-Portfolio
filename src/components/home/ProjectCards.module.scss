@@ -9,7 +9,6 @@
     .projectCard {
         position: relative;
         border: 1px solid var(--color-primary);
-        border-top: 5px solid var(--color-homebase-accent);
         border-radius: var(--br-lg);
         width: 100%;
         background-color: var(--color-accent-200);
@@ -43,12 +42,13 @@
                     border-radius: 0.6rem;
                     height: 3.5rem;
                     width: 3.5rem;
+                    transition: width 0.4s ease, height 0.4s ease;
                 }
 
                 h2 { 
                     line-height: 1;
                     font-size: var(--fs-subheading);
-                    transition: font-size 0.5s ease;
+                    transition: font-size 0.4s ease;
                 } 
             }
             
@@ -72,6 +72,7 @@
         .caseStudy {
             height: 2px;
             overflow: hidden;
+            transition: height 0.4s ease;
 
 
             hr {
@@ -119,12 +120,10 @@
             left: 2.5%;
             height: 95%;
             width: 95%;
-            z-index: 100;
 
-            /* .header {
+            .header {
 
                 img {    
-                    border-radius: 0.6rem;
                     height: 4.5rem;
                     width: 4.5rem;
                 }
@@ -133,15 +132,8 @@
                     font-size: var(--fs-heading-sm);
                 } 
             }
-
-            .buttons {
-
-              
-
-                .demo {
-                    width: calc(100% - 2rem);
-                }
-            }     */        
+            
+            
         }
     }
 }

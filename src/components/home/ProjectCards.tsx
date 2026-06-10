@@ -4,6 +4,7 @@ import styles from './ProjectCards.module.scss'
 import Image from 'next/image'
 import { useRef, useState, useLayoutEffect } from 'react'
 import { cardData } from '@/data/projectCards'
+import SlideAway from '../SlideAway'
 
 const divider = (color: string) => ({
     border: 'none',
@@ -98,7 +99,7 @@ function Cards() {
     return (
         <>
             { cardData.map((card, i) => (
-                <div key={i}>
+                <SlideAway key={i}>
                     <div ref={(el) => { cardPlaceHolder.current[i] = el }}></div>
                     <div 
                     ref={(el) => { projectCard.current[i] = el }}  
@@ -137,7 +138,7 @@ function Cards() {
                             className={`${ styles.button } ${ styles.demo } tech`}>Demo</a>
                         </section>
                     </div>
-                </div>
+                </SlideAway>
             ))}
         </>
     )

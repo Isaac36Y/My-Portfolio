@@ -14,9 +14,25 @@ const cardData = [
         hook: 'A real estate platform where agents log property data on-site, offline, and without losing a single input. Back at the desk, every detail is reviewable and buyer relationships are managed in one place.',
         tags: [ 'Node', 'Supabase', 'PWA', 'Claude API' ]
     },
+    {
+        id: 'bullseye-ledger',
+        color: 'var(--color-bullseye-accent)',
+        type: '// WebApp • Vanilla JS',
+        name: 'Bullseye Ledger',
+        icon: '/images/bullseye-ledger-icon.png',
+        hook: 'A mobile-first scorecard app for 3D archery shoots that tracks players, computes distance-multiplied scores, and survives a page reload mid-round.',
+        tags: [ 'JavaScript', 'localStorage', 'State Persistence' ]
+    },
 ]
 
-function HomebaseCard() {
+const divider = (color: string) => ({
+    border: 'none',
+    height: '2px',
+    backgroundColor: color,
+    background: `linear-gradient(to right, transparent, ${color} 40%, ${color} 60%, transparent)`
+})
+
+function Cards() {
     const [isOpen, setIsOpen] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
     const cardPlaceHolder = useRef<HTMLDivElement>(null)
@@ -84,46 +100,47 @@ function HomebaseCard() {
 
     return (
         <>
-            <div>
-                { cardData.map((card, i) => (
-                    <Fragment key={i}>
-                    <div ref={cardPlaceHolder}></div>
-                    <div 
-                    ref={projectCard}  
-                    style={{ borderTop: `5px solid ${card.color}`}}
-                    className={`${ styles.projectCard } ${ isOpen ? styles.openCase : ''}`}>
-                        <section className={ styles.hook }>
-                            <div className={ styles.header }>
-                                <div className={ styles.titles}>
-                                    <p className={`${ styles.type } tech secondary-text`}>{ card.type }</p>
-                                    <h2 className='primary-text'>{ card.name }</h2>
-                                </div>
-                                <Image src={card.icon} alt="HomeBase logo" width={56} height={56}/>
+            { cardData.map((card, i) => (
+                <Fragment key={i}>
+                <div ref={cardPlaceHolder}></div>
+                <div 
+                ref={projectCard}  
+                style={{ borderTop: `5px solid ${card.color}`}}
+                className={`${ styles.projectCard } ${ isOpen ? styles.openCase : ''}`}>
+                    <section className={ styles.hook }>
+                        <div className={ styles.header }>
+                            <div className={ styles.titles}>
+                                <p className={`${ styles.type } tech secondary-text`}>{ card.type }</p>
+                                <h2 style={{ color: `${card.color}`}}>{ card.name }</h2>
                             </div>
-                            <p className={`${ styles.description } body primary-text`}>{ card.hook }</p>
-                            <ul className={`${ styles.tags } tech primary-text`} role='list'>
-                                { card.tags.map((tag, i) => (
-                                    <li key={i}>{tag}</li>
-                                ))}
-                            </ul>
-                        </section>
-                        <section className={ styles.caseStudy }>
-                            <hr />
-                                <section>
-                                </section>
-                            <hr />
-                        </section>
-                        <section className={`${ styles.buttons } `}>
-                            <button
-                            type="button"
-                            onClick={isOpen ? closeCase : openCase}
-                            className={`${ styles.button } ${ styles.caseStudyBtn } tech secondary-text`}>Case Study</button>
-                            <a href='' className={`${ styles.button } ${ styles.demo } tech`}>Demo</a>
-                        </section>
-                    </div>
-                    </Fragment>
-                ))}
-            </div>
+                            <Image src={card.icon} alt="HomeBase logo" width={56} height={56}/>
+                        </div>
+                        <p style={{ color: `${card.color}`}} className={`${ styles.description } body`}>{ card.hook }</p>
+                        <ul className={`${ styles.tags } tech`} role='list'>
+                            { card.tags.map((tag, i) => (
+                                <li style={{ border: `1px solid ${card.color}`, color: `${card.color}`}} key={i}>{tag}</li>
+                            ))}
+                        </ul>
+                    </section>
+                    <section className={ styles.caseStudy }>
+                        <hr style={{ ...divider(`${card.color}`) }}/>
+                            <section>
+                            </section>
+                        <hr style={{ ...divider(`${card.color}`) }}/>
+                    </section>
+                    <section className={`${ styles.buttons } `}>
+                        <button
+                        type="button"
+                        onClick={isOpen ? closeCase : openCase}
+                        className={`${ styles.button } ${ styles.caseStudyBtn } tech secondary-text`}>Case Study</button>
+                        <a 
+                        href=''
+                        style={{ border: `1px solid ${card.color}`, color: `${card.color}`}} 
+                        className={`${ styles.button } ${ styles.demo } tech`}>Demo</a>
+                    </section>
+                </div>
+                </Fragment>
+            ))}
         </>
     )
 }
@@ -131,7 +148,7 @@ function HomebaseCard() {
 export default function ProjectCards() {
     return (
         <section className={ styles.cardsSection }>
-            <HomebaseCard />
+            <Cards />
         </section>
     )
     

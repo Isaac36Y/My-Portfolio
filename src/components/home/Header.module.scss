@@ -30,6 +30,10 @@
 
     }
 
+    hr {
+        @include divider
+    }
+
     .aboutMeRecents {
         display: flex;
         flex-direction: column;

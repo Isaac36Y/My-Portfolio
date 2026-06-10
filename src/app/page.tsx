@@ -4,6 +4,7 @@ import MySkills from '@/components/home/MySkills';
 import HowIBuild from '@/components/home/HowIBuild';
 import styles from './page.module.scss'
 import MobileNav from '@/components/home/Nav';
+import ProjectCards from '@/components/home/ProjectCards';
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
         <main className={styles.main}>
             <MySkills />
             <HowIBuild />
-            
+            <ProjectCards />
         </main>
     </div>
   );

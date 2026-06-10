@@ -1,3 +1,5 @@
+@use '@/styles/mixins.scss' as *;
+
 .header {
     display: flex;
     flex-direction: column;
@@ -28,17 +30,14 @@
 
     }
 
-    .line {
-        border: none;
-        height: 2px;
-        background-color: var(--color-primary);
-        background: linear-gradient(to right, transparent, var(--color-primary) 40%, var(--color-primary) 60%, transparent);
+    hr {
+        @include divider
     }
 
     .aboutMeRecents {
         display: flex;
         flex-direction: column;
-        gap: var(--space-md);
+        gap: var(--space-med);
         padding-block: var(--space-lg);
 
         .status { 

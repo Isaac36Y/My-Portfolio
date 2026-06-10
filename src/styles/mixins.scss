@@ -1,0 +1,6 @@
+@mixin divider($color: var(--color-primary)) {
+    border: none;
+    height: 2px;
+    background-color: $color;
+    background: linear-gradient(to right, transparent, $color 40%, $color 60%, transparent);
+}

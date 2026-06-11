@@ -1,4 +1,3 @@
-'use server'
 import styles from './Header.module.scss'
 import filterStravaActivities from '@/lib/strava'
 import { IconRun, IconCode, IconBook } from '@tabler/icons-react';
@@ -64,7 +63,7 @@ function AboutMeRecents() {
     )
 }
 
-export default async function Header() {
+export default function Header() {
     return (
         <header className={styles.header}>
             <Hero />

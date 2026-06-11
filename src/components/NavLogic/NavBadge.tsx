@@ -6,6 +6,7 @@ import { sideNavAnchors } from '@/data/HomePage'
 import { IconSun } from '@tabler/icons-react';
 
 export default function NavPop() {
+    // named aRef and btnRef based off the more important content element inside of the div referrence
     const btnRef = useRef<HTMLDivElement | null>(null)
     const aRef = useRef<(HTMLDivElement | null)[]>([])
     const { exiting, setExiting } = useContext(TransitionContext)
@@ -36,12 +37,14 @@ export default function NavPop() {
         <>
             {sideNavAnchors.map((a, i) => (
                 <div key={i} ref={ (el) => { aRef.current[i] = el}} className={ styles.btnBorder }>
+                // TODO: add href 
                 <a className={`${ styles.btns }`}>
                     <a.img stroke={2}  color={'var(--color-bg'} />
                 </a>
                 </div>
             ))}
             <div ref={ btnRef } className={ styles.btnBorder}>
+            // TODO: add light and dark toggle effect
             <button  className={`${ styles.btns }`}>
                 <IconSun stroke={2}  color={'var(--color-bg)'} />
             </button>

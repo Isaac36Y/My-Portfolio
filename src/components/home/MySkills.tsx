@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import styles from './MySkills.module.scss'
-import skillLists from '@/data/skills'
+import { skillLists } from '@/data/HomePage'
 
 function Title() {
     return (

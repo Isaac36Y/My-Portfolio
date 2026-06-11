@@ -3,7 +3,7 @@
 import styles from "./ProjectCards.module.scss";
 import Image from "next/image";
 import { useRef, useState, useLayoutEffect } from "react";
-import { cardData } from "@/data/projectCards";
+import { cardData } from "@/data/HomePage";
 import { SlideAway } from "../NavLogic/SlideAway";
 
 const divider = (color: string) => ({

@@ -37,9 +37,7 @@ export function NavBarWrapper({children}: {children : React.ReactNode}) {
 
     useEffect(() => {
         if (!divRef.current) return 
-
         const divRect = divRef.current.getBoundingClientRect()
-        const divToTop = divRect.height - window.innerHeight
 
         if (exiting) {
             divRect.y > 0
@@ -48,7 +46,6 @@ export function NavBarWrapper({children}: {children : React.ReactNode}) {
         }else {
             divRef.current.style.transform = ''
         }
-        console.log(divRef.current?.getBoundingClientRect())
     }, [exiting])
     return (
         <div ref={ divRef } style={{ width: '100%', transition: 'transform 0.6s ease', zIndex: '100' }}>

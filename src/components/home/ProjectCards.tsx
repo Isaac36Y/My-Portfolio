@@ -41,11 +41,11 @@ function Cards() {
       projectCard.current[index]!.getBoundingClientRect();
     setIsClosing(true);
   };
-
+  // ensures it does fall behind other cards on its close
   const transitionEnd = (index: number) => {
     projectCard.current[index]!.style.zIndex = "";
   };
-  // Its not targeting the DIV element. No inline styling is being set at all.
+
   useLayoutEffect(() => {
     if (!isClosing) {
       if (
@@ -90,7 +90,7 @@ function Cards() {
         return;
       const placeholderPosition =
         cardPlaceHolder.current[openIndex]!.getBoundingClientRect();
-
+      // remains out of the DOM flow and goes exactly where its placeholder is
       projectCard.current[openIndex].style.transition = "none";
       projectCard.current[openIndex].style.position = "absolute";
       projectCard.current[openIndex].style.zIndex = "100";

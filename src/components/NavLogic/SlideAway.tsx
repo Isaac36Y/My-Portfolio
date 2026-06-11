@@ -15,9 +15,11 @@ export function SlideAway({children}: {children : React.ReactNode}) {
 
         if (exiting) {
             if (divCenterOnScreen > screenCenter) {
+                //slide down
                 divRef.current.style.transform = `translateY(${screenCenter * 2}px)`
             }else {
-                divRef.current.style.transform = `translateY(-${screenCenter * 2}px)`// height plus y
+                //slide up
+                divRef.current.style.transform = `translateY(-${screenCenter * 2}px)`
             }
         }else {
             divRef.current.style.transform = ''
@@ -40,6 +42,7 @@ export function NavBarWrapper({children}: {children : React.ReactNode}) {
         const divRect = divRef.current.getBoundingClientRect()
 
         if (exiting) {
+            // ensures the nav always go to the top with some padding
             divRect.y > 0
             ? divRef.current.style.transform = `translateY(-${divRect.y - 20}px)`
             : divRef.current.style.transform = `translateY(${(divRect.y * -1) + 20}px)` 

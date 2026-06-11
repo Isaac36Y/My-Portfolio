@@ -1,5 +1,4 @@
 import styles from './Header.module.scss'
-import Link from 'next/link'
 import filterStravaActivities from '@/lib/strava'
 import { IconRun, IconCode, IconBook } from '@tabler/icons-react';
 

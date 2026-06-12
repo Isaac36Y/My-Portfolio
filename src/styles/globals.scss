@@ -1,11 +1,9 @@
 :root {
     --color-bg: rgb(223, 246, 247);
     --color-primary: rgb(0, 0, 42);
-    --color-accent-200: rgb(153, 238, 238);
-    --color-accent-300: rgb(100,220,230);
-    --color-accent-500: rgb(0,150,199);
-    --color-homebase-accent: rgb(10, 35, 74);
-    --color-bullseye-accent: rgb(19, 36, 7);
+    --color-secondary: rgb(60,75,110);
+    --color-accent: rgb(0,150,199);
+    --color-accent-light: rgba(0,150,199, 0.07);
 
     --font-heading: var(--font-space-grotesk);
     --font-body: var(--font-dm-sans);
@@ -33,6 +31,16 @@
     --space-xxxl: 3rem;
     --space-xxxxl: 4rem;
 }
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: rgb(0, 0, 42);
+    --color-primary: rgb(223, 246, 247);
+    --color-accent-200: rgb(8, 51, 66);
+    --color-accent-300: rgb(100,220,230);
+    --color-accent-500: rgb(74, 209, 148);
+  }
+} */
 
 *,
 *::before,
@@ -117,11 +125,11 @@ ol[role="list"] {
 }
 
 .secondary-text {
-    color: var(--color-accent-500);
+    color: var(--color-secondary)
 }
 
 .accent-text {
-    color: var(--color-accent-300);
+    color: var(--color-accent);
 }
 
 .body {

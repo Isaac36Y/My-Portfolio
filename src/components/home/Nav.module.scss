@@ -5,15 +5,22 @@
     padding-inline: 5vw;
 
     .navBtn {
-        background-color: var(--color-primary);
+        background-color: var(--color-bg);
+        color: var(--color-primary);
         border-radius: var(--br-sm);
+        border: 1px solid var(--color-primary);
         width: 100%;
         padding-block: var(--space-sm);
         font-weight: 600;
-        box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
         display: flex;
         justify-content: center;
         align-items: center;
         text-decoration: none;
+
+        &:nth-child(2) {
+            background-color: var(--color-accent);
+            color: var(--color-bg);
+        }
     }
 }

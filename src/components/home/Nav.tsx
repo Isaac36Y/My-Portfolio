@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 function NavButton({ link, description }: { link: string, description: string }) {
     return (
-        <Link href={link} className={`${styles.navBtn} body accent-text`}>
+        <Link href={link} className={`${styles.navBtn} body`}>
             {description}
         </Link>
     )

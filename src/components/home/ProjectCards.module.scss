@@ -9,14 +9,16 @@
 
     .projectCard {
         position: relative;
-        border: 1px solid var(--color-primary);
+        border: 1px solid var(--color-accent);
+        border-top: 3px solid var(--color-accent);
         border-radius: var(--br-lg);
         width: 100%;
-        background-color: var(--color-accent-200);
+        background-color: var(--color-bg);
         padding: var(--space-med) var(--space-lg);
         display: flex;
         flex-direction: column;
         gap: var(--space-lg);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         
         .hook {
@@ -62,6 +64,8 @@
                 
                 li {
                     border-radius: var(--br-sm);
+                    border: 1px solid var(--color-accent);
+                    background-color: var(--color-accent-light);
                     padding: var(--space-xs) var(--space-sm) 0.15rem;
                     display: flex;
                     align-items: center;
@@ -69,13 +73,16 @@
                 }
             }
         }
+
+        hr {
+            @include divider(var(--color-accent))
+        }
         
 
         .caseStudy {
             height: 2px;
             overflow: hidden;
             transition: height 0.4s ease;
-            
         }
 
         .buttons {
@@ -93,17 +100,22 @@
                 width: calc(50% - var(--space-med));
                 border-radius: var(--br-med);
                 overflow: hidden;
+                font-weight: 700;
             }
 
             .caseStudyBtn {
-                border: 1px solid var(--color-accent-500);
+                color: var(--color-bg);
+                background-color: var(--color-accent);
+                font-family: var(--font-heading);
             }
 
             .demo {
                 text-decoration: none;
+                border: 1px solid var(--color-secondary);
+                font-size: var(--fs-lg);
 
                 &:visited {
-                    color: var(--color-homebase-accent);
+                    color: var(--color-primary);
                 }
             }
         }

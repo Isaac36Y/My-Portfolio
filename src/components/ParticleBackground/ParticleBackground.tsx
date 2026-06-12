@@ -32,8 +32,8 @@ export default function ParticleBackground() {
         function draw() {
             ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
             
-            ctx!.fillStyle = 'rgba(100,220,230, 0.2)'
-            ctx!.strokeStyle = 'rgba(100,220,230, 0.2)'
+            ctx!.fillStyle = 'rgba(60,75,110, 0.05)'
+            ctx!.strokeStyle = 'rgba(60,75,110, 0.05)'
             ctx!.save()
 
             for (let particle of particles ) {

@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
-      <body>{children}</body>
+      <body data-theme="dark">{children}</body>
     </html>
   );
 }

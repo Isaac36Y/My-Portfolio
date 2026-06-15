@@ -54,6 +54,7 @@ export default function NavPop() {
                 <div className={ styles.btnBorder}>
                 // TODO: add light and dark toggle effect
                 <button  className={`${ styles.btns }`} onClick={ () => (isDarkMode ? setIsDarkMode(false) : setIsDarkMode(true)) }>
+                    // TODO: update the icon on mode change 
                     <IconSun stroke={2}  color={'var(--color-bg)'} />
                 </button>
                 </div>

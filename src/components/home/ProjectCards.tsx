@@ -6,12 +6,6 @@ import { useRef, useState, useLayoutEffect } from "react";
 import { cardData } from "@/data/HomePage";
 import { SlideAway } from "../NavLogic/SlideAway";
 
-const divider = (color: string) => ({
-    border: "none",
-    height: "2px",
-    backgroundColor: color,
-    background: `linear-gradient(to right, transparent, ${color} 40%, ${color} 60%, transparent)`,
-});
 
 function Cards() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -21,13 +15,10 @@ function Cards() {
     const firstProjectCard = useRef<DOMRect | null>(null);
 
     const openCase = (index: number) => {
+        //FIRST
         if (isClosing) return;
-        projectCard.current[index]!.style.position = "";
-        projectCard.current[index]!.style.top = "";
-        projectCard.current[index]!.style.left = "";
-        cardPlaceHolder.current[index]!.style.height = ``;
-        cardPlaceHolder.current[index]!.style.width = ``;
         firstProjectCard.current = projectCard.current[index]!.getBoundingClientRect();
+        cardPlaceHolder.current[index]!.style.display = 'block'
         cardPlaceHolder.current[index]!.style.height = `${firstProjectCard.current!.height}px`;
         cardPlaceHolder.current[index]!.style.width = `${firstProjectCard.current!.width}px`;
         setOpenIndex(index);
@@ -37,18 +28,29 @@ function Cards() {
         firstProjectCard.current = projectCard.current[index]!.getBoundingClientRect();
         setIsClosing(true);
     };
-    // ensures it does fall behind other cards on its close
+    
     const transitionEnd = (index: number) => {
-        projectCard.current[index]!.style.zIndex = "";
+        if (isClosing) {
+            // places the element back in the DOM flow after transistion so theres no jumping or collapsing
+            projectCard.current[index]!.style.zIndex = "";
+            projectCard.current[index]!.style.position = "";
+            projectCard.current[index]!.style.width = "";
+            projectCard.current[index]!.style.top = "";
+            projectCard.current[index]!.style.left = "";
+            cardPlaceHolder.current[index]!.style.display = 'none'
+            setIsClosing(false);
+        }
+            
     };
 
     useLayoutEffect(() => {
         if (!isClosing) {
             if (!firstProjectCard.current || openIndex === null || !projectCard.current[openIndex]) return;
+            //LAST on open 
             const lastProjectCard = projectCard.current[openIndex].getBoundingClientRect();
             const deltaX = firstProjectCard.current.left - lastProjectCard.left;
             const deltaY = firstProjectCard.current.top - lastProjectCard.top;
-
+            // INVERT 
             projectCard.current[openIndex].style.transition = "none";
             projectCard.current[openIndex].style.width = `${firstProjectCard.current.width}px`;
             projectCard.current[openIndex].style.height = `${firstProjectCard.current.height}px`;
@@ -57,6 +59,7 @@ function Cards() {
             projectCard.current[openIndex].style.transformOrigin = "top left";
 
             requestAnimationFrame(() => {
+                // PLAY
                 if (!projectCard.current[openIndex]) return;
                 projectCard.current[openIndex].style.transition =
                     "transform 0.4s ease, width 0.4s ease, height 0.4s ease, left 0.4s ease, bottom 0.4s ease";
@@ -70,8 +73,9 @@ function Cards() {
 
         if (isClosing) {
             if (!firstProjectCard.current || openIndex === null || !projectCard.current[openIndex]) return;
+            // placeHolder acts as LAST on close
             const placeholderPosition = cardPlaceHolder.current[openIndex]!.getBoundingClientRect();
-            // remains out of the DOM flow and goes exactly where its placeholder is
+            // INVERT as absolute. stay out of DOM flow
             projectCard.current[openIndex].style.transition = "none";
             projectCard.current[openIndex].style.position = "absolute";
             projectCard.current[openIndex].style.zIndex = "100";
@@ -81,6 +85,7 @@ function Cards() {
             projectCard.current[openIndex].style.left = `${firstProjectCard.current.left}px`;
 
             requestAnimationFrame(() => {
+                // PLAY exactly where the placeholder is - the cards original position 
                 if (!projectCard.current[openIndex]) return;
 
                 projectCard.current[openIndex].style.transition =
@@ -93,7 +98,6 @@ function Cards() {
                 projectCard.current[openIndex]!.style.transition =
                     "width 0.4s ease, height 0.4s ease, left 0.4s ease, top 0.4s ease";
                 projectCard.current[openIndex]!.style.width = `${placeholderPosition.width}px`;
-                setIsClosing(false);
                 setOpenIndex(null);
             });
         }

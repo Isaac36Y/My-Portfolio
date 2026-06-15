@@ -17,10 +17,18 @@
         justify-content: center;
         align-items: center;
         text-decoration: none;
+        transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
 
         &:nth-child(2) {
             background-color: var(--color-accent);
             color: var(--color-bg);
         }
+    }
+}
+
+[data-theme="dark"] {
+    .navBtn {
+        border: 1px inset rgba(255, 255, 255, 0.3);
+        box-shadow: var(--shadow-accent)
     }
 }

@@ -25,7 +25,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
-        if (typeof window === 'undefined') return false; // Handle SSR (Next.js) safely
+        if (typeof window === 'undefined') return false;
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
 

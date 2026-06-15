@@ -5,22 +5,30 @@
     padding-inline: 5vw;
 
     .navBtn {
-        background-color: var(--color-bg);
+        background-color: var(--color-surface);
         color: var(--color-primary);
         border-radius: var(--br-sm);
         border: 1px solid var(--color-primary);
         width: 100%;
         padding-block: var(--space-sm);
         font-weight: 600;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--elevated-shadow);
         display: flex;
         justify-content: center;
         align-items: center;
         text-decoration: none;
+        transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
 
         &:nth-child(2) {
             background-color: var(--color-accent);
             color: var(--color-bg);
         }
+    }
+}
+
+[data-theme="dark"] {
+    .navBtn {
+        border: 1px inset rgba(255, 255, 255, 0.3);
+        box-shadow: var(--shadow-accent)
     }
 }

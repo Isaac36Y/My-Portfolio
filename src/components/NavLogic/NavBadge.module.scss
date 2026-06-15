@@ -3,10 +3,18 @@
     right: 1rem;
     bottom: 1.5rem;
     width: 3.5rem;
+    height: 4rem;
     z-index: 100;
 
-    img {
+    .badgeLight, .badgeDark {
         filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
+        position: absolute;
+        top: 0;
+    }
+    
+    .badgeLight {
+        opacity: 0;
+        transition: opacity 0.4s ease;
     }
 }
 
@@ -21,13 +29,17 @@
     justify-content: center;
     border: none;
     background: var(--color-primary);
-    background: linear-gradient(0deg, rgb(0, 0, 42) 50%, rgb(56, 62, 93) 70%, rgb(112, 123, 145) 80%, rgb(167, 185, 196) 90%, rgb(223, 246, 247) 100%);
+    background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);;
+    background-size: 100% 200%;
+    background-position: center bottom;
+    transition: background-position 0.4s ease;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     z-index: 100;
 }
 
 .btnBorder {
     background-color: var(--color-accent);
+    transition: background-color 0.4s ease;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     width: 3rem;
     height: 3.4rem;
@@ -41,4 +53,13 @@
     bottom: 1.8rem;
     transition: transform 0.6s ease, filter 0.4s ease;
     
+}
+
+[data-theme="dark"] {
+    .badgeLight {
+        opacity: 1;
+    }
+    .btns {
+        background-position: center top;
+    }
 }

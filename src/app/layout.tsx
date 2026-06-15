@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Courier_Prime, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.scss";
+import { ThemeProvider } from "@/components/NavLogic/Provider";
 
 
 const dmSans = DM_Sans({
@@ -29,14 +30,13 @@ export const metadata: Metadata = {
   
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
-      <body>{children}</body>
-    </html>
+    <ThemeProvider>
+        <html lang="en" className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
+            <body>{children}</body>
+        </html>
+    </ThemeProvider>
   );
 }

@@ -1,9 +1,13 @@
 :root {
     --color-bg: rgb(223, 246, 247);
+    --color-surface: rgb(223, 246, 247);
     --color-primary: rgb(0, 0, 42);
     --color-secondary: rgb(60,75,110);
     --color-accent: rgb(0,150,199);
     --color-accent-light: rgba(0,150,199, 0.07);
+    --color-particle: rgba(60,75,110, 0.05);
+
+    --color-gradient: linear-gradient(0deg, rgb(0, 0, 42) 50%, rgb(56, 62, 93) 70%, rgb(112, 123, 145) 80%, rgb(167, 185, 196) 90%, rgb(223, 246, 247) 100%);
 
     --font-heading: var(--font-space-grotesk);
     --font-body: var(--font-dm-sans);
@@ -30,17 +34,24 @@
     --space-xxl: 2rem;
     --space-xxxl: 3rem;
     --space-xxxxl: 4rem;
-}
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: rgb(0, 0, 42);
-    --color-primary: rgb(223, 246, 247);
-    --color-accent-200: rgb(8, 51, 66);
-    --color-accent-300: rgb(100,220,230);
-    --color-accent-500: rgb(74, 209, 148);
-  }
-} */
+    --elevated-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+    
+
+    [data-theme="dark"] {
+        --color-bg: rgb(0, 0, 42);
+        --color-surface: rgb(0,0,42);
+        --color-primary: rgb(223, 246, 247);
+        --color-secondary: rgb(148,172,190);
+        --color-accent: rgb(80, 220, 160);
+        --color-accent-light: rgba(80, 220, 160, 0.2);
+        --color-particle: rgba(148,172,190, 0.2);
+
+        --color-gradient: linear-gradient(0deg, rgb(223, 246, 247) 50%, rgb(167, 185, 196) 70%, rgb(112, 123, 145) 80%, rgb(56, 62, 93) 90%, rgb(0, 0, 42) 100%);
+        --shadow-accent: 0 2px 6px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 0 rgba(80, 220, 160, 0.2) inset, 0 3px 12px rgba(80, 220, 160, 0.25);
+        --elevated-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 2px 0 rgba(255, 255, 255, 0.12) inset, 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+}
 
 *,
 *::before,
@@ -64,6 +75,7 @@
 body {
     -webkit-font-smoothing: antialiased;
     background-color: var(--color-bg);
+    transition: background-color 0.4s ease;
 }
 
 img,

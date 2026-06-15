@@ -1,7 +1,7 @@
 'use client'
 import styles from './NavBadge.module.scss'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { TransitionContext } from './Provider'
+import { ThemeContext, TransitionContext } from './Provider'
 import { sideNavAnchors } from '@/data/HomePage'
 import { IconSun } from '@tabler/icons-react';
 
@@ -10,6 +10,7 @@ export default function NavPop() {
     const btnRef = useRef<HTMLDivElement | null>(null)
     const aRef = useRef<(HTMLDivElement | null)[]>([])
     const { exiting, setExiting } = useContext(TransitionContext)
+    const {isDarkMode, setIsDarkMode } = useContext(ThemeContext)
 
     useEffect(() => {
         let tranlateIncrease = 4.5
@@ -49,16 +50,18 @@ export default function NavPop() {
                     </div>
                 </div>
             ))}
-            <div ref={ btnRef } className={ styles.btnContainer}>
+            <div ref={ btnRef } className={ styles.btnContainer }>
                 <div className={ styles.btnBorder}>
                 // TODO: add light and dark toggle effect
-                <button  className={`${ styles.btns }`}>
+                <button  className={`${ styles.btns }`} onClick={ () => (isDarkMode ? setIsDarkMode(false) : setIsDarkMode(true)) }>
+                    // TODO: update the icon on mode change 
                     <IconSun stroke={2}  color={'var(--color-bg)'} />
                 </button>
                 </div>
             </div>
             <button className={`${styles.logo}`} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
-                <img src="/images/IYlogo.png" alt=""  />
+                <img src="/images/IYlogo.png" alt="" className={`${styles.badge} ${styles.badgeDark}`} />
+                <img src="/images/IYlogo-light.png" alt="" className={`${styles.badge} ${styles.badgeLight}`}  />
             </button>
         </>
     )

@@ -130,10 +130,10 @@ function Cards() {
                             <p className={`${styles.description} body secondary-text`}>
                                 {card.hook}
                             </p>
-                            <ul className={`${styles.tags} tech secondary-text`} role="list">
+                            <ul className={`${styles.tags} tech primary-text`} role="list">
                                 {card.tags.map((tag, i) => (
                                     <li
-                                        className=""
+                                        className={styles.items}
                                         key={i}
                                     >
                                         {tag}

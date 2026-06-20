@@ -8,14 +8,28 @@ export default function ParticleBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const toGo = useRef<{ x: number, vx: number, y: number, vy: number, radius: number }[]>([])
     const { exiting } = useContext(TransitionContext)
-    const exitingRef = useRef<boolean>(false)
-    const newParticleRef = useRef<boolean>(false)
+    // always on when the nav is open
+    const particlesTight = useRef<boolean>(false)
+    // runs once when the particles tighten, then gets turn back to false so that it only toGo only takes one snap shot
+    const tightenSnap = useRef<boolean>(false)
+    // runs until particles are expanded, then sets back to false so particles move based off vy/vx
+    const expandsParticles = useRef<boolean>(false)
+    // does the samme as tightenSnap
+    const expandSnap = useRef<boolean>(false)
     const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
 
     useEffect(() => {
-        exitingRef.current = exiting
-        newParticleRef.current = exiting
+        if (particlesTight.current) {
+            expandsParticles.current = true 
+            expandSnap.current = true
+            setTimeout(() => {
+                expandsParticles.current = false; 
+            }, 600)
+        } 
+        particlesTight.current = exiting
+        tightenSnap.current = exiting
         toGo.current = []
+        
     }, [exiting])
 
     useEffect(() => {
@@ -24,8 +38,8 @@ export default function ParticleBackground() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return
 
-        canvas.width = window.innerWidth - (window.innerWidth * 0.1);
-        canvas.height = window.innerHeight - (window.innerHeight * 0.1);
+        canvas.width = window.innerWidth - (window.innerWidth * 0.2);
+        canvas.height = window.innerHeight - (window.innerHeight * 0.2);
 
         const particleAmount = (canvas.width + canvas.height) / 15
         
@@ -43,8 +57,8 @@ export default function ParticleBackground() {
         let animId: number;
 
         const tightenRect = {
-            top: 50,
-            bottom: 300
+            top: 0,
+            bottom: 250
         }
 
         function draw() {
@@ -55,8 +69,8 @@ export default function ParticleBackground() {
             ctx!.strokeStyle = strokeColor
             ctx!.save()
 
-            if (exitingRef.current) {
-                if (newParticleRef.current) {
+            if (particlesTight.current) {
+                if (tightenSnap.current) {
                     for (let i = 0; i < particles.length; i++ ) {
                         const tightenHeight = tightenRect.bottom - tightenRect.top
                         const newPart = { 
@@ -68,7 +82,7 @@ export default function ParticleBackground() {
                         }
                         toGo.current.push(newPart)
                     }
-                    newParticleRef.current = false
+                    tightenSnap.current = false
                 }
 
                 for (let i = 0; i < toGo.current.length; i++) {
@@ -76,10 +90,10 @@ export default function ParticleBackground() {
 
 
                     if (particles[i].y > toGo.current[i].y) {
-                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.05)
+                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
                     }
                     if (particles[i].y < toGo.current[i].y) {
-                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.05)
+                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
                     }
 
                     if (particles[i].x + particles[i].vx > canvas!.width - particles[i].radius || particles[i].x + particles[i].vx < particles[i].radius) {
@@ -89,6 +103,41 @@ export default function ParticleBackground() {
                 ctx!.beginPath()
                 ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
                 ctx!.fill()
+                }
+            }else if (expandsParticles.current) {
+                if (expandSnap.current) {
+                    for (let i = 0; i < particles.length; i++ ) {
+                        const tightenHeight = tightenRect.bottom - tightenRect.top
+                        const newPart = { 
+                            x: particles[i].x, 
+                            vx: particles[i].vx,
+                            y: ((particles[i].y * canvas!.height) / tightenHeight) + tightenRect.top,
+                            vy: particles[i].vy,
+                            radius: 4 
+                        }
+                        toGo.current.push(newPart)
+                    }
+                    expandSnap.current = false
+                }
+                for (let i = 0; i < toGo.current.length; i++) {
+                    
+                    particles[i].x = particles[i].x + particles[i].vx
+                    particles[i].y = particles[i].y + particles[i].vy
+
+                    if (particles[i].y > toGo.current[i].y) {
+                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
+                    }
+                    if (particles[i].y < toGo.current[i].y) {
+                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
+                    }
+
+                    if (particles[i].x + particles[i].vx > canvas!.width - particles[i].radius || particles[i].x + particles[i].vx < particles[i].radius) {
+                        particles[i].vx = -particles[i].vx
+                    }
+
+                    ctx!.beginPath()
+                    ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
+                    ctx!.fill()
                 }
             }else {
                 for (let particle of particles ) {
@@ -107,8 +156,6 @@ export default function ParticleBackground() {
                     ctx!.fill()
                 }
             }
-
-            
         
             ctx!.beginPath()
             particles.forEach((particle, index) => {

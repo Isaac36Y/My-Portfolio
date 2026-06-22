@@ -6,7 +6,7 @@ import { ThemeContext, TransitionContext } from '../NavLogic/Provider';
 
 export default function ParticleBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const toGo = useRef<{ x: number, vx: number, y: number, vy: number, radius: number }[]>([])
+    const toGo = useRef<{ x: number, vx: number, y: number, homeY: number, radius: number }[]>([])
     const { exiting } = useContext(TransitionContext)
     const { isDarkMode } = useContext(ThemeContext)
     // always on when the nav is open
@@ -24,9 +24,6 @@ export default function ParticleBackground() {
         if (particlesTight.current) {
             expandsParticles.current = true 
             expandSnap.current = true
-            setTimeout(() => {
-                expandsParticles.current = false; 
-            }, 600)
         } 
         particlesTight.current = exiting
         tightenSnap.current = exiting
@@ -40,145 +37,117 @@ export default function ParticleBackground() {
         if (!ctx) return
 
         canvas.width = window.innerWidth - (window.innerWidth * 0.2);
-        canvas.height = window.innerHeight - (window.innerHeight * 0.2);
+        canvas.height = window.innerHeight - (window.innerHeight * 0.1);
 
         const particleAmount = (canvas.width + canvas.height) / 15
         
-        const particles: { x: number, vx: number, y: number, vy: number, radius: number }[] = []
+        const particles: { x: number, vx: number, y: number, homeY: number, radius: number }[] = []
+        const particleRadius = 4
         
         for (let i = 0; i < particleAmount; i++ ) {
-        particles.push({ 
-            x: Math.random() * (canvas.width - 4),
-            vx: Math.random() * 2 - 1,
-            y: Math.random() * (canvas.height - 4),
-            vy: Math.random() * 2 - 1,
-            radius: 4 })
+            const randomY = particleRadius + Math.random() * (canvas.height - 2 * particleRadius);
+            const particle = { 
+                x: particleRadius + Math.random() * (canvas.width - 2 * particleRadius),
+                vx: Math.random() * 2 - 1,
+                y: randomY,
+                homeY: randomY,
+                radius: particleRadius }
+            particles.push(particle)
+            toGo.current.push(particle)
         }
 
         let animId: number;
 
         const tightenRect = {
-            top: 0,
-            bottom: 250
+            top: 50,
+            bottom: 300
         }
 
         function draw() {
             ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
             ctx!.fillStyle = darkModeOn ? 'rgba(27, 61, 86, 1)' : 'rgba(60,75,110, 0.1)'
             ctx!.strokeStyle = darkModeOn ? 'rgba(148,172,190, 0.2)' : 'rgba(60,75,110, 0.1)'
-            ctx!.save()
 
-            if (particlesTight.current) {
+            const drawConnection = (threshold: number) => {
                 ctx!.beginPath()
                 particles.forEach((particle, index) => {
                     for (let i = index + 1; i < particles.length; i++) {
                         const distance = Math.sqrt(Math.pow(particles[i].x - particle.x, 2) + Math.pow(particles[i].y - particle.y, 2))
-                        if (distance <= 100) {
+                        if (distance <= threshold) {
                             ctx!.moveTo(particle.x, particle.y);
                             ctx!.lineTo(particles[i].x, particles[i].y)
                         }
                     }
                 })
                 ctx!.stroke()
+            }
+
+            const drawParticle = (p: { x: number, vx: number, y: number, homeY: number, radius: number }) => {
+                ctx!.beginPath()
+                ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
+                ctx!.fill()
+            }
+
+            const bounceParticle = (p: { x: number, vx: number, y: number, homeY: number, radius: number }) => {
+                if (p.x < p.radius) {
+                    p.x = p.radius;
+                    p.vx = Math.abs(p.vx);
+                } else if (p.x > canvas!.width - p.radius) {
+                    p.x = canvas!.width - p.radius;
+                    p.vx = -Math.abs(p.vx);
+                }
+            }
+
+            if (particlesTight.current) {
+                drawConnection(100)
+
                 if (tightenSnap.current) {
                     for (let i = 0; i < particles.length; i++ ) {
-                        const tightenHeight = tightenRect.bottom - 10
+                        const tightenHeight = tightenRect.bottom - tightenRect.top
                         const newPart = { 
                             x: particles[i].x, 
                             vx: particles[i].vx,
                             y: ((particles[i].y * tightenHeight) / canvas!.height) + tightenRect.top,
-                            vy: particles[i].vy,
+                            homeY: particles[i].homeY,
                             radius: 4 
                         }
                         toGo.current.push(newPart)
                     }
                     tightenSnap.current = false
                 }
-
                 for (let i = 0; i < toGo.current.length; i++) {
-                    particles[i].x = particles[i].x + particles[i].vx
+                    particles[i].x = particles[i].x + particles[i].vx * 1.4
+                    particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.05)
 
-
-                    if (particles[i].y > toGo.current[i].y) {
-                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
-                    }
-                    if (particles[i].y < toGo.current[i].y) {
-                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
-                    }
-
-                    if (particles[i].x + particles[i].vx > canvas!.width - particles[i].radius || particles[i].x + particles[i].vx < particles[i].radius) {
-                        particles[i].vx = -particles[i].vx
-                    }
-                    
-                ctx!.beginPath()
-                ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
-                ctx!.fill()
+                    bounceParticle(particles[i])
+                    drawParticle(particles[i])
                 }
                 
+                
             }else {
-                ctx!.beginPath()
-                particles.forEach((particle, index) => {
-                    for (let i = index + 1; i < particles.length; i++) {
-                        const distance = Math.sqrt(Math.pow(particles[i].x - particle.x, 2) + Math.pow(particles[i].y - particle.y, 2))
-                        if (distance <= 125) {
-                            ctx!.moveTo(particle.x, particle.y);
-                            ctx!.lineTo(particles[i].x, particles[i].y)
+                drawConnection(125)
+                if (expandSnap.current) {
+                    for (let i = 0; i < particles.length; i++ ) {
+                        const tightenHeight = tightenRect.bottom - tightenRect.top
+                        const newPart = { 
+                            x: particles[i].x, 
+                            vx: particles[i].vx,
+                            y: particles[i].homeY,
+                            homeY: particles[i].homeY,
+                            radius: 4 
                         }
+                        toGo.current.push(newPart)
                     }
-                })
-                ctx!.stroke()
-                if (expandsParticles.current) {
-                    if (expandSnap.current) {
-                        for (let i = 0; i < particles.length; i++ ) {
-                            const tightenHeight = tightenRect.bottom - tightenRect.top
-                            const newPart = { 
-                                x: particles[i].x, 
-                                vx: particles[i].vx,
-                                y: ((particles[i].y * canvas!.height) / tightenHeight) + tightenRect.top,
-                                vy: particles[i].vy,
-                                radius: 4 
-                            }
-                            toGo.current.push(newPart)
-                        }
-                        expandSnap.current = false
-                    }
-                    for (let i = 0; i < toGo.current.length; i++) {
-                        
-                        particles[i].x = particles[i].x + particles[i].vx
-                        particles[i].y = particles[i].y + particles[i].vy
+                    expandSnap.current = false
+                }
+                for (let i = 0; i < toGo.current.length; i++) {
+                    
+                    particles[i].x = particles[i].x + particles[i].vx
+                    particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.05)
 
-                        if (particles[i].y > toGo.current[i].y) {
-                            particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
-                        }
-                        if (particles[i].y < toGo.current[i].y) {
-                            particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
-                        }
-
-                        if (particles[i].x + particles[i].vx > canvas!.width - particles[i].radius || particles[i].x + particles[i].vx < particles[i].radius) {
-                            particles[i].vx = -particles[i].vx
-                        }
-
-                        ctx!.beginPath()
-                        ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
-                        ctx!.fill()
-                    }
-                }else {
-                    for (let particle of particles ) {
-                        particle.x = particle.x + particle.vx
-                        particle.y = particle.y + particle.vy   
-
-                        if (particle.x + particle.vx > canvas!.width - particle.radius || particle.x + particle.vx < particle.radius) {
-                            particle.vx = -particle.vx
-                        }
-                        if (particle.y + particle.vy > canvas!.height - particle.radius || particle.y + particle.vy < particle.radius) {
-                            particle.vy = -particle.vy
-                        }
-
-                        ctx!.beginPath()
-                        ctx!.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
-                        ctx!.fill()
-                    }
-                }  
+                    bounceParticle(particles[i])
+                    drawParticle(particles[i])
+                }
             }
             
             animId = requestAnimationFrame(draw);

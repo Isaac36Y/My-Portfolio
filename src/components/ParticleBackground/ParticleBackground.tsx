@@ -4,31 +4,31 @@ import { useRef, useEffect, useContext } from 'react';
 import styles from './ParticleBackground.module.scss'
 import { ThemeContext, TransitionContext } from '../NavLogic/Provider';
 
+interface particleState {
+    x: number, vx: number, y: number, originalY: number, tightenedY: number, radius: number 
+}
+
 export default function ParticleBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const toGo = useRef<{ x: number, vx: number, y: number, homeY: number, radius: number }[]>([])
+    const toGo = useRef<particleState[]>([])
     const { exiting } = useContext(TransitionContext)
     const { isDarkMode } = useContext(ThemeContext)
     // always on when the nav is open
     const particlesTight = useRef<boolean>(false)
-    // runs once when the particles tighten, then gets turn back to false so that it only toGo only takes one snap shot
-    const tightenSnap = useRef<boolean>(false)
     // runs until particles are expanded, then sets back to false so particles move based off vy/vx
     const expandsParticles = useRef<boolean>(false)
-    // does the samme as tightenSnap
-    const expandSnap = useRef<boolean>(false)
     const darkModeOn = useRef<boolean>(isDarkMode)
     const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
 
     useEffect(() => {
         if (particlesTight.current) {
             expandsParticles.current = true 
-            expandSnap.current = true
         } 
         particlesTight.current = exiting
-        tightenSnap.current = exiting
-        toGo.current = []
+
     }, [exiting])
+
+    useEffect(() => {darkModeOn.current = isDarkMode}, [isDarkMode])
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -41,16 +41,24 @@ export default function ParticleBackground() {
 
         const particleAmount = (canvas.width + canvas.height) / 15
         
-        const particles: { x: number, vx: number, y: number, homeY: number, radius: number }[] = []
-        const particleRadius = 4
+        const particles: particleState[] = []
+        const particleRadius = 4;
+
+        const tightenRect = {
+            top: 50,
+            bottom: 300
+        }
         
         for (let i = 0; i < particleAmount; i++ ) {
             const randomY = particleRadius + Math.random() * (canvas.height - 2 * particleRadius);
+            const tightenHeight = tightenRect.bottom - tightenRect.top
+
             const particle = { 
                 x: particleRadius + Math.random() * (canvas.width - 2 * particleRadius),
                 vx: Math.random() * 2 - 1,
                 y: randomY,
-                homeY: randomY,
+                originalY: randomY,
+                tightenedY: ((randomY * tightenHeight) / canvas!.height) + tightenRect.top,
                 radius: particleRadius }
             particles.push(particle)
             toGo.current.push(particle)
@@ -58,15 +66,10 @@ export default function ParticleBackground() {
 
         let animId: number;
 
-        const tightenRect = {
-            top: 50,
-            bottom: 300
-        }
-
         function draw() {
             ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-            ctx!.fillStyle = darkModeOn ? 'rgba(27, 61, 86, 1)' : 'rgba(60,75,110, 0.1)'
-            ctx!.strokeStyle = darkModeOn ? 'rgba(148,172,190, 0.2)' : 'rgba(60,75,110, 0.1)'
+            ctx!.fillStyle = darkModeOn.current ? 'rgba(27, 61, 86, 1)' : 'rgba(60,75,110, 0.1)'
+            ctx!.strokeStyle = darkModeOn.current ? 'rgba(148,172,190, 0.2)' : 'rgba(60,75,110, 0.1)'
 
             const drawConnection = (threshold: number) => {
                 ctx!.beginPath()
@@ -82,13 +85,13 @@ export default function ParticleBackground() {
                 ctx!.stroke()
             }
 
-            const drawParticle = (p: { x: number, vx: number, y: number, homeY: number, radius: number }) => {
+            const drawParticle = (p: particleState) => {
                 ctx!.beginPath()
                 ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
                 ctx!.fill()
             }
 
-            const bounceParticle = (p: { x: number, vx: number, y: number, homeY: number, radius: number }) => {
+            const bounceParticle = (p: particleState) => {
                 if (p.x < p.radius) {
                     p.x = p.radius;
                     p.vx = Math.abs(p.vx);
@@ -101,23 +104,9 @@ export default function ParticleBackground() {
             if (particlesTight.current) {
                 drawConnection(100)
 
-                if (tightenSnap.current) {
-                    for (let i = 0; i < particles.length; i++ ) {
-                        const tightenHeight = tightenRect.bottom - tightenRect.top
-                        const newPart = { 
-                            x: particles[i].x, 
-                            vx: particles[i].vx,
-                            y: ((particles[i].y * tightenHeight) / canvas!.height) + tightenRect.top,
-                            homeY: particles[i].homeY,
-                            radius: 4 
-                        }
-                        toGo.current.push(newPart)
-                    }
-                    tightenSnap.current = false
-                }
                 for (let i = 0; i < toGo.current.length; i++) {
                     particles[i].x = particles[i].x + particles[i].vx * 1.4
-                    particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.05)
+                    particles[i].y = lerp(particles[i].y, particles[i].tightenedY, 0.05)
 
                     bounceParticle(particles[i])
                     drawParticle(particles[i])
@@ -126,24 +115,11 @@ export default function ParticleBackground() {
                 
             }else {
                 drawConnection(125)
-                if (expandSnap.current) {
-                    for (let i = 0; i < particles.length; i++ ) {
-                        const tightenHeight = tightenRect.bottom - tightenRect.top
-                        const newPart = { 
-                            x: particles[i].x, 
-                            vx: particles[i].vx,
-                            y: particles[i].homeY,
-                            homeY: particles[i].homeY,
-                            radius: 4 
-                        }
-                        toGo.current.push(newPart)
-                    }
-                    expandSnap.current = false
-                }
+
                 for (let i = 0; i < toGo.current.length; i++) {
                     
                     particles[i].x = particles[i].x + particles[i].vx
-                    particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.05)
+                    particles[i].y = lerp(particles[i].y, particles[i].originalY, 0.05)
 
                     bounceParticle(particles[i])
                     drawParticle(particles[i])

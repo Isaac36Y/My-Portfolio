@@ -1,13 +1,14 @@
 'use client'
 
-import { useRef, useEffect, useState, useContext } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import styles from './ParticleBackground.module.scss'
-import { TransitionContext } from '../NavLogic/Provider';
+import { ThemeContext, TransitionContext } from '../NavLogic/Provider';
 
 export default function ParticleBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const toGo = useRef<{ x: number, vx: number, y: number, vy: number, radius: number }[]>([])
     const { exiting } = useContext(TransitionContext)
+    const { isDarkMode } = useContext(ThemeContext)
     // always on when the nav is open
     const particlesTight = useRef<boolean>(false)
     // runs once when the particles tighten, then gets turn back to false so that it only toGo only takes one snap shot
@@ -16,6 +17,7 @@ export default function ParticleBackground() {
     const expandsParticles = useRef<boolean>(false)
     // does the samme as tightenSnap
     const expandSnap = useRef<boolean>(false)
+    const darkModeOn = useRef<boolean>(isDarkMode)
     const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
 
     useEffect(() => {
@@ -29,7 +31,6 @@ export default function ParticleBackground() {
         particlesTight.current = exiting
         tightenSnap.current = exiting
         toGo.current = []
-        
     }, [exiting])
 
     useEffect(() => {
@@ -63,16 +64,25 @@ export default function ParticleBackground() {
 
         function draw() {
             ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-            const computedStyles = window.getComputedStyle(canvas!);
-            const strokeColor = computedStyles.getPropertyValue('--color-particle').trim();
-            ctx!.fillStyle = strokeColor
-            ctx!.strokeStyle = strokeColor
+            ctx!.fillStyle = darkModeOn ? 'rgba(27, 61, 86, 1)' : 'rgba(60,75,110, 0.1)'
+            ctx!.strokeStyle = darkModeOn ? 'rgba(148,172,190, 0.2)' : 'rgba(60,75,110, 0.1)'
             ctx!.save()
 
             if (particlesTight.current) {
+                ctx!.beginPath()
+                particles.forEach((particle, index) => {
+                    for (let i = index + 1; i < particles.length; i++) {
+                        const distance = Math.sqrt(Math.pow(particles[i].x - particle.x, 2) + Math.pow(particles[i].y - particle.y, 2))
+                        if (distance <= 100) {
+                            ctx!.moveTo(particle.x, particle.y);
+                            ctx!.lineTo(particles[i].x, particles[i].y)
+                        }
+                    }
+                })
+                ctx!.stroke()
                 if (tightenSnap.current) {
                     for (let i = 0; i < particles.length; i++ ) {
-                        const tightenHeight = tightenRect.bottom - tightenRect.top
+                        const tightenHeight = tightenRect.bottom - 10
                         const newPart = { 
                             x: particles[i].x, 
                             vx: particles[i].vx,
@@ -104,71 +114,73 @@ export default function ParticleBackground() {
                 ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
                 ctx!.fill()
                 }
-            }else if (expandsParticles.current) {
-                if (expandSnap.current) {
-                    for (let i = 0; i < particles.length; i++ ) {
-                        const tightenHeight = tightenRect.bottom - tightenRect.top
-                        const newPart = { 
-                            x: particles[i].x, 
-                            vx: particles[i].vx,
-                            y: ((particles[i].y * canvas!.height) / tightenHeight) + tightenRect.top,
-                            vy: particles[i].vy,
-                            radius: 4 
-                        }
-                        toGo.current.push(newPart)
-                    }
-                    expandSnap.current = false
-                }
-                for (let i = 0; i < toGo.current.length; i++) {
-                    
-                    particles[i].x = particles[i].x + particles[i].vx
-                    particles[i].y = particles[i].y + particles[i].vy
-
-                    if (particles[i].y > toGo.current[i].y) {
-                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
-                    }
-                    if (particles[i].y < toGo.current[i].y) {
-                        particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
-                    }
-
-                    if (particles[i].x + particles[i].vx > canvas!.width - particles[i].radius || particles[i].x + particles[i].vx < particles[i].radius) {
-                        particles[i].vx = -particles[i].vx
-                    }
-
-                    ctx!.beginPath()
-                    ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
-                    ctx!.fill()
-                }
+                
             }else {
-                for (let particle of particles ) {
-                    particle.x = particle.x + particle.vx
-                    particle.y = particle.y + particle.vy   
-
-                    if (particle.x + particle.vx > canvas!.width - particle.radius || particle.x + particle.vx < particle.radius) {
-                        particle.vx = -particle.vx
+                ctx!.beginPath()
+                particles.forEach((particle, index) => {
+                    for (let i = index + 1; i < particles.length; i++) {
+                        const distance = Math.sqrt(Math.pow(particles[i].x - particle.x, 2) + Math.pow(particles[i].y - particle.y, 2))
+                        if (distance <= 125) {
+                            ctx!.moveTo(particle.x, particle.y);
+                            ctx!.lineTo(particles[i].x, particles[i].y)
+                        }
                     }
-                    if (particle.y + particle.vy > canvas!.height - particle.radius || particle.y + particle.vy < particle.radius) {
-                        particle.vy = -particle.vy
+                })
+                ctx!.stroke()
+                if (expandsParticles.current) {
+                    if (expandSnap.current) {
+                        for (let i = 0; i < particles.length; i++ ) {
+                            const tightenHeight = tightenRect.bottom - tightenRect.top
+                            const newPart = { 
+                                x: particles[i].x, 
+                                vx: particles[i].vx,
+                                y: ((particles[i].y * canvas!.height) / tightenHeight) + tightenRect.top,
+                                vy: particles[i].vy,
+                                radius: 4 
+                            }
+                            toGo.current.push(newPart)
+                        }
+                        expandSnap.current = false
                     }
-
-                    ctx!.beginPath()
-                    ctx!.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
-                    ctx!.fill()
-                }
-            }
-        
-            ctx!.beginPath()
-            particles.forEach((particle, index) => {
-                for (let i = index + 1; i < particles.length; i++) {
-                    const distance = Math.sqrt(Math.pow(particles[i].x - particle.x, 2) + Math.pow(particles[i].y - particle.y, 2))
-                    if (distance <= 125) {
-                        ctx!.moveTo(particle.x, particle.y);
-                        ctx!.lineTo(particles[i].x, particles[i].y)
+                    for (let i = 0; i < toGo.current.length; i++) {
                         
+                        particles[i].x = particles[i].x + particles[i].vx
+                        particles[i].y = particles[i].y + particles[i].vy
+
+                        if (particles[i].y > toGo.current[i].y) {
+                            particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
+                        }
+                        if (particles[i].y < toGo.current[i].y) {
+                            particles[i].y = lerp(particles[i].y, toGo.current[i].y, 0.04)
+                        }
+
+                        if (particles[i].x + particles[i].vx > canvas!.width - particles[i].radius || particles[i].x + particles[i].vx < particles[i].radius) {
+                            particles[i].vx = -particles[i].vx
+                        }
+
+                        ctx!.beginPath()
+                        ctx!.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2)
+                        ctx!.fill()
                     }
-                }
-            })
-            ctx!.stroke()
+                }else {
+                    for (let particle of particles ) {
+                        particle.x = particle.x + particle.vx
+                        particle.y = particle.y + particle.vy   
+
+                        if (particle.x + particle.vx > canvas!.width - particle.radius || particle.x + particle.vx < particle.radius) {
+                            particle.vx = -particle.vx
+                        }
+                        if (particle.y + particle.vy > canvas!.height - particle.radius || particle.y + particle.vy < particle.radius) {
+                            particle.vy = -particle.vy
+                        }
+
+                        ctx!.beginPath()
+                        ctx!.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
+                        ctx!.fill()
+                    }
+                }  
+            }
+            
             animId = requestAnimationFrame(draw);
             
         }

@@ -116,6 +116,7 @@ function Cards() {
                         ref={(el) => {
                             projectCard.current[i] = el;
                         }}
+                        id="myWork"
                         onTransitionEnd={() => transitionEnd(i)}
                         className={`${styles.projectCard} ${openIndex === i ? styles.openCase : ""}`}
                     >

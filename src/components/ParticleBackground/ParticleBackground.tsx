@@ -127,8 +127,8 @@ export default function ParticleBackground() {
                 drawConnection(90)
 
                 for (let i = 0; i < toGo.current.length; i++) {
-                    particles[i].x = particles[i].x + particles[i].vx * 1.4
-                    particles[i].y = lerp(particles[i].y, particles[i].tightenedY, 0.05)
+                    particles[i].x = particles[i].x + particles[i].vx * 2
+                    particles[i].y = lerp(particles[i].y, particles[i].tightenedY, 0.08)
 
                     bounceParticle(particles[i])
                     drawParticle(particles[i])
@@ -141,7 +141,7 @@ export default function ParticleBackground() {
                 for (let i = 0; i < toGo.current.length; i++) {
                     
                     particles[i].x = particles[i].x + particles[i].vx
-                    particles[i].y = lerp(particles[i].y, particles[i].originalY, 0.05)
+                    particles[i].y = lerp(particles[i].y, particles[i].originalY, 0.08)
 
                     bounceParticle(particles[i])
                     drawParticle(particles[i])

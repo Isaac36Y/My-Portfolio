@@ -26,7 +26,7 @@ export const cardData = [
         type: '// SaaS • Full-Stack',
         name: 'HomeBase',
         icon: '/images/icon-192.png',
-        hook: 'A real estate platform where agents log property data on-site, offline, and without losing a single input. Back at the desk, every detail is reviewable and buyer relationships are managed in one place.',
+        hook: 'A real estate platform where agents log properties and buyers using local-first forms, on and offline, without losing a single input. Every detail is reviewable and buyer relationships are managed in one place.',
         tags: [ 'Node', 'Supabase', 'PWA', 'Claude API' ]
     },
     {

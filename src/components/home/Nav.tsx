@@ -3,9 +3,9 @@ import Link from 'next/link'
 
 function NavButton({ link, description }: { link: string, description: string }) {
     return (
-        <Link href={link} className={`${styles.navBtn} body`}>
+        <a href={link} className={`${styles.navBtn} body`}>
             {description}
-        </Link>
+        </a>
     )
 }
 

@@ -16,15 +16,17 @@ export default function ParticleBackground() {
     const toGo = useRef<particleState[]>([])
     const { exiting } = useContext(TransitionContext)
     const { isDarkMode } = useContext(ThemeContext)
+    // draw() can't use state since it never reset - needs refs so that it can be updated in between paints
     // always on when the nav is open
     const particlesTight = useRef<boolean>(false)
     // runs until particles are expanded, then sets back to false so particles move based off vy/vx
     const expandsParticles = useRef<boolean>(false)
+    // put the context in a ref so it can be used inside the draw function
     const darkModeOn = useRef<boolean>(isDarkMode)
     const particleColorRef = useRef<{r: number, g: number, b: number, a: number}>(particleColors.darkMode.expanded)
     const lineColorRef = useRef<{r: number, g: number, b: number, a: number}>(lineColors.darkMode.expanded)
     const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
-
+    // lerp takes full rgba object for the particle and line transitions
     const lerpColor = (current: RGBA, target: RGBA, t: number): RGBA => ({
         r: lerp(current.r, target.r, t),
         g: lerp(current.g, target.g, t),

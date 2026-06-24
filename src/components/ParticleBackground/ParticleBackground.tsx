@@ -3,10 +3,13 @@
 import { useRef, useEffect, useContext } from 'react';
 import styles from './ParticleBackground.module.scss'
 import { ThemeContext, TransitionContext } from '../NavLogic/Provider';
+import { particleColors, lineColors } from '@/data/HomePage';
 
 interface particleState {
     x: number, vx: number, y: number, originalY: number, tightenedY: number, radius: number 
 }
+
+type RGBA = { r: number; g: number; b: number; a: number }
 
 export default function ParticleBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -18,7 +21,16 @@ export default function ParticleBackground() {
     // runs until particles are expanded, then sets back to false so particles move based off vy/vx
     const expandsParticles = useRef<boolean>(false)
     const darkModeOn = useRef<boolean>(isDarkMode)
+    const particleColorRef = useRef<{r: number, g: number, b: number, a: number}>(particleColors.darkMode.expanded)
+    const lineColorRef = useRef<{r: number, g: number, b: number, a: number}>(lineColors.darkMode.expanded)
     const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
+
+    const lerpColor = (current: RGBA, target: RGBA, t: number): RGBA => ({
+        r: lerp(current.r, target.r, t),
+        g: lerp(current.g, target.g, t),
+        b: lerp(current.b, target.b, t),
+        a: lerp(current.a, target.a, t),
+    })
 
     useEffect(() => {
         if (particlesTight.current) {
@@ -67,9 +79,17 @@ export default function ParticleBackground() {
         let animId: number;
 
         function draw() {
+            const mode = darkModeOn.current ? "darkMode" : "lightMode"
+            const state = particlesTight.current ? "tight" : "expanded"
+
+            particleColorRef.current = lerpColor(particleColorRef.current, particleColors[mode][state], 0.06)
+            lineColorRef.current = lerpColor(lineColorRef.current, lineColors[mode][state], 0.06)
+
+            const pColor = particleColorRef.current
+            const lColor = lineColorRef.current
             ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-            ctx!.fillStyle = darkModeOn.current ? 'rgba(27, 61, 86, 1)' : 'rgba(60,75,110, 0.1)'
-            ctx!.strokeStyle = darkModeOn.current ? 'rgba(148,172,190, 0.2)' : 'rgba(60,75,110, 0.1)'
+            ctx!.fillStyle = `rgba(${pColor.r},${pColor.g},${pColor.b}, ${pColor.a})`
+            ctx!.strokeStyle = `rgba(${lColor.r},${lColor.g},${lColor.b}, ${lColor.a})`
 
             const drawConnection = (threshold: number) => {
                 ctx!.beginPath()
@@ -102,7 +122,7 @@ export default function ParticleBackground() {
             }
 
             if (particlesTight.current) {
-                drawConnection(100)
+                drawConnection(90)
 
                 for (let i = 0; i < toGo.current.length; i++) {
                     particles[i].x = particles[i].x + particles[i].vx * 1.4

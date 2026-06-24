@@ -58,3 +58,65 @@ export const sideNavAnchors = [
         img: IconBrandLinkedin,
     }
 ]
+
+export const particleColors = {
+    darkMode: {
+        expanded : {
+            r: 31,
+            g: 31,
+            b: 60,
+            a: 1
+        },
+        tight: {
+            r: 59,
+            g: 59,
+            b: 90,
+            a: 1
+        }
+    },
+    lightMode: {
+        expanded: {
+            r: 213,
+            g: 217,
+            b: 225,
+            a: 1 
+        },
+        tight: {
+            r: 60,
+            g: 75,
+            b: 110,
+            a: 1 
+        }
+    }
+}
+export const lineColors = {
+    darkMode: {
+        expanded: {
+            r: 148,
+            g: 172,
+            b: 190,
+            a: 0.1
+        },
+        tight: {
+            r: 148,
+            g: 172,
+            b: 190,
+            a: 0.2
+        }
+    },
+    lightMode: {
+        expanded: {
+            r: 92,
+            g: 136,
+            b: 138,
+            a: 0.08
+        },
+        tight: {
+            r: 60,
+            g: 75,
+            b: 110,
+            a: 0.2
+        }
+        
+    }
+}

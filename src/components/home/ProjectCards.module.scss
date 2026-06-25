@@ -19,7 +19,7 @@
         flex-direction: column;
         gap: var(--space-lg);
         box-shadow: var(--elevated-shadow);
-        overflow: hidden;
+        overflow: auto;
         
         .hook {
             display: flex;
@@ -84,9 +84,53 @@
         
 
         .caseStudy {
-            height: 2px;
-            overflow: hidden;
+            
             transition: height 0.4s ease;
+
+            .innerCase { 
+                padding-block: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-xl);
+
+                .caseStudySection {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--space-med);    
+                    
+                    .caseStudySubHead {
+                        list-style: 1;
+                        font-size: var(--fs-lg);
+                    }
+
+                    .caseStudyPar {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--space-med)
+                    }
+
+                    .caseStudyFutures {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--space-sm);
+                    
+                        .caseStudyFuturesItem {
+                            list-style-position: inside;
+                        }
+                    }
+                }
+
+                
+
+                
+                
+                .video {
+                    width: 150px;
+                    float: left;
+                }
+            }
+
+            
         }
 
         .buttons {
@@ -94,7 +138,7 @@
             display: flex;
             gap: var(--space-med);
             align-self: center;
-            position: relative;
+            
 
             .button {
                 padding-block: var(--space-sm);
@@ -103,7 +147,6 @@
                 justify-content: center;
                 width: calc(50% - var(--space-med));
                 border-radius: var(--br-med);
-                overflow: hidden;
                 font-weight: 700;
             }
 
@@ -125,12 +168,6 @@
         }
 
         &.openCase {
-            position: fixed;
-            top: 2.5%;
-            left: 2.5%;
-            height: 95%;
-            width: 95%;
-            z-index: 100;
 
             .header {
 
@@ -147,11 +184,20 @@
             .hook {
                 font-size: var(--fs-med);
             }
+
+            .caseStudy {
+                height: auto;
+                overflow: scroll;
+            }
             
             
         }
     }
 }
 
-    
+/* .video { 
+    width: 150px;
+} */
+
+
 

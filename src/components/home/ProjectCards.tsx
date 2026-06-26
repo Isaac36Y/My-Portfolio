@@ -90,6 +90,9 @@ function Cards() {
 
     return (
         <>
+            <SlideAway>
+            <h2 className={`${styles.title} primary-text`}>Projects</h2>
+            </SlideAway>
             {cardData.map((card, i) => {
                 const Card = card.caseStudy;
                 return (

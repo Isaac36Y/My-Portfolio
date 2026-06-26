@@ -205,19 +205,34 @@ function BullseyeCase() {
             <h3 className={`${styles.caseStudySubHead} primary-text`}>The Use</h3>
             <p className={`${styles.caseStudyPar} secondary-text body`}>
                 <span>
-                    I, like many others, enjoy archery, and 3D archery shoots are one of my favorite weekend activities. For those who don't know, 3D shoots are essentially hikes on a trail through the woods and hills, where you encounter life-sized foam animal targets set at various distances. Each animal has scoring rings painted on it, centered on the vitals, and you shoot one arrow at each target from a designated stake. The issue lies within the scoring, and not the system, but the method. Shooters are given a pencil and paper to document their score for each target and it becomes quite an annoying task with a bow almost always in one hand. The second issue with this scoring method is calculating the totals. Sure, a little addition at the end of your round isn't too bad but what about halfway through? Or with 4 targets left to go? Am I in the lead? Could this target lose me the lead? There is just too much going on to be keeping track of scores, eliminating the inner-group competition. My solution is a tool that goes on your one-handed device, displays live scores, and tracks round stats. Nothing has made the shoots more enjoyable for me than an effortless click of a button to enter a score, and the excitement of a close match where <span style={{ fontStyle: 'italic', fontWeight: '600' }}>everybody</span> knows it's close.
+                    The PWA (Progressive Web App) starts with a simple start screen where you add the players participating in this round, and select whether you'd like the "Distance Multiplier" mode on or off. The Distance Multiplier is a game mode designed to work behind the scenes, and act as a game within the game. In Distance Multiplier mode, distance input is required on each target because a second score is, exactly how it sounds, based off the distance. The further the target, the more your points are multiplied. This means the overall winner of the round might not actually have the highest multiplied score, making it a true game within the game.
                 </span>
                 <span>
-                    The PWA (Progressive Web App) starts with a simple start screen
+                    The in-game, single-page interface is made simple so that one hand and only a couple of brain cells could punch in the score. The large score buttons are color-coded to help prevent any mistakes on input, while live scores update right next to each players' names, so nobody is ignorant to who's in the lead, and who's on their tail. That feature alone has made 3D shoots more exciting, and adrenaline-pumping. A quick pop-up scorecard to look over the previous targets or check multiplier stats. Navigation between targets is seamless with 'previous' and 'next' target buttons, or the user can use the target navigation drop down at the top of the screen to jump to any target.
                 </span>
                 <span>
-                    On the buyer side, agents need to know exactly what a buyer wants while also
-                    building a real relationship with them. HomeBase starts with a "First Meet"
-                    form covering everything from that initial 30-60 minute conversation, then
-                    feeds into a full buyer profile tracking personal info, preferences, and
-                    showing details.
+                    When the round is over the users are taken to a round summary page. The winner sits at the top of the podium with a stat summary to accompany their bragging rights. Users can see who won the multiplied round with a pill toggle that updates the scores to the multiplied totals. Each player's round is reviewable by dropdown. The amount of each score a player got is totaled above their round so you can see who was the most consistent. The highlights section at the bottom of the summary calls out stats worth highlighting: 'The most 10s: Isaac with 8', 'Longest Distance: Jacob got a 10 at 100 yards', and others.
                 </span>
             </p>
+        </section>
+        <section className={`${styles.caseStudySection}`}>
+            <h3 className={`${styles.caseStudySubHead} primary-text`}>
+                The Outcome / What's next?
+            </h3>
+            <p className={`${styles.caseStudyPar} secondary-text body`}>
+                Bullseye Ledger is a special project to me. It's the very first project I thought of, scoped, and built entirely on my own. There was no tutorial and no prompt, just a problem I wanted to solve. This is the project that shifted how I think when I sit down and build, or when I come across a bug with no idea of its source. Working on this project and finishing the first version is the first time I felt like a developer. Bullseye Ledger is a lightweight score tracking app that solved a real problem for me and my friends. It's something we now use for every single 3D bowshoot and has enhanced our enjoyment more than anything else. I am very excited for the plans I have to grow this app. A couple include:
+            </p>
+            <ul className={`${styles.caseStudyFutures} secondary-text body`}>
+                <li className={`${styles.caseStudyFuturesItem}`}>
+                    A full backend database with authentication to store stats to an archers profile.
+                </li>
+                <li className={`${styles.caseStudyFuturesItem}`}>
+                    A labs pages that shows a breakdown of the archers trends, accuracy at certain distances, shots taken and other metrics to help an archer analyze their weak points. Labs will include a practice feature to give archers structure in improving those weak points.
+                </li>
+                <li className={`${styles.caseStudyFuturesItem}`}>
+                    Archer settings that will allow archers to edit what scoring system they use. This will make Bullseye Ledger more useful to the public since not everybody uses the same scoring system.
+                </li>
+            </ul>
         </section>
         </>
     )

@@ -1,12 +1,19 @@
 @use '@/styles/mixins.scss' as *;
 
+
+
 .cardsSection {
     width: 100%;
     padding-inline: 5vw;
     display: flex;
     flex-direction: column;
+
     gap: var(--space-xxxl);
 
+    .title {
+        font-size: var(--fs-subheading);
+        text-align: center;
+    }
     .projectCard {
         position: relative;
         border: 1px solid var(--color-accent);

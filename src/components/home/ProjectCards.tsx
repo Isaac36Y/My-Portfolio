@@ -2,116 +2,102 @@
 
 import styles from "./ProjectCards.module.scss";
 import Image from "next/image";
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { cardData } from "@/data/HomePage";
 import { SlideAway } from "../NavLogic/SlideAway";
-
+import animateScrollTo from "animated-scroll-to";
 
 function Cards() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
+    const [closingIndex, setClosingIndex] = useState<number | null>(null);
     const [isClosing, setIsClosing] = useState(false);
-    const cardPlaceHolder = useRef<(HTMLDivElement | null)[]>([]);
     const projectCard = useRef<(HTMLDivElement | null)[]>([]);
+    const projectCaseStudy = useRef<(HTMLElement | null)[]>([]);
+    const projectInnerCase = useRef<(HTMLDivElement | null)[]>([]);
     const firstProjectCard = useRef<DOMRect | null>(null);
 
-    const openCase = (index: number) => {
-        //FIRST
+    function openCase(i: number) {
         if (isClosing) return;
-        firstProjectCard.current = projectCard.current[index]!.getBoundingClientRect();
-        cardPlaceHolder.current[index]!.style.display = 'block'
-        cardPlaceHolder.current[index]!.style.height = `${firstProjectCard.current!.height}px`;
-        cardPlaceHolder.current[index]!.style.width = `${firstProjectCard.current!.width}px`;
-        setOpenIndex(index);
-    };
+        firstProjectCard.current = projectCard.current[i]!.getBoundingClientRect();
+        console.log(firstProjectCard.current.top)
+        animateScrollTo(window.scrollY + firstProjectCard.current.top, {maxDuration: 600})
+        projectCard.current[i]!.style.zIndex = '100'
+        setOpenIndex(i);
+    }
 
-    const closeCase = (index: number) => {
-        firstProjectCard.current = projectCard.current[index]!.getBoundingClientRect();
+    function closeCase(i: number) {
         setIsClosing(true);
-    };
-    
-    const transitionEnd = (index: number) => {
-        if (isClosing) {
-            // places the element back in the DOM flow after transistion so theres no jumping or collapsing
-            projectCard.current[index]!.style.zIndex = "";
-            projectCard.current[index]!.style.position = "";
-            projectCard.current[index]!.style.width = "";
-            projectCard.current[index]!.style.top = "";
-            projectCard.current[index]!.style.left = "";
-            cardPlaceHolder.current[index]!.style.display = 'none'
-            setIsClosing(false);
+        setClosingIndex(i)
+        if (!firstProjectCard.current) return;
+        firstProjectCard.current = projectCard.current[i]!.getBoundingClientRect();
+        setOpenIndex(null);
+    }
+
+    function toggleCard(i: number) {
+        if (openIndex === i) {
+            closeCase(i);
+        } else {
+            openCase(i);
         }
-            
-    };
+    }
+
+    function transitionEnd(i: number) {
+        projectCaseStudy.current[i]!.style.transition = ''
+        projectCard.current[i]!.style.transition = ''
+        if (isClosing) {
+            const scrollTo = projectCard.current[i]!.getBoundingClientRect()
+            projectCard.current[i]!.style.transform = ''
+            projectCard.current[i]!.style.zIndex = ''
+            projectInnerCase.current[i]!.style.overflow = ''
+            setIsClosing(false);
+            setClosingIndex(null) 
+        }
+    }
 
     useLayoutEffect(() => {
-        if (!isClosing) {
-            if (!firstProjectCard.current || openIndex === null || !projectCard.current[openIndex]) return;
-            //LAST on open 
-            const lastProjectCard = projectCard.current[openIndex].getBoundingClientRect();
-            const deltaX = firstProjectCard.current.left - lastProjectCard.left;
-            const deltaY = firstProjectCard.current.top - lastProjectCard.top;
-            // INVERT 
-            projectCard.current[openIndex].style.transition = "none";
-            projectCard.current[openIndex].style.width = `${firstProjectCard.current.width}px`;
-            projectCard.current[openIndex].style.height = `${firstProjectCard.current.height}px`;
+        const index = isClosing ? closingIndex : openIndex
 
-            projectCard.current[openIndex].style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-            projectCard.current[openIndex].style.transformOrigin = "top left";
+        if (
+            !firstProjectCard.current ||
+            index === null ||
+            !projectCard.current[index] ||
+            !projectCaseStudy.current[index]
+        ) return;
 
-            requestAnimationFrame(() => {
-                // PLAY
-                if (!projectCard.current[openIndex]) return;
-                projectCard.current[openIndex].style.transition =
-                    "transform 0.4s ease, width 0.4s ease, height 0.4s ease, left 0.4s ease, bottom 0.4s ease";
-                projectCard.current[openIndex].style.height = ``;
-                projectCard.current[openIndex].style.transformOrigin = "";
+        const last = projectCard.current[index].getBoundingClientRect();
+        const translate = firstProjectCard.current.top - last.top;
 
-                projectCard.current[openIndex].style.transform = "none";
-                projectCard.current[openIndex].style.width = ``;
-            });
-        }
+        projectCard.current[index].style.transition = "none";
+        projectCaseStudy.current[index].style.transition = "none";
+        projectCard.current[index].style.transform = isClosing
+            ? `translateY(${translate}px) scale(1.09)`
+            : "scale(1)";
+        projectCaseStudy.current[index].style.gridTemplateRows = isClosing ? "1fr" : "0fr";
+        projectInnerCase.current[index]!.style.overflow = 'visible'
 
-        if (isClosing) {
-            if (!firstProjectCard.current || openIndex === null || !projectCard.current[openIndex]) return;
-            // placeHolder acts as LAST on close
-            const placeholderPosition = cardPlaceHolder.current[openIndex]!.getBoundingClientRect();
-            // INVERT as absolute. stay out of DOM flow
-            projectCard.current[openIndex].style.transition = "none";
-            projectCard.current[openIndex].style.position = "absolute";
-            projectCard.current[openIndex].style.zIndex = "100";
-            projectCard.current[openIndex].style.width = `${firstProjectCard.current.width}px`;
-            projectCard.current[openIndex].style.height = `${firstProjectCard.current.height}px`;
-            projectCard.current[openIndex].style.top = `${firstProjectCard.current.top + window.scrollY}px`;
-            projectCard.current[openIndex].style.left = `${firstProjectCard.current.left}px`;
-
-            requestAnimationFrame(() => {
-                // PLAY exactly where the placeholder is - the cards original position 
-                if (!projectCard.current[openIndex]) return;
-
-                projectCard.current[openIndex].style.transition =
-                    "transform 0.4s ease, width 0.4s ease, height 0.4s ease, left 0.4s ease, bottom 0.4s ease";
-                projectCard.current[openIndex].style.height = ``;
-                projectCard.current[openIndex].style.transformOrigin = "";
-
-                projectCard.current[openIndex]!.style.top = `${placeholderPosition.top + window.scrollY}px`;
-                projectCard.current[openIndex]!.style.left = `${placeholderPosition.left}px`;
-                projectCard.current[openIndex]!.style.transition =
-                    "width 0.4s ease, height 0.4s ease, left 0.4s ease, top 0.4s ease";
-                projectCard.current[openIndex]!.style.width = `${placeholderPosition.width}px`;
-                setOpenIndex(null);
-            });
-        }
+        requestAnimationFrame(() => {
+            projectCard.current[index]!.style.transition = "transform 0.6s ease-out";
+            projectCaseStudy.current[index]!.style.transition = "grid-template-rows 0.6s ease";
+            if (isClosing) {
+                animateScrollTo(window.scrollY + last.top - 75, {maxDuration: 500, speed: 500})
+                
+            }
+            projectCard.current[index]!.style.transform = isClosing ? "scale(1)" : `translateY(${translate}px) scale(1.09)`;
+            projectCaseStudy.current[index]!.style.gridTemplateRows = isClosing ? "" : "1fr";
+            
+        });
     }, [openIndex, isClosing]);
 
     return (
         <>
-            {cardData.map((card, i) => (
+            <SlideAway>
+            <h2 className={`${styles.title} primary-text`}>Projects</h2>
+            </SlideAway>
+            {cardData.map((card, i) => {
+                const Card = card.caseStudy;
+                return (
                 <SlideAway key={i}>
-                    <div
-                        ref={(el) => {
-                            cardPlaceHolder.current[i] = el;
-                        }}
-                    ></div>
+                    
                     <div
                         ref={(el) => {
                             projectCard.current[i] = el;
@@ -128,43 +114,41 @@ function Cards() {
                                 </div>
                                 <Image src={card.icon} alt="HomeBase logo" width={56} height={56} />
                             </div>
-                            <p className={`${styles.description} body secondary-text`}>
-                                {card.hook}
-                            </p>
+                            <p className={`${styles.description} body secondary-text`}>{card.hook}</p>
                             <ul className={`${styles.tags} tech primary-text`} role="list">
                                 {card.tags.map((tag, i) => (
-                                    <li
-                                        className={styles.items}
-                                        key={i}
-                                    >
+                                    <li className={styles.items} key={i}>
                                         {tag}
                                     </li>
                                 ))}
                             </ul>
                         </section>
-                        <section className={styles.caseStudy}>
-                            <hr />
-                            <section></section>
-                            <hr />
+                        <hr />
+                        <section
+                            className={styles.caseStudy}
+                            ref={(el) => {
+                                projectCaseStudy.current[i] = el;
+                            }}
+                        >
+                            <div ref={(el) => { projectInnerCase.current[i] = el }} className={styles.innerCase}>
+                                <Card />
+                            </div>
                         </section>
                         <section className={`${styles.buttons} `}>
                             <button
                                 type="button"
-                                onClick={() => (openIndex === i ? closeCase(i) : openCase(i))}
+                                onClick={() => toggleCard(i)}
                                 className={`${styles.button} ${styles.caseStudyBtn}`}
                             >
                                 Case Study
                             </button>
-                            <a
-                                href=""
-                                className={`${styles.button} ${styles.demo} tech primary-text`}
-                            >
+                            <a href="" className={`${styles.button} ${styles.demo} tech primary-text`}>
                                 Demo
                             </a>
                         </section>
                     </div>
                 </SlideAway>
-            ))}
+        )})}
         </>
     );
 }

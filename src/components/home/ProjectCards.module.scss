@@ -1,12 +1,19 @@
 @use '@/styles/mixins.scss' as *;
 
+
+
 .cardsSection {
     width: 100%;
     padding-inline: 5vw;
     display: flex;
     flex-direction: column;
+
     gap: var(--space-xxxl);
 
+    .title {
+        font-size: var(--fs-subheading);
+        text-align: center;
+    }
     .projectCard {
         position: relative;
         border: 1px solid var(--color-accent);
@@ -14,12 +21,14 @@
         border-radius: var(--br-lg);
         width: 100%;
         background-color: var(--color-surface);
-        padding: var(--space-med) var(--space-lg);
+        padding: var(--space-med) var(--space-lg) 0;
         display: flex;
         flex-direction: column;
-        gap: var(--space-lg);
+        /* gap: var(--space-lg); */
         box-shadow: var(--elevated-shadow);
-        overflow: hidden;
+        overflow: auto;
+        transform: scale(1);
+
         
         .hook {
             display: flex;
@@ -61,6 +70,7 @@
                 display: flex;
                 flex-wrap: wrap;
                 gap: var(--space-xs);
+                padding-bottom: var(--space-lg);
                 
                 .items {
                     border-radius: var(--br-sm);
@@ -84,9 +94,52 @@
         
 
         .caseStudy {
-            height: 2px;
-            overflow: hidden;
-            transition: height 0.4s ease;
+            display: grid;
+            grid-template-rows: 0fr;
+
+            .innerCase { 
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-xl);
+                overflow: hidden;
+                opacity: 1;
+                min-height: 0;
+                transition: opacity 0.8s ease;
+
+                .caseStudySection {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--space-med);    
+                    
+                    .caseStudySubHead {
+                        line-height: 1;
+                        font-size: var(--fs-lg);
+                    }
+
+                    .caseStudyPar {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--space-med)
+                    }
+
+                    .caseStudyFutures {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--space-sm);
+                    
+                        .caseStudyFuturesItem {
+                            list-style-position: inside;
+                        }
+                    }
+                } 
+                .video {
+                    width: 150px;
+                    float: left;
+                    margin: 0.2rem 0.5rem 0 0 
+                }
+            }
+
+            
         }
 
         .buttons {
@@ -94,7 +147,11 @@
             display: flex;
             gap: var(--space-med);
             align-self: center;
-            position: relative;
+            justify-content: space-between;
+            padding-block: var(--space-lg);
+            background-color: var(--color-surface);
+            overflow: hidden;
+            
 
             .button {
                 padding-block: var(--space-sm);
@@ -103,7 +160,6 @@
                 justify-content: center;
                 width: calc(50% - var(--space-med));
                 border-radius: var(--br-med);
-                overflow: hidden;
                 font-weight: 700;
             }
 
@@ -125,14 +181,9 @@
         }
 
         &.openCase {
-            position: fixed;
-            top: 2.5%;
-            left: 2.5%;
-            height: 95%;
-            width: 95%;
-            z-index: 100;
-
-            .header {
+            transform: scale(1.09);
+            
+            /* .header {
 
                 img {    
                     height: 4.5rem;
@@ -146,6 +197,14 @@
 
             .hook {
                 font-size: var(--fs-med);
+            } */
+
+            .caseStudy {
+                grid-template-rows: 1fr;
+                padding: var(--space-lg) 0 0 0;
+                .innerCase {
+                    opacity: 1;
+                }
             }
             
             
@@ -153,5 +212,9 @@
     }
 }
 
-    
+/* .video { 
+    width: 150px;
+} */
+
+
 

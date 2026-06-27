@@ -242,18 +242,17 @@ export const sideNavAnchors = [
     {
         id: 'github',
         img: IconBrandGithub,
+        href: 'https://github.com/Isaac36Y'
     },
     {
-        id: 'phone',
-        img: IconPhone,
+        id: 'linkedin',
+        img: IconBrandLinkedin,
+        href: 'https://www.linkedin.com/in/isaac-young-7a12123b1/'
     },
     {
         id: 'email',
         img: IconMail,
-    },
-    {
-        id: 'email',
-        img: IconBrandLinkedin,
+        href: 'mailto:isaac@isaacyoungs.dev?subject=Let%27s%20build%20something'
     }
 ]
 

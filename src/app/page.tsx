@@ -7,6 +7,7 @@ import MobileNav from "@/components/home/Nav";
 import ProjectCards from "@/components/home/ProjectCards";
 import NavPop from "@/components/NavLogic/NavBadge";
 import TestimonialRunner from "@/components/home/Testimonial";
+import Footer from "@/components/home/Footer";
 import { SlideAway, NavBarWrapper } from "@/components/NavLogic/SlideAway";
 import { TransitionProvider } from "@/components/NavLogic/Provider";
 
@@ -35,6 +36,9 @@ export default function Home() {
                     <TestimonialRunner />
                 </SlideAway>
             </main>
+            <footer>
+                <Footer />
+            </footer>
         </div>
     </TransitionProvider>
   );

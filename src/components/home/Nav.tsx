@@ -11,7 +11,7 @@ function NavButton({ link, description }: { link: string, description: string })
 
 export default function MobileNav() {
     return (
-        <nav className={styles.Nav}>
+        <nav className={styles.Nav} aria-label='Main Navigation'>
             <NavButton link="#myWork" description='My Work' />
             <NavButton link="/blog" description='My Blog' />
             <NavButton link="/personal" description='My Life' />

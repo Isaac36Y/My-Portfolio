@@ -1,0 +1,16 @@
+.footer {
+    margin-block-end: var(--space-xxxxl);
+    padding-inline: 5vw;
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+
+    .footerNav {
+        display: flex;
+        gap: var(--space-lg);
+
+        .footerLink {
+            color: var(--color-primary)
+        }
+    }
+}

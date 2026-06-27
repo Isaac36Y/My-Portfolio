@@ -1,7 +1,7 @@
 .html {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xxxxl);
+    gap: var(--space-lg);
 }
 
 .main {
@@ -10,5 +10,5 @@
     gap: var(--space-xxxxl);
     justify-content: center;
     align-items: center;
-    padding-block-end: var(--space-xxxxl);
+    padding-block-end: var(--space-lg);
 }

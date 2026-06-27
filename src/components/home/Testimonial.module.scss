@@ -1,0 +1,123 @@
+@use '@/styles/mixins.scss' as *;
+
+.runner {
+    margin-block: var(--space-xxxl) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxxl);
+    padding-inline: 5vw;
+
+    .introBorder {
+        position: relative;
+        padding-block: var(--space-lg);
+
+        .introTitle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--color-bg);
+            padding-inline: var(--space-lg)
+        }
+    }
+    hr {
+        @include divider(var(--color-accent))
+    }
+
+    .claim {
+        font-family: var(--font-heading);
+        font-size: var(--fs-subheading);
+        font-weight: 800;
+        line-height: 1;
+        
+
+        > span {
+            color: var(--color-accent);
+        }
+    }
+
+    .testimonial {
+        border-left: 2px solid var(--color-primary);
+        padding: var(--space-sm) var(--space-med);
+
+        .quote {
+            font-size: var(--fs-lg);
+            font-weight: 600;
+            font-style: italic;
+        }
+    }
+
+    .liveList {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-med);
+       
+
+        .liveItem {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+
+            font-size: var(--fs-sm);
+        }
+
+        .liveIcon {
+            position: relative;
+            background-color: var(--color-accent);
+            width: 0.3rem;
+            height: 0.3rem;
+            border-radius: 5rem;
+            box-shadow: 0 0 3px 2px var(--color-accent-medium);
+            animation: iconGrow 2s infinite;
+        }
+
+        .liveName {
+            letter-spacing: 0.02rem;
+            font-weight: 600;
+        }
+
+        .liveStatus {
+            color: var(--color-accent);
+        }
+
+        .liveDescription {
+            hyphens: auto;
+        }
+
+    }
+
+    .contactMe {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+
+        .contactMeHook {
+            font-size: var(--fs-med);
+        }
+
+        .contactMeButton {
+            text-decoration: none;
+            background-color: var(--color-accent);
+            font-weight: 600;
+            letter-spacing: 0.02rem;
+            color: var(--color-bg);
+            border-radius: var(--br-med);
+            font-size: var(--fs-lg);
+            padding: var(--space-med) var(--space-xl);            
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            width: fit-content;
+        }
+    }
+}
+
+@keyframes iconGrow {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+

@@ -257,6 +257,23 @@ export const sideNavAnchors = [
     }
 ]
 
+export const liveRunners = [
+    {
+        status: 'live',
+        name: 'HomeBase',
+        description: 'in daily field use'
+    },
+    {
+        status: 'live',
+        name: 'Bullseye Ledger',
+        description: 'enjoyed every shoot'
+    },
+    {
+        status: 'still',
+        name: 'shipping'
+    }
+]
+
 export const particleColors = {
     darkMode: {
         expanded : {

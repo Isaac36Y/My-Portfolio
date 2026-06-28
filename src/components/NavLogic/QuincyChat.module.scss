@@ -2,7 +2,7 @@
 
     opacity: 0;
     z-index: -1;
-    transition: opacity 0.7s ease-in;
+    transition: opacity 0.5s ease-in;
 }
 
 .chatContainer.open {
@@ -15,8 +15,13 @@
     top: 50vh;
     left: 0;
     width: calc(100% - 4.5rem);
+    height: calc(50vh - 7rem);
+    overflow: scroll;
     font-size: var(--fs-sm);
-    padding-inline: 5vw
+    padding: 0 5vw var(--space-med);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm)
 }
 
 
@@ -37,7 +42,7 @@
     field-sizing: content;
     min-height: 4em;
     max-height: 200px;
-    background-color: rgb(8, 35, 45);
+    background-color: rgb(14, 55, 60);
 
     &:focus {
         box-shadow: 0 0 4px 2px var(--color-accent-light);
@@ -61,14 +66,28 @@
 }
 
 .quincyMessage {
-
-
     > span {
         opacity: 0;
         display: inline-block;
         transform: translateY(10px);
         animation: fadeInWord 0.6s ease-out forwards;
+
+        > a {
+            color: var(--color-secondary);
+
+            &:visited {
+                color: var(--color-secondary);
+            }
+        }
     }
+}
+
+.userMessage {
+    background-color: rgb(8, 38, 48);
+    border-radius: var(--br-med);
+    padding: var(--space-sm);
+    width: 90%;
+    margin-left: auto;
 }
 
 @keyframes fadeInWord {

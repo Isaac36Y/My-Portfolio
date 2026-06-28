@@ -9,7 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.106.0",
     "@tabler/icons-react": "^3.44.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "animated-scroll-to": "^2.3.2",
     "next": "16.2.6",
     "react": "19.2.4",
@@ -22,6 +25,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "raw-loader": "^4.0.2",
     "typescript": "^5"
   }
 }

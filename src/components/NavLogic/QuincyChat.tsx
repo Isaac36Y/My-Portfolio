@@ -100,7 +100,7 @@ export default function QuincyChat() {
             </div>
             <div className={styles.inputWrap}>
                 <textarea className={`${styles.textField} body secondary-text`} ref={textField} name="quick-chat" id="quincy-chat" placeholder="Ask Quincy"></textarea>
-                <button onClick={() => sendPrompt()} className={styles.sendBtn} ref={sendBtn}><IconArrowNarrowUp /></button>
+                <button onClick={() => sendPrompt()} className={styles.sendBtn} ref={sendBtn}><IconArrowNarrowUp color="black" /></button>
             </div>
         </div>
     )

@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     gap: var(--space-lg);
-    overflow: hidden;
+
 }
 
 .title {
@@ -38,7 +38,7 @@
     gap: var(--space-xxl);
     scroll-snap-type: x mandatory;
     width: 100%;
-    padding: 1rem 5vw 0;
+    padding: 1rem 5vw;
     scrollbar-width: none;
 
     .skillCard {

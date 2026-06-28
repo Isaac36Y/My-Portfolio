@@ -31,7 +31,7 @@
     }
 
     hr {
-        @include divider
+        @include divider(var(--color-accent))
     }
 
     .aboutMeRecents {
@@ -52,9 +52,10 @@
                 
             }
     
-            .milesLink, .currentRead {
-                text-decoration: underline;
-                text-underline-offset: 0.2rem;
+            .milesLink, .currentRead, .currentWork {
+                text-decoration: none;
+                border-bottom: 2px solid var(--color-accent-light);
+                width: fit-content;
         
                 &:link {
                     color: var(--color-accent)

@@ -1,7 +1,7 @@
 @use '@/styles/mixins.scss' as *;
 .cardsSection {
     width: 100%;
-    padding-inline: 5vw;
+    padding: 1rem 5vw;
     display: flex;
     flex-direction: column;
 

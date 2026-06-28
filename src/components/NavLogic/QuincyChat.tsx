@@ -25,9 +25,6 @@ export default function QuincyChat() {
         });
     }
 
-    // Pin the overlay to the visual viewport so it tracks the mobile URL bar
-    // and the on-screen keyboard, keeping the input above the keyboard and the
-    // message list scrollable instead of hiding behind it.
     useEffect(() => {
         const vv = window.visualViewport
         const el = chatContainer.current

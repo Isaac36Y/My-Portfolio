@@ -10,6 +10,7 @@ import TestimonialRunner from "@/components/home/Testimonial";
 import Footer from "@/components/home/Footer";
 import { SlideAway, NavBarWrapper } from "@/components/NavLogic/SlideAway";
 import { TransitionProvider } from "@/components/NavLogic/Provider";
+import QuincyChat from "@/components/NavLogic/QuincyChat";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <div className={styles.html}>
             <ParticleBackground />
             <NavPop />
+            <QuincyChat />
             <SlideAway>
                 <Header />
             </SlideAway>

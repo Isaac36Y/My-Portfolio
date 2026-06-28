@@ -17,6 +17,14 @@ export default function QuincyChat() {
 
     const greeting = "Hi, I'm Quincy, Isaac's AI assistant. You can ask me anything about his work, his tech opinions, or any other question you have about him and I'll do my best to answer them"
 
+    function scrollChatDown() {
+        if (!chatBox.current) return 
+        chatBox.current!.scrollTo({
+            top: chatBox.current!.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+
     async function sendPrompt() {
         if (!sendBtn.current || !textField.current) return
         sendBtn.current.disabled = true;
@@ -24,12 +32,14 @@ export default function QuincyChat() {
         if (!prompt) return 
         const newMessages = [...messages, { sender: 'user', message: prompt}] 
         setMessages(newMessages)
+        const scrollInterval = setInterval(() => scrollChatDown(), 150)
         textField.current.value = ''
         const response = await getQuincyRes(newMessages)
         const responseTime = response.split(" ").length * 150
         setMessages(prev => [...prev, { sender: 'quincy', message: response}])
         setTimeout(() => {
             sendBtn.current!.disabled = false
+            clearInterval(scrollInterval)
         }, responseTime)
     }
 

@@ -16,11 +16,11 @@ export default function NavPop() {
         let tranlateIncrease = 4.5
         if (exiting) {
             if (!btnRef.current) return 
-            btnRef.current.style.transform = `translateY(-4.5rem)`
+            btnRef.current.style.transform = `translateX(-4.5rem)`
             btnRef.current.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
             aRef.current.forEach(el => {
                 if (el) {
-                    el.style.transform = `translateY(-${tranlateIncrease + 4.5}rem)`
+                    el.style.transform = `translateX(-${tranlateIncrease + 4.5}rem)`
                     el.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
                     tranlateIncrease += 4.5
                 }

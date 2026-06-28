@@ -18,12 +18,34 @@ export default function QuincyChat() {
     const greeting = "Hi, I'm Quincy, Isaac's AI assistant. You can ask me anything about his work, his tech opinions, or any other question you have about him and I'll do my best to answer them"
 
     function scrollChatDown() {
-        if (!chatBox.current) return 
+        if (!chatBox.current) return
         chatBox.current!.scrollTo({
             top: chatBox.current!.scrollHeight,
             behavior: 'smooth'
         });
     }
+
+    // Pin the overlay to the visual viewport so it tracks the mobile URL bar
+    // and the on-screen keyboard, keeping the input above the keyboard and the
+    // message list scrollable instead of hiding behind it.
+    useEffect(() => {
+        const vv = window.visualViewport
+        const el = chatContainer.current
+        if (!vv || !el) return
+
+        function syncToViewport() {
+            el!.style.height = `${vv!.height}px`
+            el!.style.transform = `translateY(${vv!.offsetTop}px)`
+        }
+
+        syncToViewport()
+        vv.addEventListener('resize', syncToViewport)
+        vv.addEventListener('scroll', syncToViewport)
+        return () => {
+            vv.removeEventListener('resize', syncToViewport)
+            vv.removeEventListener('scroll', syncToViewport)
+        }
+    }, [])
 
     async function sendPrompt() {
         if (!sendBtn.current || !textField.current) return

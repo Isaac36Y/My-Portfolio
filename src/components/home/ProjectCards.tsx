@@ -77,10 +77,10 @@ function Cards() {
 
         requestAnimationFrame(() => {
             projectCard.current[index]!.style.transition = "transform 0.6s ease-out";
-            projectCaseStudy.current[index]!.style.transition = "grid-template-rows 0.6s ease";
+            
             if (isClosing) {
                 animateScrollTo(window.scrollY + last.top - 75, {maxDuration: 500, speed: 500})
-                
+                projectCaseStudy.current[index]!.style.transition = "grid-template-rows 0.6s ease";
             }
             projectCard.current[index]!.style.transform = isClosing ? "scale(1)" : `translateY(${translate}px) scale(1.09)`;
             projectCaseStudy.current[index]!.style.gridTemplateRows = isClosing ? "" : "1fr";

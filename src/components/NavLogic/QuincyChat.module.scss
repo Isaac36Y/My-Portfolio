@@ -3,8 +3,6 @@
     top: 0;
     left: 0;
     width: 100%;
-    // Dynamic viewport height handles the mobile URL bar; JS overrides this
-    // with the live visualViewport height so the layout tracks the keyboard.
     height: 100dvh;
     display: flex;
     flex-direction: column;
@@ -25,8 +23,6 @@
 .chatBox {
     pointer-events: auto;
     width: 100%;
-    // Cap the message list to the lower portion of the screen and let it
-    // scroll internally; min-height:0 is required for overflow inside flex.
     max-height: 55dvh;
     min-height: 0;
     overflow-y: auto;

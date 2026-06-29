@@ -44,8 +44,8 @@ export function NavBarWrapper({children}: {children : React.ReactNode}) {
         if (exiting) {
             // ensures the nav always go to the top with some padding
             divRect.y > 0
-            ? divRef.current.style.transform = `translateY(-${divRect.y - 90}px)`
-            : divRef.current.style.transform = `translateY(${(divRect.y * -1) + 90}px)` 
+            ? divRef.current.style.transform = `translateY(-${divRect.y - 58}px)`
+            : divRef.current.style.transform = `translateY(${(divRect.y * -1) + 58}px)` 
         }else {
             divRef.current.style.transform = ''
         }

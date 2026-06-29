@@ -2,7 +2,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-sm);
-    padding-inline: 5vw;
+    padding: var(--space-xxl) 5vw;
+
 
     .navBtn {
         background-color: var(--color-surface);

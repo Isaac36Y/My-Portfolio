@@ -1,4 +1,5 @@
 @use '@/styles/mixins.scss' as *;
+@use 'globals' as *;
 
 .header {
     display: flex;
@@ -7,7 +8,7 @@
     padding-inline: 5vw;
     
     .hero {
-        padding-block: 1rem 0;
+        padding-block: var(--space-lg) 0;
         display: flex;
         flex-direction: column;
         gap: var(--space-sm);
@@ -30,6 +31,8 @@
 
     }
 
+    
+
     hr {
         @include divider(var(--color-accent))
     }
@@ -44,12 +47,11 @@
             display: grid;
             grid-template-columns: 2fr 3fr;
             font-size: var(--fs-med);
+            max-width: 35rem;
     
             .label {
                 display: flex;
                 gap: 0.5rem;
-                
-                
             }
     
             .milesLink, .currentRead, .currentWork {
@@ -64,6 +66,11 @@
                     color: var(--color-accent)
                 }
             }
+        }
+    }
+    @media (min-width: $tablet) {
+        .aboutMeRecents {
+            padding-inline: clamp(0.1rem, -5.0652rem + 17.2174vw, 10rem)
         }
     }
 }

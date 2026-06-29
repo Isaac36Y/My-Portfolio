@@ -14,7 +14,7 @@ export default function TestimonialRunner() {
                     <hr />
                     <p className={`${styles.introTitle} tech secondary-text`} >still running</p>
                 </div>
-                <p className={`${styles.claim} primary-text`}>I didn't learn to code just to build demos.<br /> I build software to <span>fix the broken workflows</span> people struggle with every day</p>
+                <p className={`${styles.claim} primary-text`}>I didn't learn to code just to build demos.<br /> I build software to <span>fix the broken workflows</span> people struggle with every day.</p>
                 
                 <div className={`${styles.testimonial}`}>
                     <p className={`${styles.quote} body primary-text`}>"I threw out my 10-page paper forms. I'm not going back"</p>

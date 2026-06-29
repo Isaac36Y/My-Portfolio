@@ -14,3 +14,9 @@
     font-size: var(--fs-med);
     text-align: center;
 }
+
+@media (min-width: var(--bp-sm)) {
+    .par {
+        padding-inline: clamp(0.1rem, -7.6739rem + 25.913vw, 15rem);
+    }
+}

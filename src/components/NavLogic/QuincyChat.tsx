@@ -68,7 +68,7 @@ export default function QuincyChat() {
            const words = msg.split(' ');
   
             const spanWords = words.map((word, index) => {
-                return `<span style="animation-delay: ${index * 0.15}s;">${word}&nbsp;</span>`;
+                return `<span style="animation-delay: ${index * 0.1}s;">${word}&nbsp;</span>`;
             });
             
             el.innerHTML = spanWords.join('');
@@ -90,7 +90,7 @@ export default function QuincyChat() {
                     ) : (
                     <p key={i} className={`${styles.quincyMessage} body primary-text`}>
                         {msg.message.split(' ').map((word, w) => (
-                        <span key={w} style={{ animationDelay: `${w * 0.15}s` }}>
+                        <span key={w} style={{ animationDelay: `${w * 0.1}s` }}>
                             {word.match('isaac@isaacyoungs.dev') ? <a href="mailto:isaac@isaacyoungs.dev">{word}</a> : word}&nbsp;</span>
                         ))}
                     </p>

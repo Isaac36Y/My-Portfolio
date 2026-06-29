@@ -1,9 +1,13 @@
+@use '@/styles/variables' as *;
+
 .section { 
     padding-inline: 5vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-xl);
+    margin-inline: auto;
+    width: min(100%, 60rem);
 }
 
 .title {
@@ -13,10 +17,4 @@
 .par {
     font-size: var(--fs-med);
     text-align: center;
-}
-
-@media (min-width: var(--bp-sm)) {
-    .par {
-        padding-inline: clamp(0.1rem, -7.6739rem + 25.913vw, 15rem);
-    }
 }

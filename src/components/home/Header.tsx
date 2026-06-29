@@ -1,6 +1,8 @@
 import styles from "./Header.module.scss";
 import filterStravaActivities from "@/lib/strava";
 import { IconRun, IconCode, IconBook } from "@tabler/icons-react";
+import Nav from "./Nav";
+import { NavBarWrapper } from "../NavLogic/SlideAway";
 
 function Hero() {
   return (
@@ -63,21 +65,27 @@ function CurrentWork() {
 
 function AboutMeRecents() {
   return (
-    <div className={styles.aboutMeRecents}>
-      <CurrentWork />
-      <WeeklyMiles />
-      <CurrentRead />
-    </div>
+    
+        <div className={styles.aboutMeRecents}>
+          <CurrentWork />
+          <WeeklyMiles />
+          <CurrentRead />
+        </div>
   );
 }
 
 export default function Header() {
   return (
     <header className={styles.header}>
-      <Hero />
-      <hr />
-      <AboutMeRecents />
-      <hr />
+        <Hero />
+        <hr />
+        <div className={styles.recentsContainer}>
+            <AboutMeRecents />
+            <NavBarWrapper>
+                <Nav screen="desktop"/>
+            </NavBarWrapper>
+        </div>
+        <hr />
     </header>
   );
 }

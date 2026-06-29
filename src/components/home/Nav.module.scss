@@ -1,9 +1,9 @@
-.Nav {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-sm);
-    padding: var(--space-xxl) 5vw;
+@use "@/styles/variables" as *;
 
+.mobileNav, .desktopNav {
+    display: grid;
+    gap: var(--space-sm);
+    margin-inline: auto;
 
     .navBtn {
         background-color: var(--color-surface);
@@ -13,6 +13,7 @@
         width: 100%;
         padding-block: var(--space-sm);
         font-weight: 600;
+        font-size: var(--fs-reg);
         box-shadow: var(--elevated-shadow);
         display: flex;
         justify-content: center;
@@ -24,6 +25,29 @@
             background-color: var(--color-accent);
             color: var(--color-bg);
         }
+    }
+}
+
+.mobileNav {
+    grid-template-columns: repeat(3, 1fr);
+    width: min(100%, 50rem);
+    padding: var(--space-xxl) 5vw;
+}
+
+.desktopNav {
+    grid-template-rows: repeat(3, 1fr);
+    width: 30rem;
+    display: none;
+    margin-block: auto
+}
+
+@media (min-width: $desktop) {
+    .mobileNav {
+        display: none;
+    }
+
+    .desktopNav {
+        display: grid;
     }
 }
 

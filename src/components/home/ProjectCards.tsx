@@ -93,6 +93,7 @@ function Cards() {
             <SlideAway>
             <h2 id="myWork" className={`${styles.title} primary-text`}>Projects</h2>
             </SlideAway>
+            <div className={styles.cardWrapper}>
             {cardData.map((card, i) => {
                 const Card = card.caseStudy;
                 return (
@@ -135,6 +136,7 @@ function Cards() {
                             </div>
                         </section>
                         <section className={`${styles.buttons} `}>
+                            
                             <button
                                 type="button"
                                 onClick={() => toggleCard(i)}
@@ -148,7 +150,9 @@ function Cards() {
                         </section>
                     </div>
                 </SlideAway>
-        )})}
+            )})}
+
+            </div>
         </>
     );
 }

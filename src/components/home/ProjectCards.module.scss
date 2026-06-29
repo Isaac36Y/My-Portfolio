@@ -1,4 +1,6 @@
 @use '@/styles/mixins.scss' as *;
+@use '@/styles/variables' as *;
+
 .cardsSection {
     width: 100%;
     padding: 1rem 5vw;
@@ -11,17 +13,24 @@
         font-size: var(--fs-subheading);
         text-align: center;
     }
+
+    .cardWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xxxl);
+    }
+
     .projectCard {
         position: relative;
         border: 1px solid var(--color-accent);
         border-top: 3px solid var(--color-accent);
         border-radius: var(--br-lg);
-        width: 100%;
+        width: min(100%, 50rem);
+        margin-inline: auto;
         background-color: var(--color-surface);
         padding: var(--space-med) var(--space-lg) 0;
         display: flex;
         flex-direction: column;
-        /* gap: var(--space-lg); */
         box-shadow: var(--elevated-shadow);
         overflow: auto;
         transform: scale(1);
@@ -181,22 +190,6 @@
         &.openCase {
             transform: scale(1.09);
             margin-bottom: 22rem;
-            
-            /* .header {
-
-                img {    
-                    height: 4.5rem;
-                    width: 4.5rem;
-                }
-
-                h2 { 
-                    font-size: var(--fs-heading-sm);
-                } 
-            }
-
-            .hook {
-                font-size: var(--fs-med);
-            } */
 
             .caseStudy {
                 grid-template-rows: 1fr;
@@ -206,15 +199,30 @@
                     transform: translateY(0);
                 }
             }
-            
-            
         }
     }
 }
 
-/* .video { 
-    width: 150px;
-} */
+@media (min-width: $desktop) {
+    .cardsSection {
+        justify-content: space-between;
+        .cardWrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .projectCard {
+            height: 28rem;
+            justify-content: space-between;
+            
+            .hook {
+                height: 80%;
+                justify-content: space-between;
+            }
+        }
+
+    }
+}
+
 
 
 

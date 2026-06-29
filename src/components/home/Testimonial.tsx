@@ -23,7 +23,7 @@ export default function TestimonialRunner() {
             </div>
             </SlideAway>
             <SlideAway>
-            <div className={styles.runner}>
+            <div className={`${styles.runner} ${styles.contactSection}`}>
                 <ul className={styles.liveList}>
                     {liveRunners.map((item, index) => (
                         <li className={styles.liveItem} key={index}>

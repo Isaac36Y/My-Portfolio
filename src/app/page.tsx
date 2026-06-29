@@ -3,7 +3,7 @@ import Header from "@/components/home/Header";
 import MySkills from "@/components/home/MySkills";
 import HowIBuild from "@/components/home/HowIBuild";
 import styles from "./page.module.scss";
-import MobileNav from "@/components/home/Nav";
+import Nav from "@/components/home/Nav";
 import ProjectCards from "@/components/home/ProjectCards";
 import NavPop from "@/components/NavLogic/NavBadge";
 import TestimonialRunner from "@/components/home/Testimonial";
@@ -23,7 +23,7 @@ export default function Home() {
                 <Header />
             </SlideAway>
             <NavBarWrapper>
-                <MobileNav />
+                <Nav screen="mobile" />
             </NavBarWrapper>
             <main className={styles.main}>
                 <SlideAway>

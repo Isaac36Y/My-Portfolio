@@ -1,4 +1,5 @@
 @use '@/styles/mixins.scss' as *;
+@use '@/styles/variables' as *;
 
 .runner {
     display: flex;
@@ -16,7 +17,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: var(--color-bg);
-            padding-inline: var(--space-lg)
+            padding-inline: var(--space-lg);
         }
     }
     hr {
@@ -28,6 +29,7 @@
         font-size: var(--fs-subheading);
         font-weight: 800;
         line-height: 1;
+        width: min(100%, 50rem);
         
 
         > span {
@@ -38,12 +40,18 @@
     .testimonial {
         border-left: 2px solid var(--color-primary);
         padding: var(--space-sm) var(--space-med);
+        width: min(100%, 35rem);
 
         .quote {
             font-size: var(--fs-lg);
             font-weight: 600;
             font-style: italic;
         }
+    }
+
+    &.contactSection {
+        display: grid;
+        grid-template-rows: 1fr;
     }
 
     .liveList {
@@ -107,6 +115,23 @@
             align-items: center;
             gap: var(--space-sm);
             width: fit-content;
+        }
+    }
+}
+
+@media (min-width: $tablet) {
+    .runner.contactSection {
+        grid-template-columns: 2fr 3fr;
+        gap: 0;
+
+        .liveList {
+            grid-column: 2 / 3;
+            margin-left: auto
+        }
+
+        .contactMe {
+            grid-row: 1 / 1;
+            grid-column: 1 / 2;
         }
     }
 }

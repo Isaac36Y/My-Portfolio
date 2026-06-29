@@ -3,6 +3,7 @@ import animateScrollTo from 'animated-scroll-to'
 import styles from './Nav.module.scss'
 import Link from 'next/link'
 
+
 function NavButton({ link, description }: { link: string, description: string }) {
     return (
         <Link href={link} className={`${styles.navBtn} body`}>
@@ -11,9 +12,9 @@ function NavButton({ link, description }: { link: string, description: string })
     )
 }
 
-export default function MobileNav() {
+export default function Nav({ screen }: { screen: string }) {
     return (
-        <nav className={styles.Nav} aria-label='Main Navigation'>
+        <nav className={screen === 'mobile' ? styles.mobileNav : styles.desktopNav} aria-label='Main Navigation'>
             <button
             type='button'
             className={`${styles.navBtn} body`}

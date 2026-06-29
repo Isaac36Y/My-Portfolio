@@ -3,7 +3,7 @@ import styles from './NavBadge.module.scss'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { ThemeContext, TransitionContext } from './Provider'
 import { sideNavAnchors } from '@/data/HomePage'
-import { IconSun } from '@tabler/icons-react';
+import { IconSun, IconMoon } from '@tabler/icons-react';
 
 export default function NavPop() {
     // named aRef and btnRef based off the more important content element inside of the div referrence
@@ -11,6 +11,9 @@ export default function NavPop() {
     const aRef = useRef<(HTMLDivElement | null)[]>([])
     const { exiting, setExiting } = useContext(TransitionContext)
     const {isDarkMode, setIsDarkMode } = useContext(ThemeContext)
+    const [mounted, setMounted] = useState(false);
+    
+    useEffect(() => setMounted(true), []);
 
     useEffect(() => {
         let tranlateIncrease = 4.5
@@ -38,6 +41,10 @@ export default function NavPop() {
         }
     }, [exiting])
 
+    useEffect(() => {
+        const ModeIcon = isDarkMode ? <IconSun stroke={2}  color={'var(--color-bg)'} /> : <IconMoon stroke={2}  color={'var(--color-bg)'} />
+    }, [isDarkMode])
+
     return (
         <>
             {sideNavAnchors.map((a, i) => (
@@ -54,11 +61,11 @@ export default function NavPop() {
                 <div className={ styles.btnBorder}>
                 <button  className={`${ styles.btns }`} onClick={ () => (isDarkMode ? setIsDarkMode(false) : setIsDarkMode(true)) }>
                     {/* TODO: update the icon on mode change  */}
-                    <IconSun stroke={2}  color={'var(--color-bg)'} />
+                    {mounted && (isDarkMode ? <IconSun stroke={2}  color={'var(--color-bg)'} /> : <IconMoon stroke={2}  color={'var(--color-bg)'} /> )}
                 </button>
                 </div>
             </div>
-            <div className={`${styles.logoBorder}`}>
+            <div className={`${styles.logoBorder} ${ exiting ? "" : styles.animate}`}>
                 <button className={`${styles.logo} `} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
                     IY
                 </button>

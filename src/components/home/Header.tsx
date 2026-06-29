@@ -21,9 +21,9 @@ function CurrentRead() {
         <p>listening</p>
       </div>
       <a href="" className={`${styles.currentRead} body`}>
-        The Midnight Library
+        Artifact
         <br />
-        by Matt Haig
+        by Jeremy Robinson
       </a>
     </div>
   );

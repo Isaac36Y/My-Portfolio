@@ -63,7 +63,7 @@ export default function QuincyChat() {
     }
 
     useEffect(() => {
-
+        console.log(chatBox.current!.offsetHeight)
         function typeByWord(el: HTMLParagraphElement, msg: string) {
            const words = msg.split(' ');
   
@@ -80,13 +80,23 @@ export default function QuincyChat() {
         }
     }, [exiting])
 
+    useEffect(() => {
+        if (!chatBox.current) return 
+        const screen = window.innerHeight
+        const chat = chatBox.current.offsetHeight
+
+        if (chat > screen / 2) {
+            chatBox.current.style.maskImage = "linear-gradient(to bottom, transparent 0%, black 25%)"
+        }
+    }, [messages])
+
     return (
         <div ref={chatContainer} className={`${styles.chatContainer} ${exiting ? styles.open : ''}`}>
             <div ref={chatBox} className={`${styles.chatBox}`}>
                 <p ref={quincyGreet} className={`${styles.quincyMessage} body primary-text`}></p>
                 { messages.map((msg, i) => (
                     msg.sender === 'user' ? (
-                    <p key={i} className={`${styles.userMessage} body primary-text`}>{msg.message}</p>
+                    <p key={i} className={`${styles.userMessage} body`}>{msg.message}</p>
                     ) : (
                     <p key={i} className={`${styles.quincyMessage} body primary-text`}>
                         {msg.message.split(' ').map((word, w) => (
@@ -99,7 +109,7 @@ export default function QuincyChat() {
                 ))}
             </div>
             <div className={styles.inputWrap}>
-                <textarea className={`${styles.textField} body secondary-text`} ref={textField} name="quick-chat" id="quincy-chat" placeholder="Ask Quincy"></textarea>
+                <textarea className={`${styles.textField} body`} ref={textField} name="quick-chat" id="quincy-chat" placeholder="Ask Quincy..."></textarea>
                 <button onClick={() => sendPrompt()} className={styles.sendBtn} ref={sendBtn}><IconArrowNarrowUp color="black" /></button>
             </div>
         </div>

@@ -59,8 +59,8 @@ export default function ParticleBackground() {
         const particleRadius = 4;
 
         const tightenRect = {
-            top: 125,
-            bottom: 350
+            top: 100,
+            bottom: 325
         }
         
         for (let i = 0; i < particleAmount; i++ ) {

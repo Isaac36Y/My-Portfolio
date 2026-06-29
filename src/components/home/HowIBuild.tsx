@@ -9,7 +9,7 @@ export default function HowIBuild() {
             <p className={`${styles.par} body secondary-text`}>
                 I build with the intention to learn and push my boundaries with original features and readable code. 
                 I leverage AI tools to test my thinking, to truly understand the concepts I practice, and to push ideas to the next level. 
-                The outcome is intentional software. I understand everything I ship
+                The outcome is intentional software. I understand everything I ship.
             </p>
         </section>
     )

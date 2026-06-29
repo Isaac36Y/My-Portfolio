@@ -23,15 +23,19 @@
 .chatBox {
     pointer-events: auto;
     width: 100%;
-    max-height: 55dvh;
+    max-height: 45dvh;
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     font-size: var(--fs-sm);
-    padding: 0 5vw var(--space-med);
+    padding: 2rem 5vw var(--space-med);
     display: flex;
     flex-direction: column;
+    background-color: transparent;
+    backdrop-filter: blur(3px);
+
+    mask-image: linear-gradient(to bottom, transparent 0%, black 12%);
     gap: var(--space-sm);
 }
 
@@ -54,6 +58,7 @@
     min-height: 4em;
     max-height: 200px;
     background-color: rgb(14, 55, 60);
+    color: var(--color-bg);
 
     &:focus {
         box-shadow: 0 0 4px 2px var(--color-accent-light);
@@ -97,8 +102,19 @@
     background-color: rgb(8, 38, 48);
     border-radius: var(--br-med);
     padding: var(--space-sm);
+    color: var(--color-bg);
     width: 90%;
     margin-left: auto;
+
+}
+
+[data-theme="dark"] {
+    .userMessage {
+        color: var(--color-primary);
+    }
+    .textField {
+        color: var(--color-primary);
+    }
 }
 
 @keyframes fadeInWord {

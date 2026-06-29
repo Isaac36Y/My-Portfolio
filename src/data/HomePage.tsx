@@ -52,7 +52,7 @@ function HomeBaseCase() {
                 <span>
                     Real estate agents struggle to log, store, and use property and buyer data
                     cleanly. HomeBase tackles this with two pillars:
-                    <span>Sellers and Buyers</span>.
+                    <span className='bold'> Sellers</span> and <span className='bold'> Buyers</span>.
                 </span>
                 <span>
                     During a walkthrough, agents are working off scattered 10+ page paper forms,

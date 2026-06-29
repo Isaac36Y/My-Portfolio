@@ -91,7 +91,7 @@ function Cards() {
     return (
         <>
             <SlideAway>
-            <h2 className={`${styles.title} primary-text`}>Projects</h2>
+            <h2 id="myWork" className={`${styles.title} primary-text`}>Projects</h2>
             </SlideAway>
             {cardData.map((card, i) => {
                 const Card = card.caseStudy;
@@ -102,7 +102,7 @@ function Cards() {
                         ref={(el) => {
                             projectCard.current[i] = el;
                         }}
-                        id="myWork"
+                        
                         onTransitionEnd={() => transitionEnd(i)}
                         className={`${styles.projectCard} ${openIndex === i ? styles.openCase : ""}`}
                     >

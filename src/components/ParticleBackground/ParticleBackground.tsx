@@ -152,7 +152,10 @@ export default function ParticleBackground() {
             
         }
         animId = requestAnimationFrame(draw)
-        return () => cancelAnimationFrame(animId)
+        return () => {
+            cancelAnimationFrame(animId)
+            toGo.current = []
+        }
         
     }, [])
 

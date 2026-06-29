@@ -145,7 +145,7 @@
             display: flex;
             gap: var(--space-med);
             align-self: center;
-            justify-content: space-between;
+            justify-content: center;
             padding-block: var(--space-lg);
             background-color: var(--color-surface);
             overflow: hidden;
@@ -156,7 +156,7 @@
                 font-size: var(--fs-med);
                 display: flex;
                 justify-content: center;
-                width: calc(50% - var(--space-med));
+                width: 80%;
                 border-radius: var(--br-med);
                 font-weight: 700;
             }

@@ -142,9 +142,9 @@ function Cards() {
                             >
                                 Case Study
                             </button>
-                            <a href="" className={`${styles.button} ${styles.demo} tech primary-text`}>
+                            {/* <a href="" className={`${styles.button} ${styles.demo} tech primary-text`}>
                                 Demo
-                            </a>
+                            </a> */}
                         </section>
                     </div>
                 </SlideAway>

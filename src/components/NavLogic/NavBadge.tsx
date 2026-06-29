@@ -58,10 +58,11 @@ export default function NavPop() {
                 </button>
                 </div>
             </div>
-            <button className={`${styles.logo}`} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
-                <img src="/images/IYlogo.png" alt="" className={`${styles.badge} ${styles.badgeDark}`} />
-                <img src="/images/IYlogo-light.png" alt="" className={`${styles.badge} ${styles.badgeLight}`}  />
-            </button>
+            <div className={`${styles.logoBorder}`}>
+                <button className={`${styles.logo} `} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
+                    IY
+                </button>
+            </div>
         </>
     )
 }

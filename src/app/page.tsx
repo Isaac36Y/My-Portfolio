@@ -34,12 +34,12 @@ export default function Home() {
                 </SlideAway>
                 {/* slide away in ProjectCards. wraps cards individually */}
                 <ProjectCards />
-                <SlideAway>
-                    <TestimonialRunner />
-                </SlideAway>
+                <TestimonialRunner />
             </main>
             <footer>
-                <Footer />
+                <SlideAway>
+                    <Footer />
+                </SlideAway>
             </footer>
         </div>
     </TransitionProvider>

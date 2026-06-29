@@ -3,19 +3,32 @@
     right: 1rem;
     top: 0.5rem;
     width: 3.5rem;
-    height: 5rem;
+    height: 4rem;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: var(--color-primary);
+    background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);
+    background-size: 100% 200%;
+    background-position: center bottom;
     z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem 0.2rem 0 0;
+    font-family: var(--font-heading);
+    color: var(--color-bg);
+    letter-spacing: -5;
+    transition: background-position 0.4s ease;
+    font-size: 3.6rem;
+}
 
-    .badgeLight, .badgeDark {
-        filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
-        position: absolute;
-        top: 0;
-    }
-    
-    .badgeLight {
-        opacity: 0;
-        transition: opacity 0.4s ease;
-    }
+.logoBorder {
+    position: fixed;
+    right: 0.85rem;
+    top: 0.35rem;
+    width: 3.8rem;
+    height: 4.3rem;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: var(--color-accent);
 }
 
 .btns {
@@ -56,10 +69,7 @@
 }
 
 [data-theme="dark"] {
-    .badgeLight {
-        opacity: 1;
-    }
-    .btns {
+    .btns, .logo {
         background-position: center top;
     }
 }

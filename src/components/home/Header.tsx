@@ -78,7 +78,7 @@ function AboutMeRecents() {
 
 export default function Header() {
   return (
-    <header className={styles.header}>
+    <header className={styles.header} id='header'>
         <SlideAway>
             <Hero />
         </SlideAway>

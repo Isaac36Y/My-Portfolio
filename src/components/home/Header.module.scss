@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
-    padding-inline: 5vw;
+    padding-inline: 5vw; 
     
     .hero {
         padding-block: var(--space-lg) 0;
@@ -37,9 +37,8 @@
         @include divider(var(--color-accent))
     }
 
-    .recentsContainer {
-        display: grid;
-        
+    .statusContainer {
+        display: flex;
     }
 
     .aboutMeRecents {
@@ -78,19 +77,38 @@
 }
 
 @media (min-width: $tablet) {
-    .recentsContainer {
+    .statusContainer {
         justify-content: center;
-        grid-template-columns: 2fr 1fr;
     }
 }
 
 @media (min-width: $desktop) {
-    .recentsContainer {
-        grid-template-columns: 1fr 1fr;
+    .header {
+        flex-direction: row;
         align-items: center;
+        margin-block: var(--space-xxxl);
+
+        hr {
+            display: none;
+        }
+
+        .statusContainer {
+            grid-template-columns: 1fr;
+            align-items: center;
+            border: 1px solid var(--color-accent-medium);
+            border-radius: var(--br-med);
+            background-color: var(--color-surface);
+            width: fit-content;
+            margin-inline: auto;
+            
+
+            .aboutMeRecents {
+                padding: var(--space-xl)
+            }
+        }
+        
     }
-    .aboutMeRecents {
-        margin-inline: auto
-    }
+
+    
     
 }

@@ -17,7 +17,7 @@ export default function NavPop() {
 
     useEffect(() => {
         let tranlateIncrease = 4.5
-        if (exiting) {
+        if (exiting && window.innerWidth < 1200) {
             if (!btnRef.current) return 
             btnRef.current.style.transform = `translateX(-4.5rem)`
             btnRef.current.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
@@ -41,10 +41,6 @@ export default function NavPop() {
         }
     }, [exiting])
 
-    useEffect(() => {
-        const ModeIcon = isDarkMode ? <IconSun stroke={2}  color={'var(--color-bg)'} /> : <IconMoon stroke={2}  color={'var(--color-bg)'} />
-    }, [isDarkMode])
-
     return (
         <>
             {sideNavAnchors.map((a, i) => (
@@ -60,8 +56,14 @@ export default function NavPop() {
             <div ref={ btnRef } className={ styles.btnContainer }>
                 <div className={ styles.btnBorder}>
                 <button  className={`${ styles.btns }`} onClick={ () => (isDarkMode ? setIsDarkMode(false) : setIsDarkMode(true)) }>
-                    {/* TODO: update the icon on mode change  */}
                     {mounted && (isDarkMode ? <IconSun stroke={2}  color={'var(--color-bg)'} /> : <IconMoon stroke={2}  color={'var(--color-bg)'} /> )}
+                </button>
+                </div>
+            </div>
+            <div className={`${ styles.btnContainer } ${styles.quincyBtn} body`}>
+                <div className={ styles.btnBorder}>
+                <button  className={`${ styles.btns }`} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
+                    Q
                 </button>
                 </div>
             </div>

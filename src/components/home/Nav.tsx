@@ -12,7 +12,7 @@ function NavButton({ link, description }: { link: string, description: string })
     )
 }
 
-export default function Nav({ screen }: { screen: string }) {
+export function Nav({ screen }: { screen: string }) {
     return (
         <nav className={screen === 'mobile' ? styles.mobileNav : styles.desktopNav} aria-label='Main Navigation'>
             <button
@@ -26,7 +26,14 @@ export default function Nav({ screen }: { screen: string }) {
             </button>
             <NavButton link="/blog" description='My Blog' />
             <NavButton link="/personal" description='My Life' />
-            
         </nav>
+    )
+}
+
+export function DesktopNav() {
+    return (
+        <section className={`${styles.navBar}`}>
+            <Nav screen="desktop" />
+        </section>
     )
 }

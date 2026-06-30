@@ -1,11 +1,12 @@
 @use "@/styles/variables" as *;
 
-.mobileNav, .desktopNav {
+.mobileNav {
     display: grid;
-    gap: var(--space-sm);
-    margin-inline: auto;
+    grid-template-columns: repeat(3, 1fr);
+    width: min(100%, 50rem);
+    padding: var(--space-xxl) 5vw;
 
-    .navBtn {
+        .navBtn {
         background-color: var(--color-surface);
         color: var(--color-primary);
         border-radius: var(--br-sm);
@@ -28,32 +29,75 @@
     }
 }
 
-.mobileNav {
-    grid-template-columns: repeat(3, 1fr);
-    width: min(100%, 50rem);
-    padding: var(--space-xxl) 5vw;
+.navBar {
+    width: 100vw;
+    background-color: var(--color-surface);
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: 4.5rem;
+    z-index: 10;
+    display: none;
+    align-items: center;
+    padding-inline: 3rem;
 }
 
 .desktopNav {
-    grid-template-rows: repeat(3, 1fr);
-    width: 30rem;
     display: none;
-    margin-block: auto
+    gap: var(--space-xxl);
+    font-size: var(--fs-med);
+
+    .navBtn {
+        font-family: var(--font-tech);
+        text-transform: lowercase;
+        color: var(--color-secondary);
+        text-decoration: none;
+
+        &:nth-child(2) {
+            color: var(--color-accent);
+
+            &::before, &::after {
+                content: '/';
+                color: var(--color-secondary);
+            }
+            
+            &::before {
+                padding-right: var(--space-lg);
+            }
+
+            &::after {
+                padding-left: var(--space-lg);
+            }
+        }
+    }
 }
 
 @media (min-width: $desktop) {
+
+    .mobileNavWrapper {
+        display: none;
+    }
     .mobileNav {
         display: none;
     }
 
     .desktopNav {
-        display: grid;
+        display: flex;
+    }
+    
+    .navBar {
+        display: flex;
     }
 }
 
 [data-theme="dark"] {
-    .navBtn {
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: var(--shadow-accent)
+    .mobileNav {
+        
+        .navBtn {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-accent)
+        }
     }
+
+    
 }

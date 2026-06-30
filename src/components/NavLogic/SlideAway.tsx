@@ -1,6 +1,7 @@
 'use client'
 import React, { useRef, useEffect, useContext } from "react";
 import { TransitionContext } from "./Provider";
+import styles from "../home/Nav.module.scss"
 
 export function SlideAway({children}: {children : React.ReactNode}) {
     const divRef = useRef<HTMLDivElement | null>(null)
@@ -51,7 +52,7 @@ export function NavBarWrapper({children}: {children : React.ReactNode}) {
         }
     }, [exiting])
     return (
-        <div ref={ divRef } style={{ width: '100%', transition: 'transform 0.6s ease', zIndex: '100' }}>
+        <div ref={ divRef } className={styles.mobileNavWrapper} style={{ width: '100%', transition: 'transform 0.6s ease', zIndex: '100' }}>
             {children}
         </div>
     )

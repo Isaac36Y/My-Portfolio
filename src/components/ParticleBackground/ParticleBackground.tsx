@@ -54,7 +54,7 @@ export default function ParticleBackground() {
         canvas.height = window.innerHeight - (window.innerHeight * 0.1);
 
         const particleAmount = (canvas.width + canvas.height) / 15
-        
+        console.log([particleAmount])
         const particles: particleState[] = []
         const particleRadius = 4;
 

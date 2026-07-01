@@ -8,9 +8,37 @@
     flex-direction: column;
     gap: var(--space-xxxl);
 
+
+    &:has(.openStudy) {
+        z-index: 1000;
+    }
+
     .title {
         font-size: var(--fs-subheading);
         text-align: center;
+    }
+
+    .closeStudyBtn {
+        position: fixed;
+        bottom: 3rem;
+        left: 50%;
+        transform: translate(-50%, 0);
+        padding-block: var(--space-sm);
+        font-size: var(--fs-med);
+        color: var(--color-bg);
+        background-color: var(--color-accent);
+        display: none;
+        justify-content: center;
+        width: min(60vw, 30rem);
+        border-radius: var(--br-med);
+        font-weight: 700;
+        font-family: var(--font-heading);
+        z-index: 1000;
+        transition: transform 0.4s ease;
+
+        &.open {
+            display: flex;
+        }
     }
 
     .cardWrapper {
@@ -21,7 +49,6 @@
     }
 
     .projectCard {
-        position: relative;
         border: 1px solid var(--color-accent-medium);
         border-top: 3px solid var(--color-accent);
         border-radius: var(--br-lg);
@@ -32,7 +59,7 @@
         flex-direction: column;
         box-shadow: var(--elevated-shadow);
         overflow: auto;
-        transform: scale(1);
+
 
         &.homebaseCard {
             grid-row: 1 / 2;
@@ -113,7 +140,7 @@
         .caseStudy {
             display: grid;
             grid-template-rows: 0fr;
-
+            
 
             .innerCase { 
                 display: flex;
@@ -123,7 +150,8 @@
                 opacity: 0;
                 transform: translateY(-8px);
                 min-height: 0;
-                transition: opacity 0.6s ease, transform 0.6s ease, padding 0.8s ease;
+                padding: var(--space-lg) 0 0 0;
+                transition: opacity 0.6s ease, transform 0.6s ease;
 
                 .caseStudySection {
                     display: flex;
@@ -161,13 +189,37 @@
             
         }
 
+        &.openCase {
+            scale: 1.09;
+            margin-bottom: 22rem;
+            max-height: 90dvh;
+            overflow-y: auto;
+            padding-bottom: 3rem;
+            overscroll-behavior: contain;
+
+            .caseStudy {
+                grid-template-rows: 1fr;
+                
+
+                .innerCase {
+                    padding: var(--space-lg) 0 0 0;
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .buttons {
+                opacity: 0;
+            }
+        }
+
         .buttons {
             width: 100%;
             display: flex;
             gap: var(--space-med);
             align-self: center;
             justify-content: center;
-            padding-block: var(--space-lg);
+            padding-block: 0 var(--space-lg);
             background-color: var(--color-surface);
             overflow: hidden;
             
@@ -199,21 +251,7 @@
             }
         }
 
-        &.openCase {
-            transform: scale(1.09);
-            margin-bottom: 22rem;
-
-            .caseStudy {
-                grid-template-rows: 1fr;
-                
-
-                .innerCase {
-                    padding: var(--space-lg) 0 0 0;
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        }
+        
 
 
         .videoWrapper {
@@ -298,30 +336,17 @@
             }
 
             .caseStudy {
-                display: flex;
                 grid-column: 1 / 3;
-                height: 0;
 
-                .innerCase {
-                    transform: translateY(0);
-                }
             }
 
             &.openCase {
                 position: fixed;
-                top: 5rem;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 95vw;
-                height: calc(95vh - 3rem);
-
-                .caseStudy {
-                    height: fit-content;
-
-                    .innerCase {
-                        padding: var(--space-lg);
-                    }
-                }
+                top: 6.5rem;
+                left: 0;
+                right: 0;
+                margin-inline: auto;
+                height: calc(95dvh - 6.5rem);
             }
 
 

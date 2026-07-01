@@ -15,7 +15,8 @@ function Cards() {
     const projectCaseStudy = useRef<(HTMLElement | null)[]>([]);
     const projectInnerCase = useRef<(HTMLDivElement | null)[]>([]);
     const firstProjectCard = useRef<DOMRect | null>(null);
-    const firstStudy = useRef<DOMRect | null>(null);
+    /* const closeStudyBtn = useRef<HTMLButtonElement>(null) */
+    const [scrollTo, setScrollTo] = useState(typeof window !== 'undefined' ? window.scrollY : 0)
     const [width, setWidth] = useState(
         typeof window !== 'undefined' ? window.innerWidth : 0
     );
@@ -35,137 +36,105 @@ function Cards() {
         if (isClosing) return;
         if (!projectCard.current[i] || !projectCaseStudy.current[i]) return 
         firstProjectCard.current = projectCard.current[i].getBoundingClientRect();
-        firstStudy.current = projectCaseStudy.current[i].getBoundingClientRect()
-        
-        if (desktop) {
-
-        }else {
-            animateScrollTo(window.scrollY + firstProjectCard.current.top, {maxDuration: 600})
-        }
         projectCard.current[i]!.style.zIndex = '100'
+        setScrollTo(window.scrollY)
         setOpenIndex(i);
     }
 
-    function closeCase(i: number) {
+    function closeCase() {
+        const i = openIndex;
+        console.log(true)
+        if (i === null) return
+        console.log(true)
         setIsClosing(true);
         setClosingIndex(i)
         if (!projectCard.current[i] || !projectCaseStudy.current[i]) return;
         firstProjectCard.current = projectCard.current[i].getBoundingClientRect();
-        firstStudy.current = projectCaseStudy.current[i].getBoundingClientRect()
-        console.log(firstStudy.current)
+        
         setOpenIndex(null);
-    }
-
-    function toggleCard(i: number) {
-        if (openIndex === i) {
-            closeCase(i);
-        } else {
-            openCase(i);
-        }
     }
 
     function transitionEnd(i: number) {
         if (!projectCard.current[i]) return
-        projectCaseStudy.current[i]!.style.transition = ''
+        
         projectCard.current[i].style.transition = ''
-        projectCard.current[i].style.transform = ``
-        projectCard.current[i].style.width = ``
-        projectCard.current[i].style.height = ``
-        projectCard.current[i].style.top = ``
-        projectCard.current[i].style.left = ``
-        projectCard.current[i].style.position = ``
-        projectCard.current[i].style.transform = ''
-        projectCaseStudy.current[i]!.style.height = ``
-        projectInnerCase.current[i]!.style.overflow = ''
+
         if (isClosing) {
+            projectCaseStudy.current[i]!.style.transition = ''
+            projectCaseStudy.current[i]!.style.gridTemplateRows = ''
+            projectInnerCase.current[i]!.style.overflow = ''
             projectCard.current[i].style.zIndex = ''
+            projectCard.current[i].style.translate = ``
+            projectCard.current[i].style.scale = ``
             
             setIsClosing(false);
-            setClosingIndex(null) 
+            setClosingIndex(null);
         }
     }
 
     useLayoutEffect(() => {
         const index = isClosing ? closingIndex : openIndex
 
-        const body = document.body;
-        if (openIndex !== null) {
-            // Fully lock the page (not just overflow:hidden) so iOS Safari can't
-            // scroll the layout viewport when the keyboard opens, which would
-            // otherwise drag the slid-away sections back into view.
-            const scrollY = window.scrollY;
-            body.dataset.scrollLock = String(scrollY);
-            body.style.position = 'fixed';
-            body.style.top = `-${scrollY}px`;
-            body.style.left = '0';
-            body.style.right = '0';
-            body.style.width = '100%';
-            body.style.overflow = 'hidden';
-        } else {
-            const scrollY = body.dataset.scrollLock;
-            body.style.position = '';
-            body.style.top = '';
-            body.style.left = '';
-            body.style.right = '';
-            body.style.width = '';
-            body.style.overflow = '';
-            delete body.dataset.scrollLock;
-            if (scrollY) window.scrollTo(0, parseInt(scrollY, 10));
-        }
-
         if (
             !firstProjectCard.current ||
-            !firstStudy.current ||
             index === null ||
             !projectCard.current[index] ||
             !projectCaseStudy.current[index]
         ) return;
 
         const last = projectCard.current[index].getBoundingClientRect();
-        const lastStudy = projectCaseStudy.current[index].getBoundingClientRect()
-        const translate = firstProjectCard.current.top - last.top;
-        
-        projectCard.current[index].style.transition = "none";
-        projectCaseStudy.current[index].style.transition = "none";
-
-        if (desktop) {
-            projectCard.current[index].style.position = `fixed`
-            projectCard.current[index].style.width = `${firstProjectCard.current.width}px`
-            projectCard.current[index].style.height = `${firstProjectCard.current.height}px`
-            projectCard.current[index].style.top = `${firstProjectCard.current.top}px`
-            projectCard.current[index].style.left = `${firstProjectCard.current.left}px`
-            projectCaseStudy.current[index].style.height = `${firstStudy.current.height}px`;
+        const translate = firstProjectCard.current.top - last.top
+        const body = document.body;
             
-            requestAnimationFrame(() => {
-                if (!projectCard.current[index] || !firstProjectCard.current) return
-                projectCard.current[index].style.transition = "width 0.6s ease, height 0.6s ease, top 0.6s ease, left 0.6s ease";
-                projectCaseStudy.current[index]!.style.transition = "height 0.6s ease";
-                projectCard.current[index].style.transform = `translateX(0)`
-                projectCard.current[index].style.width = `${last.width}px`
-                projectCard.current[index].style.height = `${last.height}px`
-                projectCard.current[index].style.top = `${last.top}px`
-                projectCard.current[index].style.left = `${last.left}px`
-                projectCaseStudy.current[index]!.style.height = `${lastStudy.height}px`;
-            })
+        // need to scale with in React in order to get the difference between the top of open and closed cards
+        // get the first, instant size change to get the last, then animate
+        projectCard.current[index].style.transition = 'none'
+        if (isClosing) {
+            projectCard.current[index]!.style.scale = '1.09'
+            
         }else {
-            projectCard.current[index].style.transform = isClosing
-                ? `translateY(${translate}px) scale(1.09)`
-                : "scale(1)";
-            projectCaseStudy.current[index].style.gridTemplateRows = isClosing ? "1fr" : "0fr";
-            projectInnerCase.current[index]!.style.overflow = 'visible'
-
-            requestAnimationFrame(() => {
-                projectCard.current[index]!.style.transition = "transform 0.6s ease-out";
-                if (isClosing) {
-                    animateScrollTo(window.scrollY + last.top - 75, {maxDuration: 500, speed: 500})
-                    projectCaseStudy.current[index]!.style.transition = "grid-template-rows 0.6s ease";
-                }
-                projectCard.current[index]!.style.transform = isClosing ? "scale(1)" : `translateY(${translate}px) scale(1.09)`;
-                projectCaseStudy.current[index]!.style.gridTemplateRows = isClosing ? "" : "1fr";
-                
-            });
+            projectCard.current[index]!.style.scale = '1'
+            
+            animateScrollTo(scrollTo + last.top, { maxDuration: 600 })
+            
+        
+            setTimeout(() => {
+                const scrollY = window.scrollY;
+                body.dataset.scrollLock = String(scrollY);
+                body.style.position = 'fixed';
+                body.style.top = `-${scrollY}px`;
+                body.style.left = '0';
+                body.style.right = '0';
+                body.style.width = '100%';
+                body.style.overflow = 'hidden';
+            }, 600)
         }
+        
+        
+        requestAnimationFrame(() => {
+            projectCard.current[index]!.style.transition = 'scale 0.6s ease'
+            
+            if (isClosing) {
+                // the scroll animation covers up a slightly choppy grid row animation 
+                projectCard.current[index]!.style.scale = '1'
+                const scrollY = body.dataset.scrollLock;
+                body.style.position = '';
+                body.style.top = '';
+                body.style.left = '';
+                body.style.right = '';
+                body.style.width = '';
+                body.style.overflow = '';
+                delete body.dataset.scrollLock;
+                if (scrollY) window.scrollTo(0, parseInt(scrollY, 10));
+                animateScrollTo(scrollTo, { maxDuration: 600 })
+            }else {
+                projectCard.current[index]!.style.scale = '1.09'
+            }
+        })
+    
 
+
+            
         
     }, [openIndex, isClosing]);
 
@@ -174,6 +143,12 @@ function Cards() {
             <SlideAway>
             <h2 id="myWork" className={`${styles.title} primary-text`}>Projects</h2>
             </SlideAway>
+            <button 
+            type="button" 
+            onClick={() => closeCase()} 
+            className={`${styles.closeStudyBtn} ${openIndex !== null ? styles.open : ''}`}>
+                Close
+            </button>
             <div className={styles.cardWrapper}>
             {cardData.map((card, i) => {
                 const Card = card.caseStudy;
@@ -184,7 +159,6 @@ function Cards() {
                         ref={(el) => {
                             projectCard.current[i] = el;
                         }}
-                        onClick={() => toggleCard(i)}
                         onTransitionEnd={() => transitionEnd(i)}
                         className={`${styles.projectCard} ${card.className} ${openIndex === i ? styles.openCase : ""} `}
                     >
@@ -218,10 +192,9 @@ function Cards() {
                             </div>
                         </section>
                         <section className={`${styles.buttons} `}>
-                        
                             <button
                                 type="button"
-                                onClick={() => toggleCard(i)}
+                                onClick={() => openCase(i)}
                                 className={`${styles.button} ${styles.caseStudyBtn}`}
                             >
                                 Case Study

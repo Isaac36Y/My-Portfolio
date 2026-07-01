@@ -23,6 +23,7 @@ export const skillLists = [
 export const cardData = [
     {
         id: 'homebase',
+        className: styles.homebaseCard,
         color: 'var(--color-homebase-accent)',
         type: '// SaaS • Full-Stack',
         name: 'HomeBase',
@@ -33,6 +34,7 @@ export const cardData = [
     },
     {
         id: 'bullseye-ledger',
+        className: 'styles.bullseyeCard',
         color: 'var(--color-bullseye-accent)',
         type: '// WebApp • Vanilla JS',
         name: 'Bullseye Ledger',

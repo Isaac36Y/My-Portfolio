@@ -44,7 +44,9 @@
     .cardWrapper {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
+        // each row sizes to its own card. NOT 1fr 1fr — fr tracks equalize row
+        // heights, so an opened card would stretch the other one to match it.
+        grid-template-rows: auto auto;
         gap: var(--space-xxxl);
     }
 
@@ -148,7 +150,7 @@
                 gap: var(--space-xl);
                 overflow: hidden;
                 opacity: 0;
-                transform: translateY(-8px);
+                /* transform: translateY(-8px); */
                 min-height: 0;
                 padding: var(--space-lg) 0 0 0;
                 transition: opacity 0.6s ease, transform 0.6s ease;
@@ -310,8 +312,14 @@
 }
 
 @media (min-width: $desktop) {
+
+    
     .cardsSection {
-        
+        .closeStudyBtn {
+            &.open {
+                display: none;
+            }
+        }
         .projectCard {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -337,21 +345,38 @@
 
             .caseStudy {
                 grid-column: 1 / 3;
+                
+                .innerCase {
+                    opacity: 0;
+                }
 
+            }
+
+            .buttons {
+                grid-column: 1 / 3;
             }
 
             &.openCase {
-                position: fixed;
-                top: 6.5rem;
-                left: 0;
-                right: 0;
-                margin-inline: auto;
-                height: calc(95dvh - 6.5rem);
+                // stays in flow with a dynamic height (as tall as the case study);
+                // the page scrolls and JS animates the height for a smooth grow/collapse.
+                // no scale on desktop so the text stays crisp as the box grows.
+                scale: 1;
+                max-height: none;
+                margin-bottom: 0;
+                overscroll-behavior: auto;
+                padding-bottom: 5rem;
+
+                .caseStudy {
+                    opacity: 1;
+                    
+
             }
 
-
-            .buttons {
-                grid-column: 1 / 2;
+                .buttons {
+                    position: absolute;
+                    bottom: 0;
+                    opacity: 1;
+                }
             }
 
             .videoWrapper {

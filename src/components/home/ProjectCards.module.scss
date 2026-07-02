@@ -262,8 +262,22 @@
             grid-column: 2 / 3;
             grid-row: 1 / 5;
 
+            .imgWrapper {
+                display: flex;
+                
+                margin: auto;
+                gap: var(--space-xxl);
+
+                img {
+                    height: 280;
+                    border-radius: var(--br-med);
+                }
+            }
+
+            
+
             .browserWrapper {
-                border: 1px solid white;
+                border: 1px solid rgb(29, 33, 40);
                 height: fit-content;
                 overflow: hidden;
                 border-radius: var(--br-med);
@@ -342,6 +356,10 @@
                 }
             }
 
+            hr {
+                grid-column: 1 / 3;
+            }
+
             .caseStudy {
                 grid-column: 1 / 3;
                 
@@ -382,6 +400,7 @@
                 display: flex;
                 padding-inline: var(--space-lg);
                 height: auto;
+                padding: 2rem 1rem;
             }
             
         }

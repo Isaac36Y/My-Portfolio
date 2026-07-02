@@ -52,6 +52,7 @@
     &.contactSection {
         display: grid;
         grid-template-rows: 1fr;
+        max-width: 80rem;
     }
 
     .liveList {

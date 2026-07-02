@@ -273,16 +273,17 @@ function Cards() {
                             </a> */}
                         </section>
                         <section className={styles.videoWrapper}>
+                            {i === 0 &&
                             <div className={styles.browserWrapper}>
                                 <div className={styles.browserBar}>
                                     <div className={styles.browserBtn}></div>
                                     <div className={styles.browserBtn}></div>
                                     <div className={styles.browserBtn}></div>
-                                    <p className={`${styles.browserUrl} tech`}>homebase.isaacyoungs.dev</p>
+                                    <p className={`${styles.browserUrl} tech`}>{card.vidUrl}</p>
                                 </div>
                                 <video
                                     className={styles.cardVideo}
-                                    src="/images/homebaseDesktopVid.mp4"
+                                    src={card.video[0]}
                                     autoPlay
                                     loop
                                     muted
@@ -291,6 +292,13 @@ function Cards() {
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
+                            }
+                            {i === 1 && 
+                                <div className={styles.imgWrapper}>
+                                    <img src={card.video[0]} alt="" />
+                                    <img src={card.video[1]} alt="" />
+                                </div>
+                            }
                         </section>
                     </div>
                 </SlideAway>

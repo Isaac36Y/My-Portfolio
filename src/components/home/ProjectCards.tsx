@@ -266,7 +266,7 @@ function Cards() {
                                 onClick={() => openIndex === null ? openCase(i) : closeCase()}
                                 className={`${styles.button} ${styles.caseStudyBtn}`}
                             >
-                                Case Study
+                                {openIndex === null ? 'Case Study' : 'Close'}
                             </button>
                             {/* <a href="" className={`${styles.button} ${styles.demo} tech primary-text`}>
                                 Demo

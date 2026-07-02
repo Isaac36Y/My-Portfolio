@@ -63,7 +63,6 @@ export default function QuincyChat() {
     }
 
     useEffect(() => {
-        console.log(chatBox.current!.offsetHeight)
         function typeByWord(el: HTMLParagraphElement, msg: string) {
            const words = msg.split(' ');
   

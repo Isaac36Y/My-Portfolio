@@ -50,11 +50,14 @@ export default function ParticleBackground() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return
 
-        canvas.width = window.innerWidth - (window.innerWidth * 0.2);
-        canvas.height = window.innerHeight - (window.innerHeight * 0.1);
+        const canWidth = window.innerWidth - (window.innerWidth * 0.2);
+        const canHeight = window.innerHeight - (window.innerHeight * 0.1);
+
+        canvas.width = Math.min(canWidth, 700)
+        canvas.height = canHeight
 
         const particleAmount = (canvas.width + canvas.height) / 15
-        
+
         const particles: particleState[] = []
         const particleRadius = 4;
 

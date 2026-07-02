@@ -1,3 +1,5 @@
+@use "@/styles/variables" as *;
+
 .section {
     width: 100%;
     display: flex;
@@ -35,7 +37,7 @@
 .skillCarousel {
     display: flex;
     overflow-x: scroll;
-    gap: var(--space-xxl);
+    gap: var(--space-xxxxl);
     scroll-snap-type: x mandatory;
     width: 100%;
     padding: 1rem 5vw;
@@ -46,7 +48,7 @@
         border: 1px solid var(--color-accent);
         border-radius: var(--br-lg);
         height: fit-content;
-        padding: var(--space-lg) var(--space-lg);
+        padding: var(--space-lg);
         box-shadow: var(--elevated-shadow);
         display: flex;
         flex-direction: column;
@@ -62,6 +64,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            font-size: var(--fs-reg);
             gap: var(--space-sm);
 
             li {
@@ -70,6 +73,21 @@
                 padding: var(--space-xs) var(--space-med);
                 border-radius: var(--br-sm);
             }
+        }
+    }
+}
+
+@media (min-width: $desktop) {
+    .markerContainer {
+        display: none;
+    }
+
+    .skillCarousel {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        .skillCard {
+            height: auto;
         }
     }
 }

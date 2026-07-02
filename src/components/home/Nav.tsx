@@ -2,6 +2,8 @@
 import animateScrollTo from 'animated-scroll-to'
 import styles from './Nav.module.scss'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
 
 function NavButton({ link, description }: { link: string, description: string }) {
     return (
@@ -11,9 +13,9 @@ function NavButton({ link, description }: { link: string, description: string })
     )
 }
 
-export default function MobileNav() {
+export function Nav({ screen }: { screen: string }) {
     return (
-        <nav className={styles.Nav} aria-label='Main Navigation'>
+        <nav className={screen === 'mobile' ? styles.mobileNav : styles.desktopNav} aria-label='Main Navigation'>
             <button
             type='button'
             className={`${styles.navBtn} body`}
@@ -25,7 +27,41 @@ export default function MobileNav() {
             </button>
             <NavButton link="/blog" description='My Blog' />
             <NavButton link="/personal" description='My Life' />
-            
         </nav>
+    )
+}
+
+export function DesktopNav() {
+    const [inView, setInView] = useState(false)
+
+    useEffect(() => {
+        const header = document.getElementById('header');
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) {
+                    setInView(true)
+                }else {
+                    setInView(false)
+                }
+            },
+            {
+                rootMargin: '-78px 0px 0px 0px',
+                threshold: 0
+            }
+        )
+        if (header) {
+            observer.observe(header)
+        }
+
+        return () => observer.disconnect()
+    }, [])
+
+    return (
+        <section className={`${styles.navBar} `}>
+            <div className={`${styles.nameAndNav} ${inView ? styles.inView: ''}`}>
+                <p className={`${styles.nameDropin} primary-text`}>Isaac <span>Young</span></p>
+                <Nav screen="desktop" />
+            </div>
+        </section>
     )
 }

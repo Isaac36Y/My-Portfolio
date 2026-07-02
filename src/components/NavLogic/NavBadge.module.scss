@@ -1,9 +1,11 @@
+@use '@/styles/variables' as *;
+
 .logo {
     position: absolute;
     right: 0.15rem;
     top: 0.15rem;
-    width: 3.5rem;
-    height: 4rem;
+    width: 3.3rem;
+    height: 3.8rem;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     background: var(--color-primary);
     background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);
@@ -18,33 +20,21 @@
     color: var(--color-bg);
     letter-spacing: -5;
     transition: background-position 0.4s ease;
-    font-size: 3.6rem;
+    font-size: 3.4rem;
 }
 
 .logoBorder.animate, .logo.animate {
-    animation: logoDance 8s ease infinite 5s;
-}
-
-@keyframes logoDance {
-    0% {
-        transform: rotate(0deg);
-    }
-    5% {
-        transform: rotate(360deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    animation: logoDance 6s ease-in-out infinite 5s;
 }
 
 @keyframes logoDance {
     0% {
         transform: scale(1);
     }
-    3% {
+    12% {
         transform: scale(1.1);
     }
-    6% {
+    24% {
         transform: scale(1)
     }
     100% {
@@ -54,12 +44,13 @@
 
 .logoBorder {
     position: fixed;
-    right: 1rem;
-    top: 0.5rem;
-    width: 3.8rem;
-    height: 4.3rem;
+    right: 5vw;
+    top: var(--space-lg);
+    width: 3.6rem;
+    height: 4.1rem;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     background: var(--color-accent);
+    z-index: 100;
 }
 
 .btns {
@@ -93,10 +84,48 @@
 
 .btnContainer {
     position: fixed;
-    right: 1.25rem;
-    top: 0.8rem;
+    right: calc(5vw + 0.5rem);
+    top: var(--space-xl);
     transition: transform 0.6s ease, filter 0.4s ease;
-    
+    z-index: 99;
+
+    &.quincyBtn {
+        display: none;
+        font-size: 2rem;
+        font-family: var(--font-heading);
+        .btns {
+           color: var(--color-bg); 
+        }
+        
+    }
+}
+
+
+
+@media (min-width: $desktop) {
+    .logoBorder {
+        display: none;
+    }
+    .btnContainer {
+        top: 0.7rem;
+        right: 7rem;
+        transition: none;
+
+        &.quincyBtn {
+            display: block;
+            right: 2.5rem;
+        }
+    }
+
+    .btnContainer:nth-of-type(1) {
+        right: 11.5rem;
+    }
+    .btnContainer:nth-of-type(2) {
+        right: 16rem;
+    }
+    .btnContainer:nth-of-type(3) {
+        right: 20.5rem;
+    }
 }
 
 [data-theme="dark"] {

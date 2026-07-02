@@ -1,10 +1,12 @@
-.Nav {
+@use "@/styles/variables" as *;
+
+.mobileNav {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-sm);
-    padding-inline: 5vw;
+    width: min(100%, 50rem);
+    padding: var(--space-xxl) 5vw;
 
-    .navBtn {
+        .navBtn {
         background-color: var(--color-surface);
         color: var(--color-primary);
         border-radius: var(--br-sm);
@@ -12,6 +14,7 @@
         width: 100%;
         padding-block: var(--space-sm);
         font-weight: 600;
+        font-size: var(--fs-reg);
         box-shadow: var(--elevated-shadow);
         display: flex;
         justify-content: center;
@@ -26,9 +29,109 @@
     }
 }
 
-[data-theme="dark"] {
-    .navBtn {
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: var(--shadow-accent)
+.navBar {
+    width: 100vw;
+    background-color: var(--color-surface);
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: 4.5rem;
+    z-index: 10;
+    display: none;
+    align-items: center;
+    padding-inline: 3rem;
+
+    .nameAndNav {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: var(--space-xxxxl);
+        left: -19rem;
+        transition: transform 0.4s ease;
+        &.inView {
+            transform: translateX(21rem);
+        }
+
+        .nameDropin {
+            font-family: var(--font-heading);
+            font-size: var(--fs-subheading);
+            font-weight: 600;
+
+            > span {
+                color: var(--color-accent);
+            }
+
+            
+        }
+
+        .desktopNav {
+            display: none;
+            gap: var(--space-xxl);
+            font-size: var(--fs-med);
+        
+            .navBtn {
+                font-family: var(--font-tech);
+                text-transform: lowercase;
+                color: var(--color-secondary);
+                text-decoration: none;
+        
+                &:nth-child(2) {
+                    color: var(--color-accent);
+        
+                    &::before, &::after {
+                        content: '/';
+                        color: var(--color-secondary);
+                    }
+                    
+                    &::before {
+                        padding-right: var(--space-lg);
+                    }
+        
+                    &::after {
+                        padding-left: var(--space-lg);
+                    }
+                }
+            }    
+        }
     }
+}
+
+
+
+
+
+@media (min-width: $desktop) {
+
+    .mobileNavWrapper {
+        display: none;
+    }
+    .mobileNav {
+        display: none;
+    }
+
+    
+    
+    .navBar {
+        display: flex;
+
+        .nameAndNav {
+            
+            
+            .desktopNav {
+                display: flex;
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .mobileNav {
+        
+        .navBtn {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-accent)
+        }
+    }
+
+    
 }

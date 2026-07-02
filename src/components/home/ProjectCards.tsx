@@ -187,9 +187,9 @@ function Cards() {
         }else {
             card.style.scale = '1'
 
-            animateScrollTo(scrollTo + last.top, { maxDuration: 600 })
+            animateScrollTo(scrollTo + last.top, { maxDuration: 300 })
 
-            setTimeout(lockScroll, 600)
+            setTimeout(lockScroll, 300)
         }
 
 

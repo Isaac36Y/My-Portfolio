@@ -73,6 +73,14 @@ export default function QuincyChat() {
             el.innerHTML = spanWords.join('');
         }
 
+        addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                if (!textField.current || !textField.current.value) return
+                sendPrompt()
+            }
+        })
+
         if (exiting && !opened) {
             typeByWord(quincyGreet.current!, greeting)
             setOpened(true)

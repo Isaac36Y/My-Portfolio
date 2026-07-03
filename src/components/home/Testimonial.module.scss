@@ -116,6 +116,10 @@
             align-items: center;
             gap: var(--space-sm);
             width: fit-content;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 }

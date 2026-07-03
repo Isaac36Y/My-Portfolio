@@ -36,7 +36,7 @@
     left: 0;
     top: 0;
     height: 4.5rem;
-    z-index: 10;
+    z-index: 79;
     display: none;
     align-items: center;
     padding-inline: 3rem;
@@ -74,6 +74,10 @@
                 text-transform: lowercase;
                 color: var(--color-secondary);
                 text-decoration: none;
+
+                &:hover {
+                    cursor: pointer;
+                }
         
                 &:nth-child(2) {
                     color: var(--color-accent);

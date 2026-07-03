@@ -39,7 +39,7 @@ export default function TestimonialRunner() {
                 </ul>
                 <div className={styles.contactMe}>
                     <p className={`${styles.contactMeHook} primary-text body`}>Don't settle for something in your process that is held together by spreadsheets and workarounds.</p>
-                    <a href="mailto:isaac@isaacyoungs.dev?subject=Let%27s%20build%20something" type="button" className={`${styles.contactMeButton} body`}>Let's fix it <IconArrowNarrowRight stroke={2} />
+                    <a href="mailto:isaac@isaacyoungs.dev?subject=Let%27s%20build%20something" className={`${styles.contactMeButton} body`}>Let's fix it <IconArrowNarrowRight stroke={2} />
                     </a>
                 </div>
             </div>

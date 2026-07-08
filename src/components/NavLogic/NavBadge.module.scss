@@ -11,7 +11,6 @@
     background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);
     background-size: 100% 200%;
     background-position: center bottom;
-    z-index: 90;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +27,7 @@
 }
 
 @keyframes logoDance {
-    0% {
+    /* 0% {
         transform: scale(1);
     }
     12% {
@@ -39,6 +38,15 @@
     }
     100% {
         transform: scale(1);
+    } */
+    0% {
+        transform: rotateY(0deg);
+    }
+    12% {
+        transform: rotateY(360deg);
+    }
+    100% {
+        transform: rotateY(360deg);
     }
 }
 
@@ -50,7 +58,7 @@
     height: 4.1rem;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     background: var(--color-accent);
-    z-index: 90;
+    z-index: 40;
 }
 
 .btns {
@@ -69,7 +77,7 @@
     background-position: center bottom;
     transition: background-position 0.4s ease;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-    z-index: 80;
+
     &:hover {
         cursor: pointer;
     }
@@ -81,16 +89,16 @@
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     width: 3rem;
     height: 3.4rem;
-    z-index: 80;
     box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.5);
 }
 
 .btnContainer {
     position: fixed;
+    display: none;
     right: calc(5vw + 0.5rem);
     top: var(--space-xl);
-    transition: transform 0.6s ease, filter 0.4s ease;
-    z-index: 80;
+    transition: transform 0.5s ease, filter 0.4s ease;
+    z-index: 39;
     
     
 
@@ -115,6 +123,7 @@
         top: 0.7rem;
         right: 7rem;
         transition: none;
+        display: block;
 
         &.quincyBtn {
             display: block;

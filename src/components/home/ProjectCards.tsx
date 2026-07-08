@@ -66,7 +66,7 @@ function Cards() {
         const rect = projectCard.current[i]!.getBoundingClientRect();
         firstProjectCard.current = rect;
         closedRectRef.current = rect;
-        projectCard.current[i]!.style.zIndex = '100'
+        projectCard.current[i]!.style.zIndex = '85'
         setScrollTo(window.scrollY)
         setOpenIndex(i);
     }

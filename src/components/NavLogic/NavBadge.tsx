@@ -18,24 +18,39 @@ export default function NavPop() {
     useEffect(() => {
         let tranlateIncrease = 4.5
         if (exiting && window.innerWidth < 1200) {
-            if (!btnRef.current) return 
-            btnRef.current.style.transform = `translateX(-4.5rem)`
-            btnRef.current.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
+            if (!btnRef.current) return
+            btnRef.current.style.display = `block`
+            setTimeout(() => {
+                btnRef.current!.style.transform = `translateX(-4.5rem)`
+                btnRef.current!.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
+            }, 20)
+            
             aRef.current.forEach(el => {
                 if (el) {
-                    el.style.transform = `translateX(-${tranlateIncrease + 4.5}rem)`
-                    el.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
-                    tranlateIncrease += 4.5
+                    el.style.display = `block`
+                    setTimeout(() => {
+                        el.style.transform = `translateX(-${tranlateIncrease + 4.5}rem)`
+                        el.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
+                        tranlateIncrease += 4.5
+                    }, 20)
+                    
                 }
             }) 
         }else {
             if (!btnRef.current) return 
             btnRef.current.style.transform = ``
             btnRef.current.style.filter = ''
+            setTimeout(() => {
+                btnRef.current!.style.display = ``
+            }, 600)
+            
             aRef.current.forEach(el => {
                 if (el) {
                     el.style.transform = ``
                     el.style.filter = ''
+                    setTimeout(() => {
+                        el.style.display = ``
+                    }, 600)
                 }
             }) 
         }

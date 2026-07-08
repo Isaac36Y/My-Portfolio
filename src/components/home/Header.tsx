@@ -57,7 +57,7 @@ function CurrentWork() {
         <IconCode stroke={1.75} size={24} color="var(--color-secondary)" />
         <p>building </p>
       </div>
-      <a href="" className={`${styles.currentWork} body`}>
+      <a href="https://github.com/Isaac36Y" className={`${styles.currentWork} body`}>
         my-portfolio
       </a>
     </div>

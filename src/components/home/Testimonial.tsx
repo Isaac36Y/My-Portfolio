@@ -17,8 +17,8 @@ export default function TestimonialRunner() {
                 <p className={`${styles.claim} primary-text`}>I didn't learn to code just to build demos.<br /> I build software to <span>fix the broken workflows</span> people struggle with every day.</p>
                 
                 <div className={`${styles.testimonial}`}>
-                    <p className={`${styles.quote} body primary-text`}>"I threw out my 10-page paper forms. I'm not going back"</p>
-                    <p className={`${styles.agentLabel} tech secondary-text`}>{/* Keyna Mieves • */} a HomeBase user</p>
+                    <p className={`${styles.quote} body primary-text`}>"This has completely redesigned how we will do our walkthroughs..."</p>
+                    <p className={`${styles.agentLabel} tech secondary-text`}>Keyna Mieves • a HomeBase user</p>
                 </div>
             </div>
             </SlideAway>

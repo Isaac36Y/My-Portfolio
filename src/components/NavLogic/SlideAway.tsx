@@ -3,13 +3,41 @@ import React, { useRef, useEffect, useContext } from "react";
 import { TransitionContext } from "./Provider";
 import styles from "../home/Nav.module.scss"
 
+
 export function SlideAway({children}: {children : React.ReactNode}) {
     const divRef = useRef<HTMLDivElement | null>(null)
     const { exiting } = useContext(TransitionContext)
 
     useEffect(() => {
+        if (!divRef.current) return
+        // first paint no transition, then let the css transition effects do their thing after 100ms
+        divRef.current.style.transition = 'none'
+        setTimeout(() => {
+            divRef.current!.style.transition = ''
+        }, 100)
+        const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        divRef.current!.style.opacity = '1'
+                        divRef.current!.style.translate = '0 0'
+                        observer.unobserve(entry.target)
+                    }
+                })
+                
+            },
+            { root: null, threshold: 0.3}
+        )
+        observer.observe(divRef.current)
+        
+        
+        return () => observer.disconnect()
+    }, [])
+
+    useEffect(() => {
         const screenCenter = window.innerHeight / 2
-        if (!divRef.current) return 
+        if (!divRef.current) return
+
+        
 
         const divRect = divRef.current.getBoundingClientRect()
         const divCenterOnScreen = (divRect.height / 2) + divRect.y
@@ -28,7 +56,7 @@ export function SlideAway({children}: {children : React.ReactNode}) {
         
     }, [exiting])
     return (
-        <div ref={ divRef } style={{ width: '100%', transition: 'transform 0.6s ease' }}>
+        <div ref={ divRef } className={styles.slideAway}>
             {children}
         </div>
     )

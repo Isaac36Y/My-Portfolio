@@ -47,6 +47,7 @@
     display: none;
     align-items: center;
     padding-inline: 3rem;
+    overflow: hidden;
 
     .nameAndNav {
         position: absolute;
@@ -55,6 +56,7 @@
         gap: var(--space-xxxxl);
         left: -19rem;
         transition: transform 0.4s ease;
+        height: 100%;
         &.inView {
             transform: translateX(21rem);
         }
@@ -63,6 +65,7 @@
             font-family: var(--font-heading);
             font-size: var(--fs-subheading);
             font-weight: 600;
+            
 
             > span {
                 color: var(--color-accent);
@@ -75,34 +78,54 @@
             display: none;
             gap: var(--space-xxl);
             font-size: var(--fs-med);
+            align-items: center;
+            height: 100%;
+            
+
+            .navBtnDivider {
+                font-family: var(--font-tech);
+                color: var(--color-secondary);
+            }
         
             .navBtn {
                 font-family: var(--font-tech);
                 text-transform: lowercase;
                 color: var(--color-secondary);
                 text-decoration: none;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                scale: 1;
+                transition: scale 0.4s ease;
+         
+                
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 110%;
+                    width: 0;
+                    background-color: white;
+                    height: 1rem;
+                    transition: box-shadow 0.3s ease-in-out, width 0.4s ease-in-out;
+                }
 
                 &:hover {
                     cursor: pointer;
+                    scale: 1.05;
+
+                    &::after {
+                        width: 100%;
+                        box-shadow: 0 -0.25rem 2.5rem .5rem var(--color-accent);
+                    }
                 }
+                
         
                 &:nth-child(2) {
                     color: var(--color-accent);
-        
-                    &::before, &::after {
-                        content: '/';
-                        color: var(--color-secondary);
-                    }
-                    
-                    &::before {
-                        padding-right: var(--space-lg);
-                    }
-        
-                    &::after {
-                        padding-left: var(--space-lg);
-                    }
-                }
-            }    
+                }  
+            }  
         }
     }
 }

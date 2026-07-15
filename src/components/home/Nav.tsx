@@ -3,6 +3,7 @@ import animateScrollTo from 'animated-scroll-to'
 import styles from './Nav.module.scss'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import NavPop from '../NavLogic/NavBadge'
 
 
 function NavButton({ link, description }: { link: string, description: string }) {
@@ -25,7 +26,9 @@ export function Nav({ screen }: { screen: string }) {
             }}>
                 My Work
             </button>
+            <div className={styles.navBtnDivider}>/</div>
             <NavButton link="/blog" description='My Blog' />
+            <div className={styles.navBtnDivider}>/</div>
             <NavButton link="/personal" description='My Life' />
         </nav>
     )

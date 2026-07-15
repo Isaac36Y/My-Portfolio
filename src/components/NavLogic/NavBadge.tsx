@@ -61,10 +61,9 @@ export default function NavPop() {
             {sideNavAnchors.map((a, i) => (
                 <div key={i} ref={ (el) => { aRef.current[i] = el}} className={ styles.btnContainer}>
                     <div className={ styles.btnBorder }>
-                    {/* TODO: add href */}
-                    <a href={a.href} target='_blank' className={`${ styles.btns }`}>
-                        <a.img stroke={2}  color={'var(--color-bg'} />
-                    </a>
+                        <a href={a.href} target='_blank' className={`${ styles.btns }`}>
+                            <a.img stroke={2}  color={'var(--color-bg'} />
+                        </a>
                     </div>
                 </div>
             ))}

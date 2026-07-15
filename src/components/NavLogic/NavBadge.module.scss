@@ -27,18 +27,7 @@
 }
 
 @keyframes logoDance {
-    /* 0% {
-        transform: scale(1);
-    }
-    12% {
-        transform: scale(1.1);
-    }
-    24% {
-        transform: scale(1)
-    }
-    100% {
-        transform: scale(1);
-    } */
+
     0% {
         transform: rotateY(0deg);
     }
@@ -75,12 +64,12 @@
     background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);;
     background-size: 100% 200%;
     background-position: center bottom;
-    transition: background-position 0.4s ease;
+    transition: background-position 0.4s ease, transform 0.5s ease;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 
     &:hover {
         cursor: pointer;
-    }
+    }  
 }
 
 .btnBorder {
@@ -99,7 +88,6 @@
     top: var(--space-xl);
     transition: transform 0.5s ease, filter 0.4s ease;
     z-index: 39;
-    
     
 
     &.quincyBtn {
@@ -123,7 +111,9 @@
         top: 0.7rem;
         right: 7rem;
         transition: none;
-        display: block;
+        display: flex;
+        justify-content: center;
+        z-index: 80;
 
         &.quincyBtn {
             display: block;

@@ -29,7 +29,7 @@
         text-decoration: none;
         transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
 
-        &:nth-child(2) {
+        &:nth-child(3) {
             background-color: var(--color-accent);
             color: var(--color-bg);
         }
@@ -122,7 +122,7 @@
                 }
                 
         
-                &:nth-child(2) {
+                &:nth-child(3) {
                     color: var(--color-accent);
                 }  
             }  

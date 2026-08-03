@@ -32,7 +32,7 @@ export default function Home() {
                 <ProjectCards />
                 <TestimonialRunner />
             </main>
-            <footer>
+            <footer className={styles.footerContainer}>
                 <SlideAway>
                     <Footer />
                 </SlideAway>

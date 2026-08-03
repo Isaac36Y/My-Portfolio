@@ -10,8 +10,10 @@
     
 
     .title {
-        font-size: var(--fs-subheading);
-        text-align: center;
+        @include sectionTitle;
+        width: fit-content;
+        margin-inline: auto;
+        animation-delay: 4s;
     }
 
     .closeStudyBtn {

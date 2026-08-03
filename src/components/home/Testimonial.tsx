@@ -10,15 +10,13 @@ export default function TestimonialRunner() {
         <>
             <SlideAway>
             <div className={styles.runner}>
-                <div className={styles.introBorder}>
-                    <hr />
-                    <p className={`${styles.introTitle} tech secondary-text`} >still running</p>
-                </div>
+                <h2 className={`${styles.introTitle} tech secondary-text`} >still running</h2>
+
                 <p className={`${styles.claim} primary-text`}>I didn't learn to code just to build demos.<br /> I build software to <span>fix the broken workflows</span> people struggle with every day.</p>
                 
                 <div className={`${styles.testimonial}`}>
                     <p className={`${styles.quote} body primary-text`}>"This has completely redesigned how we will do our walkthroughs..."</p>
-                    <p className={`${styles.agentLabel} tech secondary-text`}>Keyna Mieves • a HomeBase user</p>
+                    <p className={`${styles.agentLabel} tech secondary-text`}>Keyna Meives • a HomeBase user</p>
                 </div>
             </div>
             </SlideAway>

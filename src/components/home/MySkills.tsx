@@ -6,9 +6,9 @@ import { skillLists } from '@/data/HomePage'
 
 function Title() {
     return (
-        <h2 className={`${ styles.title } primary-text`}>
-            Skills and Tools
-        </h2>
+            <h2 className={`${ styles.introTitle }`}>
+                Skills and Tools
+            </h2>
     )
 }
 

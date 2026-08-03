@@ -7,22 +7,12 @@
     gap: var(--space-xxxl);
     padding-inline: 5vw;
 
-    .introBorder {
-        position: relative;
-        padding-block: var(--space-lg);
+    .introTitle {
+        @include sectionTitle;
+        width: fit-content;
+        margin-inline: auto;
+    }
 
-        .introTitle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--color-bg);
-            padding-inline: var(--space-lg);
-        }
-    }
-    hr {
-        @include divider(var(--color-accent))
-    }
 
     .claim {
         font-family: var(--font-heading);

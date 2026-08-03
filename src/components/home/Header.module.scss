@@ -33,22 +33,59 @@
 
     }
 
-    
-
-    hr {
-        @include divider(var(--color-accent))
-    }
-
     .statusContainer {
+        position: relative;
         display: flex;
+        justify-content: center;
+        border: 1px solid var(--color-accent-med-light);
+        border-radius: var(--br-med);
+        overflow: hidden;
+        width: min(100%, 32rem);
+        background-color: var(--color-accent-light);
+        text-shadow: 
+            0 0 10px var(--color-accent-medium),
+            0 0 30px var(--color-accent-med-light),
+            0 0 60px var(--color-accent-light);
+            
+        animation: float 2s ease-in-out infinite, flicker 0.5s infinite;
+        box-shadow: var(--holo-shadow);
+        margin-inline: auto;
+        transition: background-color 0.4s ease;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            background: linear-gradient(
+                rgba(10, 10, 22, 0) 50%, 
+                rgba(10, 10, 22, 0.1) 50%
+            );
+            background-size: 100% 2px;
+        }
+        
+        &::after {
+            content: "";
+            position: absolute;
+            left: -100%;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--color-accent-light),
+                transparent
+            );
+            width: 200%;
+            animation: scan 2s linear infinite;
+        }
     }
 
     .aboutMeRecents {
         display: flex;
         flex-direction: column;
-        width: fit-content;
         gap: var(--space-med);
-        padding-block: var(--space-lg);
+        padding: var(--space-lg);
 
 
         .status { 
@@ -94,24 +131,22 @@
         hr {
             display: none;
         }
-
-        .statusContainer {
-            grid-template-columns: 1fr;
-            align-items: center;
-            border: 1px solid var(--color-accent-medium);
-            border-radius: var(--br-med);
-            background-color: var(--color-surface);
-            width: fit-content;
-            margin-inline: auto;
-            
-
-            .aboutMeRecents {
-                padding: var(--space-xl)
-            }
-        }
         
     }
+}
 
-    
-    
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotateY(-5deg); }
+    50% { transform: translateY(-5px) rotateY(5deg); }
+}
+
+@keyframes flicker {
+    0%, 50%, 100% { opacity: 0.95; }
+    25%, 75% { opacity: 0.85; }
+    40%, 90% { opacity: 0.98; }
+}
+
+@keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
 }

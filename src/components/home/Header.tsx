@@ -83,9 +83,7 @@ export default function Header() {
             <Hero />
         </SlideAway>
         <SlideAway>
-            <hr />
             <AboutMeRecents />
-            <hr />
         </SlideAway>
         <NavBarWrapper>
             <Nav screen="mobile"/>

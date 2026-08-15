@@ -1,119 +1,191 @@
 @use '@/styles/variables' as *;
 
-.logo {
-    position: absolute;
-    right: 0.15rem;
-    top: 0.15rem;
-    width: 3.3rem;
-    height: 3.8rem;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-    background: var(--color-primary);
-    background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);
-    background-size: 100% 200%;
-    background-position: center bottom;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.1rem 0.2rem 0 0;
-    font-family: var(--font-heading);
-    color: var(--color-bg);
-    letter-spacing: -5;
-    transition: background-position 0.4s ease;
-    font-size: 3.4rem;
-}
-
-.logoBorder.animate, .logo.animate {
-    animation: logoDance 6s ease-in-out infinite 5s;
-}
-
-@keyframes logoDance {
-
-    0% {
-        transform: rotateY(0deg);
-    }
-    12% {
-        transform: rotateY(360deg);
-    }
-    100% {
-        transform: rotateY(360deg);
-    }
-}
-
-.logoBorder {
+.scanButton {
     position: fixed;
     right: 5vw;
-    top: var(--space-lg);
-    width: 3.6rem;
-    height: 4.1rem;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-    background: var(--color-accent);
-    z-index: 40;
-}
-
-.btns {
-    position: absolute;
-    width: 2.8rem;
-    height: 3.2rem;
-    top: 0.1rem;
-    left: 0.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background: var(--color-primary);
-    background: linear-gradient(0deg,rgba(0, 0, 42, 1) 25%, rgba(56, 62, 93, 1) 35%, rgba(112, 123, 145, 1) 40%, rgba(167, 185, 196, 1) 46%, rgba(223, 246, 247, 1) 50%, rgba(223, 246, 247, 1) 75%, rgba(167, 185, 196, 1) 85%, rgba(112, 123, 145, 1) 91%, rgba(56, 62, 93, 1) 95%, rgba(0, 0, 42, 1) 100%);;
-    background-size: 100% 200%;
-    background-position: center bottom;
-    transition: background-position 0.4s ease, transform 0.5s ease;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-
-    &:hover {
-        cursor: pointer;
-    }  
-}
-
-.btnBorder {
-    background-color: var(--color-accent);
-    transition: background-color 0.4s ease;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-    width: 3rem;
-    height: 3.4rem;
-    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.5);
-}
-
-.btnContainer {
-    position: fixed;
-    display: none;
-    right: calc(5vw + 0.5rem);
     top: var(--space-xl);
-    transition: transform 0.5s ease, filter 0.4s ease;
-    z-index: 39;
-    
+    width: 3.2rem;
+    height: 3.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--fs-subheading);
+    color: var(--color-primary);
+    border: 1px solid rgba(77, 225, 170, 0.4);
+    border-radius: 50%;
+    background: var(--color-bg);
+    box-shadow: 0 0 8px inset var(--color-accent-med-light);
+    overflow: visible;
+    cursor: pointer;
+    z-index: 40;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-    &.quincyBtn {
-        display: none;
-        font-size: 2rem;
-        font-family: var(--font-heading);
-        .btns {
-           color: var(--color-bg); 
-        }
-        
+    .ring {
+        position: absolute;
+        border-radius: 5rem;
+        overflow: hidden;
+
+        -webkit-mask: radial-gradient(
+            farthest-side,
+            transparent calc(100% - 2px),
+            #fff calc(100% - 2px)
+        );
+        mask: radial-gradient(
+            farthest-side,
+            transparent calc(100% - 3px),
+            #ffffff calc(100% - 2px)
+        );
+    }
+
+    .ringOne {
+        top: -0.25rem;
+        left: -0.25rem;
+        height: 3.6rem;
+        width: 3.6rem;
+
+        background: conic-gradient(
+            from 0,
+            transparent 0deg 40deg,
+            var(--color-accent) 40deg 90deg,
+            transparent 90deg 120deg,
+            var(--color-accent-med-light) 120deg 210deg,
+            transparent 210deg 290deg,
+            var(--color-accent) 290deg 310deg,
+            transparent 225deg
+        );
+
+        animation: logoSpinBack 6s linear infinite;
+    }
+
+    .ringTwo {
+        top: -0.7rem;
+        left: -0.7rem;
+        height: 4.4rem;
+        width: 4.4rem;
+
+        background: conic-gradient(
+            from 0,
+            var(--color-accent) 0deg 120deg,
+            var(--color-accent-med-light) 120deg 300deg,
+            transparent 100deg
+        );
+        animation: logoSpin 25s linear infinite;
+
     }
 }
+
+@keyframes logoSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes logoSpinBack {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.hexBorder {
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    transition: transform 0.6s ease, background-color 0.6s ease;
+    
+    &.borderOne {
+        position: fixed;
+        width: 3.6rem;
+        height: 4rem;
+        top: var(--space-lg);
+        right: calc(5vw - 2px);
+        background-color: var(--color-accent-med-light);
+        transform: scale(0.7);
+        z-index: 39;
+    }
+
+    &.borderTwo {
+        position: absolute;
+        width: 3.4rem;
+        height: 3.8rem;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background-color: var(--color-bg);
+    }
+
+    &.borderThree {
+        position: absolute;
+        width: 3rem;
+        height: 3.4rem;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background-color: var(--color-accent);
+    }
+
+    &.borderFour {
+        position: absolute;
+        width: 2.8rem;
+        height: 3.2rem;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background-color: var(--color-bg);
+    }
+
+    &.borderFive {
+        position: absolute;
+        width: 2.6rem;
+        height: 3rem;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background-color: var(--color-accent-medium);
+    }
+
+    .hexButton {
+        position: absolute;
+        width: 2.5rem;
+        height: 2.9rem;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-bg);
+        transition: transform 0.5s ease;
+        clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    }
+}
+
+
 
 
 
 @media (min-width: $desktop) {
-    .logoBorder {
-        display: none;
+    .scanButton {
+        z-index: 80;
+        top: 0.75rem;
+        right: 3rem;
+        scale: 0.9;
     }
-    .btnContainer {
-        top: 0.7rem;
-        right: 7rem;
+    .hexBorder {
         transition: none;
         display: flex;
         justify-content: center;
-        z-index: 80;
+
+        &.borderOne {
+            scale: 1.2;
+            top: 0.3rem;
+            right: 7rem;
+            z-index: 80;
+        }
 
         &.quincyBtn {
             display: block;
@@ -121,13 +193,13 @@
         }
     }
 
-    .btnContainer:nth-of-type(1) {
+    .hexBorder:nth-of-type(1) {
         right: 11.5rem;
     }
-    .btnContainer:nth-of-type(2) {
+    .hexBorder:nth-of-type(2) {
         right: 16rem;
     }
-    .btnContainer:nth-of-type(3) {
+    .hexBorder:nth-of-type(3) {
         right: 20.5rem;
     }
 }

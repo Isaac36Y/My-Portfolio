@@ -21,7 +21,7 @@ export default function NavPop() {
             if (!btnRef.current) return
             btnRef.current.style.display = `block`
             setTimeout(() => {
-                btnRef.current!.style.transform = `translateX(-4.5rem)`
+                btnRef.current!.style.transform = `translateX(-4.5rem) scale(1)`
                 btnRef.current!.style.filter = 'drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3))'
             }, 20)
             
@@ -59,33 +59,46 @@ export default function NavPop() {
     return (
         <>
             {sideNavAnchors.map((a, i) => (
-                <div key={i} ref={ (el) => { aRef.current[i] = el}} className={ styles.btnContainer}>
-                    <div className={ styles.btnBorder }>
-                        <a href={a.href} target='_blank' className={`${ styles.btns }`}>
-                            <a.img stroke={2}  color={'var(--color-bg'} />
-                        </a>
+                <div className={`${styles.hexBorder} ${styles.borderOne}`} key={i} ref={ (el) => { aRef.current[i] = el}} >
+                    <div className={`${styles.hexBorder} ${styles.borderTwo}`}>
+                        <div className={`${styles.hexBorder} ${styles.borderThree}`}>
+                            <div className={`${styles.hexBorder} ${styles.borderFour}`}>
+                                <div className={`${styles.hexBorder} ${styles.borderFive}`}>
+                                    <a   className={ styles.hexButton} href={a.href} target='_blank'>
+                                        <a.img stroke={2}  color={'var(--color-primary'} />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
             ))}
-            <div ref={ btnRef } className={ styles.btnContainer }>
-                <div className={ styles.btnBorder}>
-                <button  className={`${ styles.btns }`} onClick={ () => (isDarkMode ? setIsDarkMode(false) : setIsDarkMode(true)) }>
-                    {mounted && (isDarkMode ? <IconSun stroke={2}  color={'var(--color-bg)'} /> : <IconMoon stroke={2}  color={'var(--color-bg)'} /> )}
-                </button>
+            <div className={`${styles.hexBorder} ${styles.borderOne}`} ref={ btnRef } onClick={ () => (isDarkMode ? setIsDarkMode(false) : setIsDarkMode(true)) }>
+                <div className={`${styles.hexBorder} ${styles.borderTwo}`}>
+                    <div className={`${styles.hexBorder} ${styles.borderThree}`}>
+                        <div className={`${styles.hexBorder} ${styles.borderFour}`}>
+                            <div className={`${styles.hexBorder} ${styles.borderFive}`}>
+                                <button  className={ styles.hexButton }>
+                                    {mounted && (isDarkMode ? <IconSun stroke={2}  color={'var(--color-primary)'} /> : <IconMoon stroke={2}  color={'var(--color-primary)'} /> )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className={`${ styles.btnContainer } ${styles.quincyBtn} body`}>
+            {/* <div className={`${ styles.btnContainer } ${styles.quincyBtn} body`}>
                 <div className={ styles.btnBorder}>
                 <button  className={`${ styles.btns }`} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
                     Q
                 </button>
                 </div>
-            </div>
-            <div className={`${styles.logoBorder} ${ exiting ? "" : styles.animate}`}>
-                <button className={`${styles.logo} `} onClick={ () => (exiting ? setExiting(false) : setExiting(true)) }>
-                    IY
-                </button>
-            </div>
+            </div> */}
+            <button className={`${styles.scanButton} body`} onClick={() => exiting ? setExiting(false) : setExiting(true)}>
+                <span className={`${styles.ring} ${styles.ringOne}`}></span>
+                <span className={`${styles.ring} ${styles.ringTwo}`}></span>
+                Q
+            </button>
         </>
     )
 }

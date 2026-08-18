@@ -8,6 +8,9 @@ import { Nav, DesktopNav } from "./Nav";
 function Hero() {
   return (
     <div className={styles.hero}>
+        <div className={styles.sqlquery}>
+            <p className="tech accent-text">SELECT * FROM devolopers WHERE type @&gt; "problem-solver"</p>
+        </div>
       <h1 className={`${styles.heroName} primary-text`}>
         Isaac <span className={`${styles.lastName} accent-text`}>Young.</span>
       </h1>
@@ -67,11 +70,17 @@ function CurrentWork() {
 function AboutMeRecents() {
   return (
     <section className={styles.statusContainer}>
-        <div className={styles.aboutMeRecents}>
-          <CurrentWork />
-          <WeeklyMiles />
-          <CurrentRead />
+        <p className={`${styles.statusHeader} tech secondary-text`}>DEVELOPER PROFILE<span>DEV_ID. IY-0901</span></p>
+        <div className={styles.picContainer}>
+            <div className={styles.profilePic}>
+                <img height={720} width={720} src="images/profilePic.jpeg" alt="" />
+            </div>
         </div>
+        {/* <div className={styles.aboutMeRecents}>
+            <CurrentWork />
+            <WeeklyMiles />
+            <CurrentRead />
+        </div> */}
     </section>
   );
 }

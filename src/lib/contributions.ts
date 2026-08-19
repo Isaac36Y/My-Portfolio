@@ -49,12 +49,14 @@ export default async function getGitHubContributions() {
   }
 }
 
-export async function getGitHubContributionDays() {
-    const contributions = await getGitHubContributions()
-    const weeks = contributions.data.user.contributionsCollection.contributionCalendar.weeks;
+export async function getHalfYearContributions() {
+    const contributions = await getGitHubContributions();
+    const weeks =
+        contributions?.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? [];
 
-    return weeks.flatMap((week: { contributionDays: any[]; }) =>
-        week.contributionDays.map((day: { date: any; contributionCount: any; }) => ({
+    // The API always answers with a full year; keep only the recent half.
+    return weeks.slice(26).flatMap((week: { contributionDays: any[] }) =>
+        week.contributionDays.map((day: { date: string; contributionCount: number }) => ({
             date: day.date,        // "2026-08-19"
             count: day.contributionCount,
         }))

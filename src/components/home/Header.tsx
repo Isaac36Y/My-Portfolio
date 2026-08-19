@@ -1,10 +1,10 @@
 import styles from "./Header.module.scss";
 import filterStravaActivities from "@/lib/strava";
-import getGitHubContributions from "@/lib/contributions";
+import { getHalfYearContributions } from "@/lib/contributions";
 import { IconRun, IconCode, IconBook } from "@tabler/icons-react";
 import { NavBarWrapper, SlideAway } from "../NavLogic/SlideAway";
 import { Nav, DesktopNav } from "./Nav";
-import ApexChart from "./contributionsGraph/graph";
+import ContributionsGraph from "./contributionsGraph/graph";
 
 function Hero() {
     return (
@@ -69,8 +69,7 @@ function CurrentWork() {
 }
 
 async function AboutMeRecents() {
-    console.log("working")
-    console.log(await getGitHubContributions());
+    const contributionDays = await getHalfYearContributions();
     return (
         <section className={styles.statusContainer}>
             <p className={`${styles.statusHeader} tech secondary-text`}>
@@ -81,7 +80,7 @@ async function AboutMeRecents() {
                     <img height={720} width={720} src="images/profilePic.jpeg" alt="" />
                 </div>
             </div>
-            <ApexChart />
+            <ContributionsGraph days={contributionDays} />
             {/* <div className={styles.aboutMeRecents}>
             <CurrentWork />
             <WeeklyMiles />

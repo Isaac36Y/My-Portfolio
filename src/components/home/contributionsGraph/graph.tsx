@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import type { ApexOptions, ApexAxisChartSeries } from 'apexcharts'
 
@@ -9,205 +9,151 @@ import type { ApexOptions, ApexAxisChartSeries } from 'apexcharts'
 // importable from anywhere in the app.
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-// A contribution-style calendar heatmap built on the standard heatmap: 7 rows
-// (one weekday each) x one column per week. The trick that makes the
-// columns line up is that every cell in a week shares the SAME x = the date of
-// that week's Sunday. Because the x axis is datetime, the cells sit on a real
-// time scale and the axis labels the months for us (continuous-x heatmap).
-//
-// The window runs from ~26 weeks (about 6 months) ago through today, and a
-// cell is emitted only for real in-range days: the first and last weeks are partial, so their
-// off-range corners are simply left blank (the "hanging" edges of the view)
-// rather than padded. In-range days with zero activity still get a cell (the
-// lightest color); only days outside the range are absent. All dates are in
-// UTC so a day is always exactly 86400000 ms (no daylight-saving drift that
-// would shift a cell into the wrong weekday).
-var DAY = 86400000
+export type ContributionDay = {
+  /** ISO calendar date, "YYYY-MM-DD", as GitHub returns it. */
+  date: string
+  count: number
+}
 
-var calNow = new Date()
-var calEnd = Date.UTC(
-  calNow.getUTCFullYear(),
-  calNow.getUTCMonth(),
-  calNow.getUTCDate(),
-)
-// How many weeks of history the calendar shows (26 ~= 6 months).
-var CAL_WEEKS = 26
-var calStart = calEnd - (CAL_WEEKS * 7 - 1) * DAY
+const DAY = 86400000
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-// The Sunday that starts the week containing a given day = that week's column x.
+/** "2026-08-19" -> epoch ms at UTC midnight. */
+function toUtcMs(date: string) {
+  const [year, month, day] = date.split('-').map(Number)
+  return Date.UTC(year, month - 1, day)
+}
+
+/** The Sunday that starts the week containing a day = that week's column x. */
 function weekStartOf(ms: number) {
   return ms - new Date(ms).getUTCDay() * DAY
 }
 
+// x is the week's Sunday (so the column lines up); the cell's true date is
+// stashed on the datum for the tooltip, since x can't carry it — all 7 weekdays
+// in a column share the same x.
 type CalCell = { x: number; y: number; date: number }
 
-function buildCalendar(): ApexAxisChartSeries {
-  var weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  var byDay = weekdays.map(function (n) {
-    return { name: n, data: [] as CalCell[] }
-  })
+function buildSeries(days: ContributionDay[]): ApexAxisChartSeries {
+  const rows = WEEKDAYS.map((name) => ({ name, data: [] as CalCell[] }))
 
-  // Deterministic PRNG so the demo looks the same on every reload.
-  var seed = 20240407
-  function rand() {
-    seed = (seed * 1103515245 + 12345) & 0x7fffffff
-    return seed / 0x7fffffff
-  }
-
-  var totalWeeks = Math.round(
-    (weekStartOf(calEnd) - weekStartOf(calStart)) / (7 * DAY),
-  )
-  for (var t = calStart; t <= calEnd; t += DAY) {
-    var dow = new Date(t).getUTCDay()
-    var wk = Math.round((weekStartOf(t) - weekStartOf(calStart)) / (7 * DAY))
-    // A gentle seasonal wave so some months look busier than others.
-    var season = 0.5 + 0.5 * Math.sin((wk / totalWeeks) * Math.PI * 2 - 1)
-    var count = 0
-    // ~55% of days have activity; weekends are lighter.
-    if (rand() < 0.35 + 0.4 * season) {
-      var bias = dow === 0 || dow === 6 ? 0.5 : 1
-      // rand()*rand() skews toward the low buckets, like real activity.
-      count = Math.round(rand() * rand() * 16 * bias) + 1
-    }
-    // x is the week's Sunday (so the column lines up); the cell's true date is
-    // stashed on the datum for the tooltip (x can't carry it: all 7 weekdays in
-    // a column share the same x).
-    byDay[dow].data.push({ x: weekStartOf(t), y: count, date: t })
+  for (const day of days) {
+    const ms = toUtcMs(day.date)
+    rows[new Date(ms).getUTCDay()].data.push({
+      x: weekStartOf(ms),
+      y: day.count,
+      date: ms,
+    })
   }
 
   // Rows read Sun (top) -> Sat (bottom). ApexCharts draws the last series on
   // top, so reverse the weekday order before returning.
-  // `date` is an extra field Apex passes through untouched; the published datum
-  // type doesn't model it, hence the cast.
-  return byDay.reverse() as unknown as ApexAxisChartSeries
+  return rows.reverse() as unknown as ApexAxisChartSeries
 }
 
-var calendarData = buildCalendar()
+function buildOptions(days: ContributionDay[]): ApexOptions {
+  // Pad half a week on each side so the first and last columns are full width.
+  const firstWeek = weekStartOf(toUtcMs(days[0].date))
+  const lastWeek = weekStartOf(toUtcMs(days[days.length - 1].date))
 
-// Pad half a week on each side so the first and last columns are full width.
-var calMinX = weekStartOf(calStart) - 3.5 * DAY
-var calMaxX = weekStartOf(calEnd) + 3.5 * DAY
-
-const chartOptions: ApexOptions = {
-  chart: {
-    height: 186,
-    width: '100%',
-    type: 'heatmap',
-    toolbar: { show: false },
-    animations: { enabled: false },
-  },
-  /* title: {
-    text: 'Contribution activity',
-    align: 'center',
-    style: { fontSize: '14px', fontWeight: 600 },
-  }, */
-  dataLabels: { enabled: false },
-  // A small light gap between cells, like a contributions calendar.
-  stroke: { width: 3, colors: ['#fff'] },
-  legend: { show: false },
-  states: {
-    active: {
-      filter: {
-        type: 'none',
+  return {
+    chart: {
+      height: 186,
+      width: '100%',
+      type: 'heatmap',
+      toolbar: { show: false },
+      animations: { enabled: false },
+    },
+    dataLabels: { enabled: false },
+    // A small light gap between cells, like a contributions calendar.
+    stroke: { width: 3, colors: ['var(--color-bg)'] },
+    legend: { show: false },
+    states: { active: { filter: { type: 'none' } } },
+    plotOptions: {
+      heatmap: {
+        radius: 2,
+        // Flat bucket colors (no within-range shading), so each level is one color.
+        enableShades: false,
+        colorScale: {
+          ranges: [
+            { from: 0, to: 0, name: '0', color: 'var(--graph-low)' },
+            { from: 1, to: 3, name: '1-3', color: 'var(--graph-med-low)' },
+            { from: 4, to: 7, name: '4-7', color: 'var(--graph-med)' },
+            { from: 8, to: 11, name: '8-11', color: 'var(--graph-med-high)' },
+            { from: 12, to: 9999, name: '12+', color: 'var(--graph-high)' },
+          ],
+        },
       },
     },
-  },
-  plotOptions: {
-    heatmap: {
-      radius: 2,
-      // Flat bucket colors (no within-range shading), so each level is one color.
-      enableShades: false,
-      colorScale: {
-        ranges: [
-          { from: 0, to: 0, name: '0', color: '#ebedf0' },
-          { from: 1, to: 3, name: '1-3', color: '#9be9a8' },
-          { from: 4, to: 7, name: '4-7', color: '#40c463' },
-          { from: 8, to: 11, name: '8-11', color: '#30a14e' },
-          { from: 12, to: 100, name: '12+', color: '#216e39' },
-        ],
+    xaxis: {
+      type: 'datetime',
+      min: firstWeek - 3.5 * DAY,
+      max: lastWeek + 3.5 * DAY,
+      position: 'top',
+      labels: {
+        format: 'MMM',
+        datetimeUTC: false,
+        style: { colors: '#767676', fontSize: '12px' },
       },
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      tooltip: { enabled: false },
+      crosshairs: { show: false },
     },
-  },
-  xaxis: {
-    type: 'datetime',
-    min: calMinX,
-    max: calMaxX,
-    position: 'top',
-    labels: {
-      format: 'MMM',
-      datetimeUTC: false,
-      style: { colors: '#767676', fontSize: '12px' },
-    },
-    axisBorder: { show: false },
-    axisTicks: { show: false },
-    tooltip: { enabled: false },
-    crosshairs: {
-      show: false,
-    },
-  },
-  yaxis: {
-    // Show only alternate weekday labels (Mon / Wed / Fri), like the original.
-    labels: {
-      formatter: function (val: any) {
-        return ['Mon', 'Wed', 'Fri'].indexOf(val) >= 0 ? val : ''
-      },
-      style: { colors: ['#767676'], fontSize: '12px' },
-    },
-  },
-  grid: {
     yaxis: {
-      lines: {
-        show: false,
+      // Show only alternate weekday labels (Mon / Wed / Fri), like GitHub's.
+      labels: {
+        formatter: (val: unknown) =>
+          ['Mon', 'Wed', 'Fri'].includes(String(val)) ? String(val) : '',
+        style: { colors: ['#767676'], fontSize: '12px' },
       },
     },
-  },
-  tooltip: {
-    // Custom tooltip so it can show the cell's real date (stashed on the datum)
-    // plus the count, e.g. "5 contributions on Jan 8, 2024".
-    custom: function (opts: any) {
-      var pt = opts.w.config.series[opts.seriesIndex].data[opts.dataPointIndex]
-      var n = pt.y
-      var when = new Date(pt.date).toLocaleDateString('en-US', {
-        dateStyle: 'medium',
-        timeZone: 'UTC',
-      })
-      var count =
-        n === 0
-          ? 'No contributions'
-          : n + (n === 1 ? ' contribution' : ' contributions')
-      return (
-        '<div style="padding:6px 10px;font-size:13px">' +
-        '<b>' +
-        count +
-        '</b> on ' +
-        when +
-        '</div>'
-      )
+    grid: { yaxis: { lines: { show: false } } },
+    tooltip: {
+      // Custom tooltip so it can show the cell's real date (stashed on the
+      // datum) plus the count, e.g. "5 contributions on Jan 8, 2026".
+      custom: ({ seriesIndex, dataPointIndex, w }: any) => {
+        const cell: CalCell = w.config.series[seriesIndex].data[dataPointIndex]
+        const when = new Date(cell.date).toLocaleDateString('en-US', {
+          dateStyle: 'medium',
+          timeZone: 'UTC',
+        })
+        const count =
+          cell.y === 0
+            ? 'No contributions'
+            : `${cell.y} contribution${cell.y === 1 ? '' : 's'}`
+        return `<div style="padding:6px 10px;font-size:13px"><b>${count}</b> on ${when}</div>`
+      },
     },
-  },
+  }
 }
 
-const ApexChart = () => {
-  const [state] = React.useState<{
-    series: ApexAxisChartSeries
-    options: ApexOptions
-  }>({
-    series: calendarData,
-    options: chartOptions,
-  })
+export default function ContributionsGraph({
+  days,
+}: {
+  days: ContributionDay[]
+}) {
+  // Both builders read days[0]/days.at(-1), so an empty response has to be
+  // handled before either of them runs.
+  const chart = useMemo(
+    () =>
+      days.length > 0
+        ? { series: buildSeries(days), options: buildOptions(days) }
+        : null,
+    [days],
+  )
+
+  if (!chart) return null
 
   return (
-    <div style={{width: '100%'}}>
-      <div id="chart">
-        <ReactApexChart
-          options={state.options}
-          series={state.series}
-          type="heatmap"
-          height={150}
-        />
-      </div>
+    <div style={{ width: '100%' }}>
+      <ReactApexChart
+        options={chart.options}
+        series={chart.series}
+        type="heatmap"
+        height={150}
+      />
+      <p>846 contributions in the last 186 days</p>
     </div>
   )
 }
-
-export default ApexChart

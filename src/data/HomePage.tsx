@@ -243,6 +243,29 @@ function BullseyeCase() {
     )
 }
 
+export const statusBadgeStats = [
+    {
+        title: "LOCATION",
+        value: "Medford, OR"
+    },
+    {
+        title: "LOCAL TIME",
+        value: "12:32:43 PM"
+    },
+    {
+        title: "RESPONSE",
+        value: "< 24 Hours"
+    },
+    {
+        title: "SPECIALTY",
+        value: "Web Development • Customer Tools"
+    },
+    {
+        title: "STATUS",
+        value: "Available"
+    },
+]
+
 export const sideNavAnchors = [
     {
         id: 'github',

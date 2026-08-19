@@ -5,6 +5,7 @@ import { IconRun, IconCode, IconBook } from "@tabler/icons-react";
 import { NavBarWrapper, SlideAway } from "../NavLogic/SlideAway";
 import { Nav, DesktopNav } from "./Nav";
 import ContributionsGraph from "./contributionsGraph/graph";
+import { statusBadgeStats } from "@/data/HomePage";
 
 function Hero() {
     return (
@@ -80,7 +81,19 @@ async function AboutMeRecents() {
                     <img height={720} width={720} src="images/profilePic.jpeg" alt="" />
                 </div>
             </div>
-            <ContributionsGraph days={contributionDays} />
+            <div className={styles.stats}>
+                <div className={styles.contributions}>
+                    <ContributionsGraph days={contributionDays} />
+                </div>
+                <div className={styles.characteristics}>
+                    {statusBadgeStats.map((stat, index) => (
+                        <div className={`${styles.stat} ${index < 3 ? styles.top : styles.bottom}`} key={index}>
+                            <p className={styles.title}>{stat.title}</p>
+                            <p className={styles.value}>{stat.value}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
             {/* <div className={styles.aboutMeRecents}>
             <CurrentWork />
             <WeeklyMiles />

@@ -153,7 +153,6 @@ export default function ContributionsGraph({
         type="heatmap"
         height={150}
       />
-      <p>846 contributions in the last 186 days</p>
     </div>
   )
 }

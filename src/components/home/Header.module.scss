@@ -78,6 +78,11 @@
         .picContainer {
             padding: 1.5rem;
             border-right: 1px solid var(--color-accent-med-light);
+            margin-block: auto;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             .profilePic {
                 position: relative;
@@ -99,6 +104,8 @@
                     content: "";
                     position: fixed;
                     border-radius: 10rem;
+                    margin: auto;
+                    
 
                     -webkit-mask: radial-gradient(
                         farthest-side,
@@ -113,8 +120,6 @@
                 }
 
                 &::after {
-                    top: 3.6rem;
-                    left: 1.1rem;
                     height: 13rem;
                     width: 13rem;
 
@@ -131,8 +136,6 @@
                 }
 
                 &::before {
-                    top: 3.2rem;
-                    left: 0.6rem;
                     height: 14rem;
                     width: 14rem;
 
@@ -142,6 +145,37 @@
                         var(--color-accent-med-light) 120deg 300deg,
                         transparent 100deg
                     );
+                }
+            }
+        }
+
+        .stats {
+            display: flex;
+            flex-direction: column;
+
+            .characteristics {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+
+                .stat {
+                    grid-column: span 2;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    border: 1px solid var(--color-accent-med-light);
+                    &:nth-child(4) {
+                        grid-column: span 4;
+                    }
+
+                    &:nth-child(4), &:nth-child(1) {
+                        border-left: none;
+                    }
+                    &:nth-child(3), &:nth-child(5) {
+                        border-right: none;
+                    }
+                    &:nth-child(4), &:nth-child(5) {
+                        border-bottom: none;
+                    }
                 }
             }
         }

@@ -191,7 +191,7 @@
 @media (min-width: $desktop) {
     .header {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 3fr;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
@@ -206,6 +206,10 @@
                     font-size: var(--fs-heading);
                 }
             }
+        }
+
+        .statusContainer {
+            width: 100%;
         }
 
         

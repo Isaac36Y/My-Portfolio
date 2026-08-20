@@ -21,56 +21,12 @@ function Hero() {
     );
 }
 
-function CurrentRead() {
-    return (
-        <div className={`${styles.status} tech secondary-text`}>
-            <div className={`${styles.label}`}>
-                <IconBook stroke={1.75} size={24} color="var(--color-secondary)" />
-                <p>listening</p>
-            </div>
-            <a href="" className={`${styles.currentRead} body`}>
-                Artifact
-                <br />
-                by Jeremy Robinson
-            </a>
-        </div>
-    );
-}
-
-async function WeeklyMiles() {
+async function DevBadge() {
+    const contributionDays = await getHalfYearContributions();
     const last7Activities = await filterStravaActivities();
     const meters = last7Activities.reduce((acc: number, curr: { distance: number }) => acc + curr.distance, 0);
     const miles = (meters / 1609).toFixed(1);
 
-    return (
-        <div className={`${styles.status} tech secondary-text`}>
-            <div className={`${styles.label}`}>
-                <IconRun stroke={1.75} size={24} color="var(--color-secondary)" />
-                <p>running</p>
-            </div>
-            <a href="https://www.strava.com/athletes/125614194" className={`${styles.milesLink} body`}>
-                {miles} miles this week
-            </a>
-        </div>
-    );
-}
-
-function CurrentWork() {
-    return (
-        <div className={`${styles.status} tech secondary-text`}>
-            <div className={`${styles.label}`}>
-                <IconCode stroke={1.75} size={24} color="var(--color-secondary)" />
-                <p>building </p>
-            </div>
-            <a href="https://github.com/Isaac36Y" className={`${styles.currentWork} body`}>
-                my-portfolio
-            </a>
-        </div>
-    );
-}
-
-async function AboutMeRecents() {
-    const contributionDays = await getHalfYearContributions();
     return (
         <section className={styles.statusContainer}>
             <p className={`${styles.statusHeader} tech secondary-text`}>
@@ -80,25 +36,31 @@ async function AboutMeRecents() {
                 <div className={styles.profilePic}>
                     <img height={720} width={720} src="images/profilePic.jpeg" alt="" />
                 </div>
+                <div className={`${styles.live} secondary-text`}>
+                    <div className={styles.stat}>
+                        <p className="title">working on <a href="https://github.com/Isaac36Y">my-portfolio</a></p>
+                    </div>
+                    <div className={styles.stat}>
+                        <p className="title"><a href="https://www.strava.com/athletes/125614194">{miles} miles</a> this week</p>
+                    </div >
+                    <div className={styles.stat}>
+                        <p className="title">listening to <a href="https://github.com/Isaac36Y">The Butcher's Masquerade by Matt Dinniman</a></p>
+                    </div>
+                </div>
             </div>
-            <div className={styles.stats}>
+            <div className={`${styles.stats} tech`}>
                 <div className={styles.contributions}>
                     <ContributionsGraph days={contributionDays} />
                 </div>
                 <div className={styles.characteristics}>
                     {statusBadgeStats.map((stat, index) => (
                         <div className={`${styles.stat} ${index < 3 ? styles.top : styles.bottom}`} key={index}>
-                            <p className={styles.title}>{stat.title}</p>
-                            <p className={styles.value}>{stat.value}</p>
+                            <p className={`${styles.title} title secondary-text`}>{stat.title}</p>
+                            <p className={`${styles.value} tech accent-text`}>{stat.value}</p>
                         </div>
                     ))}
                 </div>
             </div>
-            {/* <div className={styles.aboutMeRecents}>
-            <CurrentWork />
-            <WeeklyMiles />
-            <CurrentRead />
-        </div> */}
         </section>
     );
 }
@@ -110,7 +72,7 @@ export default function Header() {
                 <Hero />
             </SlideAway>
             <SlideAway>
-                <AboutMeRecents />
+                <DevBadge />
             </SlideAway>
             <NavBarWrapper>
                 <Nav screen="mobile" />

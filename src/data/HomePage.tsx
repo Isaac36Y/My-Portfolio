@@ -258,12 +258,20 @@ export const statusBadgeStats = [
     },
     {
         title: "SPECIALTY",
-        value: "Web Development • Customer Tools"
+        value: "Web Development • Custom Tools"
     },
     {
         title: "STATUS",
         value: "Available"
     },
+    {
+        title: "OPEN TO",
+        value: "Freelance • Full-Time"
+    },
+    {
+        title: "EMAIL",
+        value: "isaac@isaacyoungs.dev"
+    }
 ]
 
 export const sideNavAnchors = [

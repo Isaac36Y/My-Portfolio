@@ -27,9 +27,10 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Isaac Young - Developer",
   description: "Self taught",
-  
+  other: {
+    'msvalidate.01': "F2DB780D905F46FF1502F659917ECC53",
+  }
 };
-
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
   return (

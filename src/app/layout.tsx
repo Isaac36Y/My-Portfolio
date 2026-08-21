@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Courier_Prime, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.scss";
 import { ThemeProvider } from "@/components/NavLogic/Provider";
+import { Analytics } from "@vercel/analytics/next"
 
 
 const dmSans = DM_Sans({
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <ThemeProvider>
         <html lang="en" className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
+            <Analytics />
             <body>{children}</body>
         </html>
     </ThemeProvider>

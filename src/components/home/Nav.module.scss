@@ -5,6 +5,22 @@
     opacity: 0;
     translate: 0 16px; 
     transition: transform 0.6s ease, opacity 0.7s ease, translate 0.7s ease;
+
+    &:nth-child(1) {
+        animation: show 0.5s ease ;
+        animation-delay: 7.5s; animation-fill-mode: both;
+
+        @keyframes show {
+            from {
+                opacity: 0;
+                translate: 0 -8px;  
+            }
+            to {
+                opacity: 1;
+                translate: 0 0;  
+            }
+        }
+    }
 }
 
 .mobileNav {

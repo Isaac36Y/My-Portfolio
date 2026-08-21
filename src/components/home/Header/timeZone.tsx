@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
-import styles from '@/components/home/Header.module.scss'
+import styles from './Header.module.scss'
 
 export function LocalTime() {
     const [time, setTime] = useState(new Date())

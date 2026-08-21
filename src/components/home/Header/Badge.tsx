@@ -1,28 +1,11 @@
 import styles from "./Header.module.scss";
 import filterStravaActivities from "@/lib/strava";
 import { getHalfYearContributions } from "@/lib/contributions";
-
-import { NavBarWrapper, SlideAway } from "../NavLogic/SlideAway";
-import { Nav, DesktopNav } from "./Nav";
-import ContributionsGraph from "./contributionsGraph/graph";
+import ContributionsGraph from "./graph";
 import { statusBadgeStats } from "@/data/HomePage";
-import { LocalTime } from "@/data/timeZone";
+import { LocalTime } from "./timeZone";
 
-function Hero() {
-    return (
-        <div className={styles.hero}>
-            <div className={styles.sqlquery}>
-                <p className="tech accent-text">SELECT * FROM devolopers WHERE type @&gt; "problem-solver"</p>
-            </div>
-            <h1 className={`${styles.heroName} primary-text`}>
-                Isaac <span className={`${styles.lastName} accent-text`}>Young.</span>
-            </h1>
-            {/* <p className={`${styles.description} tech secondary-text`}>// software engineer & creative dev</p> */}
-        </div>
-    );
-}
-
-async function DevBadge() {
+export async function DevBadge() {
     const contributionDays = await getHalfYearContributions();
     const last7Activities = await filterStravaActivities();
     const meters = last7Activities.reduce((acc: number, curr: { distance: number }) => acc + curr.distance, 0);
@@ -31,7 +14,7 @@ async function DevBadge() {
     return (
         <section className={styles.statusContainer}>
             <p className={`${styles.statusHeader} tech secondary-text`}>
-                DEVELOPER PROFILE<span>DEV_ID. IY-0901</span>
+                Software Engineer & Creative Developer<span>DEV_ID. IY-0901</span>
             </p>
             <div className={styles.picContainer}>
                 <div className={styles.profilePic}>
@@ -76,21 +59,5 @@ async function DevBadge() {
                 </div>
             </div>
         </section>
-    );
-}
-
-export default function Header() {
-    return (
-        <header className={styles.header} id="header">
-            <SlideAway>
-                <Hero />
-            </SlideAway>
-            <SlideAway>
-                <DevBadge />
-            </SlideAway>
-            <NavBarWrapper>
-                <Nav screen="mobile" />
-            </NavBarWrapper>
-        </header>
     );
 }

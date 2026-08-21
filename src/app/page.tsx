@@ -1,5 +1,5 @@
 import ParticleBackground from "@/components/ParticleBackground/ParticleBackground";
-import Header from "@/components/home/Header";
+import Header from "@/components/home/Header/Header";
 import MySkills from "@/components/home/MySkills";
 import HowIBuild from "@/components/home/HowIBuild";
 import styles from "./page.module.scss";
@@ -11,33 +11,35 @@ import { SlideAway } from "@/components/NavLogic/SlideAway";
 import { TransitionProvider } from "@/components/NavLogic/Provider";
 import QuincyChat from "@/components/NavLogic/QuincyChat";
 import { DesktopNav } from "@/components/home/Nav";
+import { SQLQuery } from "@/components/home/Header/SqlQuery";
 
 export default function Home() {
-  return (
-    <TransitionProvider >
-        <div className={styles.html}>
-            <ParticleBackground />
-            <NavPop />
-            <QuincyChat />
-            <DesktopNav />
-            <Header />
-            <main className={styles.main}>
-                <SlideAway>
-                    <MySkills />
-                </SlideAway>
-                <SlideAway>
-                    <HowIBuild />
-                </SlideAway>
-                {/* slide away in ProjectCards. wraps cards individually */}
-                <ProjectCards />
-                <TestimonialRunner />
-            </main>
-            <footer className={styles.footerContainer}>
-                <SlideAway>
-                    <Footer />
-                </SlideAway>
-            </footer>
-        </div>
-    </TransitionProvider>
-  );
+    return (
+        <TransitionProvider>
+            <div className={styles.html}>
+                <ParticleBackground />
+                <NavPop />
+                <QuincyChat />
+                <DesktopNav />
+                <SQLQuery />
+                <Header />
+                <main className={styles.main}>
+                    <SlideAway>
+                        <MySkills />
+                    </SlideAway>
+                    <SlideAway>
+                        <HowIBuild />
+                    </SlideAway>
+                    {/* slide away in ProjectCards. wraps cards individually */}
+                    <ProjectCards />
+                    <TestimonialRunner />
+                </main>
+                <footer className={styles.footerContainer}>
+                    <SlideAway>
+                        <Footer />
+                    </SlideAway>
+                </footer>
+            </div>
+        </TransitionProvider>
+    );
 }

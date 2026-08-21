@@ -1,11 +1,12 @@
 import styles from "./Header.module.scss";
 import filterStravaActivities from "@/lib/strava";
 import { getHalfYearContributions } from "@/lib/contributions";
-import { IconRun, IconCode, IconBook } from "@tabler/icons-react";
+
 import { NavBarWrapper, SlideAway } from "../NavLogic/SlideAway";
 import { Nav, DesktopNav } from "./Nav";
 import ContributionsGraph from "./contributionsGraph/graph";
 import { statusBadgeStats } from "@/data/HomePage";
+import { LocalTime } from "@/data/timeZone";
 
 function Hero() {
     return (
@@ -53,12 +54,25 @@ async function DevBadge() {
                     <ContributionsGraph days={contributionDays} />
                 </div>
                 <div className={styles.characteristics}>
-                    {statusBadgeStats.map((stat, index) => (
-                        <div className={`${styles.stat} ${index < 3 ? styles.top : styles.bottom}`} key={index}>
-                            <p className={`${styles.title} title secondary-text`}>{stat.title}</p>
-                            <p className={`${styles.value} tech accent-text`}>{stat.value}</p>
-                        </div>
-                    ))}
+                    {statusBadgeStats.map((stat, index) => {
+                        if (index === 1) {
+                            return (
+                                <div className={`${styles.stat}`} key={index}>
+                                    <LocalTime />
+                                </div>
+                            )
+                        }else {
+                            return (
+                            <div className={`${styles.stat}`} key={index}>
+                                <p className={`${styles.title} title secondary-text`}>
+                                    {stat.icon ? <span className="accent-text"><stat.icon /></span> : ''}
+                                    {stat.title}
+                                </p>
+                                <p className={`${styles.value} tech accent-text`}>{stat.value}</p>
+                            </div>
+                            )
+                        }
+                    })}
                 </div>
             </div>
         </section>

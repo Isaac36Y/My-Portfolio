@@ -4,7 +4,7 @@ import { TransitionContext } from "./Provider";
 import styles from "../home/Nav.module.scss"
 
 
-export function SlideAway({children}: {children : React.ReactNode}) {
+export function SlideAway({children, className}: {children : React.ReactNode, className?: string}) {
     const divRef = useRef<HTMLDivElement | null>(null)
     const { exiting } = useContext(TransitionContext)
 
@@ -55,8 +55,11 @@ export function SlideAway({children}: {children : React.ReactNode}) {
         }
         
     }, [exiting])
+    // a modifier declared in Nav.module.scss wins, otherwise treat it as a plain class name
+    const extraClass = className ? (styles[className] ?? className) : ''
+
     return (
-        <div ref={ divRef } className={styles.slideAway}>
+        <div ref={ divRef } className={`${styles.slideAway} ${extraClass}`.trim()}>
             {children}
         </div>
     )

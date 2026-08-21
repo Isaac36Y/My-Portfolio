@@ -6,7 +6,7 @@
     translate: 0 16px; 
     transition: transform 0.6s ease, opacity 0.7s ease, translate 0.7s ease;
 
-    &:nth-child(1) {
+    &.skills {
         animation: show 0.5s ease ;
         animation-delay: 7.5s; animation-fill-mode: both;
 

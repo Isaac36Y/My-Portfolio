@@ -24,7 +24,7 @@ export default function Home() {
                 <SQLQuery />
                 <Header />
                 <main className={styles.main}>
-                    <SlideAway>
+                    <SlideAway className="skills">
                         <MySkills />
                     </SlideAway>
                     <SlideAway>

@@ -2,8 +2,11 @@
 @use '@/styles/variables' as *;
 
 .sqlquery {
-    width: min(100%, 90rem);
-    padding-inline: 5vw;
+    width: 80%;
+    padding: 1rem 5vw 0;
+    align-self: flex-start;
+    display: none;
+    
 
     p {
         border: 1px solid var(--color-accent-med-light);
@@ -15,6 +18,7 @@
 
         span {
             animation: blink 1.3s ease infinite;
+            align-self: flex-end;
         }
     }
 }
@@ -45,21 +49,7 @@
     width: min(100%, 90rem);
     margin: 0 auto;
     perspective: 800px;
-    opacity: 0;
-    translate: 0 -8px;    
-    animation: show 0.5s ease ;
-    animation-delay: 7s; animation-fill-mode: both;
-
-    @keyframes show {
-        from {
-            opacity: 0;
-            translate: 0 -8px;  
-        }
-        to {
-            opacity: 1;
-            translate: 0 0;  
-        }
-    }
+    
     
     .hero {
         padding-block: var(--space-lg) 0;
@@ -86,12 +76,12 @@
     }
 
     .statusContainer {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
+        display: flex;
+        flex-direction: column;
         border: 1px solid var(--color-accent-med-light);
         border-radius: var(--br-med);
         overflow: hidden;
-        width: min(100%, 40rem);
+        width: min(100%, 30rem);
         background-color: var(--color-accent-light);
         text-shadow: 
             0 0 10px var(--color-accent-medium),
@@ -210,6 +200,8 @@
             .live {
                 display: flex;
                 flex-direction: column;
+                align-items: center;
+                text-align: center;
                 gap: var(--space-med);
                 .stat {
                     text-decoration: none;
@@ -233,33 +225,44 @@
             display: flex;
             flex-direction: column;
 
+            .contributions {
+                display: none;
+            }
+
             .characteristics {
                 margin-top: auto;
                 display: grid;
                 grid-template-columns: repeat(6, 1fr);
 
                 .stat {
-                    grid-column: span 2;
+                    grid-column: span 3;
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
                     padding: var(--space-sm) var(--space-med);
                     border: 1px solid var(--color-accent-med-light);
                     &:nth-child(4) {
-                        grid-column: span 4;
+                        grid-column: span 6;
+                        border-right: none;
                     }
-                    &:nth-child(6), &:nth-child(7) {
-                        grid-column: span 3;
+                    &:nth-child(5) {
+                        grid-row: 3 / 4;
                     }
-                    
-
+                    &:nth-child(6) {
+                        grid-column: span 6;
+                        grid-row: 2 / 3;
+                    }
+                    &:nth-child(7) {
+                        grid-column: span 6;
+                    }
+                   
                     &:nth-child(4), &:nth-child(1), &:nth-child(6) {
                         border-left: none;
                     }
-                    &:nth-child(3), &:nth-child(5),&:nth-child(7) {
+                    &:nth-child(3), &:nth-child(7) {
                         border-right: none;
                     }
-                    &:nth-child(6), &:nth-child(7) {
+                    &:nth-child(7) {
                         border-bottom: none;
                     }
 
@@ -310,24 +313,66 @@
 }
 
 @media (min-width: $tablet) {
-    .statusContainer {
-        justify-content: center;
+    .header {
+        .statusContainer {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            justify-content: center;
+            width: min(100%, 45rem);
+
+            .stats {
+                .contributions {
+                    display: block;
+                }
+
+                .characteristics {
+                    .stat {
+                        grid-column: span 2;
+
+                        &:nth-child(4) {
+                            grid-column: span 4;
+                            border-right: 1px solid var(--color-accent-med-light);
+                        }
+                        &:nth-child(6), &:nth-child(7) {
+                            grid-column: span 3;
+                        }
+                        &:nth-child(5) {
+                            grid-row: auto;
+                            border-right: none;
+                        }
+                        &:nth-child(6) {
+                            grid-column: span 3;
+                            grid-row: auto;
+                            border-bottom: none;
+                        }
+                    }
+                }
+            }
+        }
     }
+    
 }
 
 @media (min-width: $desktop) {
+    .sqlquery {
+        display: block;
+        width: min(100%, 90rem);
+    }
+
     .header {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
         justify-content: space-between;
         margin-block: var(--space-xxxl);
+        opacity: 0;
+        translate: 0 -8px;
+        animation: show 0.5s ease;
+        animation-delay: 7s; animation-fill-mode: both;
 
         .statusContainer {
             width: 45rem;
         }
-
-        
 
         hr {
             display: none;
@@ -350,4 +395,15 @@
 @keyframes scan {
     0% { transform: translateY(-100%); }
     100% { transform: translateY(100%); }
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+        translate: 0 -8px;  
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;  
+    }
 }

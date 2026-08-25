@@ -1,31 +1,44 @@
 'use client'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Header.module.scss'
 
-export function LocalTime() {
-    const [time, setTime] = useState(new Date())
-    const minute = time.getMinutes()
-    const hour = time.getHours()
-    
-    const formatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/Los_Angeles',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
+const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Los_Angeles',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+});
 
-    const minuteRotation = (minute * 360) / 60
-    const hourRotation = minute === 0 
-    ? (hour * 360) / 12 
-    : ((hour * 360) / 12) - ((360 / minuteRotation) / 12 )
+function readClock(date: Date) {
+    const parts = formatter.formatToParts(date)
+    const get = (type: Intl.DateTimeFormatPartTypes) =>
+        Number(parts.find((p) => p.type === type)?.value ?? 0)
+
+    return {
+        label: formatter.format(date),
+        hour: get('hour') % 12,
+        minute: get('minute'),
+    }
+}
+
+export function LocalTime() {
+    // null until mounted so the server and the first client render agree
+    const [clock, setClock] = useState<ReturnType<typeof readClock> | null>(null)
 
     useEffect(() => {
+        setClock(readClock(new Date()))
+
         const timer = setInterval(() => {
-            setTime(new Date())
-        })
-        
+            setClock(readClock(new Date()))
+        }, 1000)
+
         return () => clearInterval(timer);
     }, [])
+
+    const minuteRotation = clock ? (clock.minute * 360) / 60 : 0
+    const hourRotation = clock
+        ? (clock.hour * 360) / 12 + (clock.minute * 360) / 60 / 12
+        : 0
 
     return (
         <>
@@ -36,7 +49,9 @@ export function LocalTime() {
                 </span>
                 LOCAL TIME
             </p>
-            <p className={`${styles.value} tech accent-text`}>{formatter.format(time)}</p>
+            <p className={`${styles.value} tech accent-text`} suppressHydrationWarning>
+                {clock?.label ?? '--:--:--'}
+            </p>
         </>
     )
 }

@@ -10,14 +10,16 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
         typeof window !== 'undefined' ? window.innerWidth : 0
     );
     const [isMobile, setIsMobile] = useState(false)
-
+    console.log(width)
+    if (!isMobile && width > 0 && width < 1252) setIsMobile(true)
+    console.log(isMobile)
     useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
+        const handleResize = () => {
+            setWidth(window.innerWidth)
+        };
         
         window.addEventListener('resize', handleResize);
 
-        if (width < 1252) setIsMobile(true)
-        
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
@@ -26,6 +28,7 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
             className={styles.header}
             id="header"
             style={isMobile ? { animation: 'none', opacity: '1' } : {}}
+            suppressHydrationWarning
         >
             {children}
         </header>

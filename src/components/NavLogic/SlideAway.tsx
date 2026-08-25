@@ -14,6 +14,7 @@ export function SlideAway({children, className}: {children : React.ReactNode, cl
         typeof window !== 'undefined' ? window.innerWidth : 0
     );
     const [isMobile, setIsMobile] = useState(false)
+    if (!isMobile && width > 0 && width < 1252) setIsMobile(true)
 
     useEffect(() => {
         if (!divRef.current) return
@@ -39,9 +40,6 @@ export function SlideAway({children, className}: {children : React.ReactNode, cl
         const handleResize = () => setWidth(window.innerWidth);
         
         window.addEventListener('resize', handleResize);
-
-        if (width < 1252) setIsMobile(true)
-        
         
         return () => observer.disconnect()
     }, [])

@@ -12,33 +12,42 @@
     p {
         border: 1px solid var(--color-accent-med-light);
         border-radius: var(--br-med);
-        padding: var(--space-med) var(--space-lg);
+        padding: 0 var(--space-lg);
         display: flex;
         align-items: center;
+        justify-content: space-between;
         font-size: var(--fs-med);
+        height: 4rem;
+    }
 
+    .loadingDots {
+        display: flex;
+        gap: 0.5rem;
         span {
-            animation: blink 1.3s ease infinite;
-            align-self: flex-end;
+            display: none;
+            height: 0.75rem;
+            width: 0.65rem;
+            background-color: var(--color-accent-medium);
+            clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+        }
+
+        &.loading {
+            span {
+                display: flex;
+                animation: loading 0.75s linear infinite;
+            }
         }
     }
 }
 
-@keyframes blink {
-    0% {
-        opacity: 1;
+@keyframes loading {
+    0%, 80% {
+        background-color: var(--color-accent-medium);
+        scale: 1;
     }
-    49% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    99% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
+    40% {
+        background-color: var(--color-accent);
+        scale: 1.2;
     }
 }
 
@@ -114,6 +123,10 @@
             display: flex;
             justify-content: space-between;
             padding: 0.5rem 1rem;
+
+            span {
+                display: none;
+            }
         }
 
         .picContainer {
@@ -369,7 +382,7 @@
         opacity: 0;
         translate: 0 -8px;
         animation: show 0.5s ease;
-        animation-delay: 7s; animation-fill-mode: both;
+        animation-delay: 3.8s; animation-fill-mode: both;
 
         .statusContainer {
             width: 45rem;

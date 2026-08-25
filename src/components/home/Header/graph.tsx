@@ -151,7 +151,7 @@ export default function ContributionsGraph({
         options={chart.options}
         series={chart.series}
         type="heatmap"
-        height={150}
+        height={170}
       />
     </div>
   )

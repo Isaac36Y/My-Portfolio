@@ -49,7 +49,7 @@ export function LocalTime() {
                 </span>
                 LOCAL TIME
             </p>
-            <p className={`${styles.value} tech accent-text`} suppressHydrationWarning>
+            <p className={`${styles.value} ${styles.clockValue} tech accent-text`} suppressHydrationWarning>
                 {clock?.label ?? '--:--:--'}
             </p>
         </>

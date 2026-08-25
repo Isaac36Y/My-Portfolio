@@ -25,6 +25,11 @@ const spaceGrotesk = Space_Grotesk({
     display: 'swap',
 })
 
+// Runs synchronously before first paint so the correct palette is applied
+// during the initial render instead of after hydration, which caused a
+// light-to-dark flash on load.
+const themeScript = `(function(){try{document.documentElement.dataset.theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}})()`;
+
 export const metadata: Metadata = {
   title: "Isaac Young - Developer",
   description: "Self taught",
@@ -36,7 +41,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
   return (
     <ThemeProvider>
-        <html lang="en" className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
+        <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
+            <head>
+                <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+            </head>
             <Analytics />
             <body>{children}</body>
         </html>

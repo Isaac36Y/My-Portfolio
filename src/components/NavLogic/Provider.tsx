@@ -45,11 +45,13 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         if (typeof window === 'undefined') return false;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // The inline script in layout.tsx already resolved this before paint,
+        // so read its answer rather than recomputing and risking a mismatch.
+        return document.documentElement.dataset.theme === 'dark';
     });
 
     useEffect(() => {
-        document.body.dataset.theme = isDarkMode ? 'dark' : 'light'
+        document.documentElement.dataset.theme = isDarkMode ? 'dark' : 'light'
     }, [isDarkMode])
 
     return (

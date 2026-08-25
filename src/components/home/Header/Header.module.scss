@@ -6,6 +6,7 @@
     padding: 1rem 5vw 0;
     align-self: flex-start;
     display: none;
+    margin-inline: auto;
     
 
     p {
@@ -379,6 +380,10 @@
         }
         
     }
+}
+
+.clockValue {
+    will-change: transform;
 }
 
 @keyframes float {

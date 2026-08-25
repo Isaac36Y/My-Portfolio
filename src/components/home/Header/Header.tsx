@@ -2,6 +2,7 @@ import styles from "./Header.module.scss";
 import { DevBadge } from "./Badge";
 import { NavBarWrapper, SlideAway } from "../../NavLogic/SlideAway";
 import { Nav } from "../Nav";
+import { HeaderShell } from "./HeaderShell";
 
 
 function Hero() {
@@ -17,7 +18,7 @@ function Hero() {
 
 export default function Header() {
     return (
-        <header className={styles.header} id="header">
+        <HeaderShell>
             <SlideAway>
                 <Hero />
             </SlideAway>
@@ -27,6 +28,6 @@ export default function Header() {
             <NavBarWrapper>
                 <Nav screen="mobile" />
             </NavBarWrapper>
-        </header>
+        </HeaderShell>
     );
 }

@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect, useContext, useState } from "react";
 import { TransitionContext } from "./Provider";
 import styles from "../home/Nav.module.scss"
 
@@ -7,6 +7,13 @@ import styles from "../home/Nav.module.scss"
 export function SlideAway({children, className}: {children : React.ReactNode, className?: string}) {
     const divRef = useRef<HTMLDivElement | null>(null)
     const { exiting } = useContext(TransitionContext)
+    // If a screen shrink under desktop size then grows over desktop size, even after load, the 
+    // initial load animation happens again with a 7s delay.
+    // Two states to prevent that
+    const [width, setWidth] = useState(() => 
+        typeof window !== 'undefined' ? window.innerWidth : 0
+    );
+    const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
         if (!divRef.current) return
@@ -28,6 +35,12 @@ export function SlideAway({children, className}: {children : React.ReactNode, cl
             { root: null, threshold: 0.3}
         )
         observer.observe(divRef.current)
+        // The screen resizer the Skills not animating after load relies on
+        const handleResize = () => setWidth(window.innerWidth);
+        
+        window.addEventListener('resize', handleResize);
+
+        if (width < 1252) setIsMobile(true)
         
         
         return () => observer.disconnect()
@@ -59,7 +72,7 @@ export function SlideAway({children, className}: {children : React.ReactNode, cl
     const extraClass = className ? (styles[className] ?? className) : ''
 
     return (
-        <div ref={ divRef } className={`${styles.slideAway} ${extraClass}`.trim()}>
+        <div ref={ divRef } style={isMobile && className === 'skills' ? { animation: 'none', opacity: '1' } : {}} className={`${styles.slideAway} ${extraClass}`.trim()}>
             {children}
         </div>
     )

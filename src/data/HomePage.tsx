@@ -1,4 +1,4 @@
-import { IconBrandGithub, IconPhone, IconMail, IconBrandLinkedin } from '@tabler/icons-react';
+import { IconBrandGithub, IconMail, IconBrandLinkedin, IconMapPin, IconMailFast, IconHexagonAsterisk, IconProgressCheck, IconCircleOpenArrowUp } from '@tabler/icons-react';
 import styles from "@/components/home/ProjectCards.module.scss";
 
 export const skillLists = [
@@ -242,6 +242,43 @@ function BullseyeCase() {
         </>
     )
 }
+
+export const statusBadgeStats = [
+    {
+        icon: IconMapPin,
+        title: "LOCATION",
+        value: "Medford, OR"
+    },
+    {
+        title: "LOCAL TIME",
+        value: "12:32:43 PM"
+    },
+    {
+        icon: IconMailFast,
+        title: "RESPONSE",
+        value: "< 24 Hours"
+    },
+    {
+        icon: IconHexagonAsterisk,
+        title: "SPECIALTY",
+        value: "Web Development • Custom Tools"
+    },
+    {
+        icon: IconProgressCheck,
+        title: "STATUS",
+        value: "Available"
+    },
+    {
+        icon: IconCircleOpenArrowUp,
+        title: "OPEN TO",
+        value: "Freelance • Full-Time"
+    },
+    {
+        icon: IconMail,
+        title: "EMAIL",
+        value: "isaac@isaacyoungs.dev"
+    }
+]
 
 export const sideNavAnchors = [
     {

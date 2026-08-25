@@ -8,6 +8,13 @@
     --color-accent-med-light: rgba(0,150,199, 0.4);
     --color-accent-light: rgba(0,150,199, 0.2);
 
+    /* Graph Color */
+    --graph-high: #043b4c;
+    --graph-med-high: #1f7690;
+    --graph-med: #3ba0bc;
+    --graph-med-low: #70bfd2;
+    --graph-low: #d1e6ea;
+
     --color-gradient: linear-gradient(0deg, rgb(0, 0, 42) 50%, rgb(56, 62, 93) 70%, rgb(112, 123, 145) 80%, rgb(167, 185, 196) 90%, rgb(223, 246, 247) 100%);
 
     --font-heading: var(--font-space-grotesk);
@@ -51,6 +58,13 @@
         --color-accent-medium: rgba(80, 220, 160, 0.6);
         --color-accent-med-light: rgba(80, 220, 160, 0.4);
         --color-accent-light: rgba(80, 220, 160, 0.2);
+
+        /* Graph Color */
+        --graph-high: #4ACA96;
+        --graph-med-high: #369c7b;
+        --graph-med: #2f826f;
+        --graph-med-low: #194843;
+        --graph-low: #0E263F;
         
 
         --color-gradient: linear-gradient(0deg, rgb(223, 246, 247) 50%, rgb(167, 185, 196) 70%, rgb(112, 123, 145) 80%, rgb(56, 62, 93) 90%, rgb(0, 0, 42) 100%);
@@ -150,6 +164,10 @@ ol[role="list"] {
 
 .accent-text {
     color: var(--color-accent);
+}
+
+.title {
+    font-family: var(--font-heading);
 }
 
 .body {

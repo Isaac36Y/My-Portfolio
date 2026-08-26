@@ -12,7 +12,7 @@
 }
 
 .introTitle {
-    @include sectionTitle;
+    @include holoTitle;
 }
 
 .markerContainer {
@@ -45,12 +45,13 @@
     scrollbar-width: none;
 
     .skillCard {
+        @include holo;
+        box-shadow: var(--holo-shadow);
         background-color: rgba(0,150,199,0.08);
         border: 1px solid var(--color-accent);
         border-radius: var(--br-lg);
         height: fit-content;
         padding: var(--space-lg);
-        box-shadow: var(--elevated-shadow);
         display: flex;
         flex-direction: column;
         gap: var(--space-lg);
@@ -67,12 +68,14 @@
             justify-content: center;
             font-size: var(--fs-reg);
             gap: var(--space-sm);
+            
 
             li {
                 background-color: var(--color-bg);
                 border: 1px solid var(--color-primary);
                 padding: var(--space-xs) var(--space-med);
                 border-radius: var(--br-sm);
+                box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
             }
         }
     }

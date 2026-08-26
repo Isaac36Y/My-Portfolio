@@ -10,7 +10,7 @@
     
 
     .title {
-        @include sectionTitle;
+        @include holoTitle;
         width: fit-content;
         margin-inline: auto;
         animation-delay: 4s;

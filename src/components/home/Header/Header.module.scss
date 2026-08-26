@@ -72,9 +72,17 @@
             flex-direction: column;
             line-height: 1;
             font-size: var(--fs-heading);
+            text-shadow: 
+            0 0 10px rgba(255, 255, 255, 0.6),
+            0 0 30px rgba(255, 255, 255, 0.3),
+            0 0 60px rgba(255, 255, 255, 0.1);
+            @include holo;
 
             .lastName {
-                /* font-size: var(--fs-heading-sm); */
+                text-shadow: 
+                0 0 10px var(--color-accent-medium),
+                0 0 30px var(--color-accent-med-light),
+                0 0 60px var(--color-accent-light);
                 letter-spacing: 0.1rem;
             }
         }
@@ -97,25 +105,9 @@
             0 0 10px var(--color-accent-medium),
             0 0 30px var(--color-accent-med-light),
             0 0 60px var(--color-accent-light);
-            
-        animation: flicker 0.5s infinite;
         box-shadow: var(--holo-shadow);
         margin-inline: auto;
-        transition: background-color 0.4s ease;
-
-        &::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 2;
-            background: linear-gradient(
-                rgba(10, 10, 22, 0) 50%, 
-                rgba(10, 10, 22, 0.1) 50%
-            );
-            background-size: 100% 2px;
-
-        }
+        @include holo;
 
         .statusHeader {
             grid-column: 1 / 3;
@@ -406,11 +398,7 @@
     50% { transform: translateY(-5px) rotateY(5deg); }
 }
 
-@keyframes flicker {
-    0%, 50%, 100% { opacity: 0.95; }
-    25%, 75% { opacity: 0.9; }
-    40%, 90% { opacity: 0.98; }
-}
+
 
 @keyframes scan {
     0% { transform: translateY(-100%); }

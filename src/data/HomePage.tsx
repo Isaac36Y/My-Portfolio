@@ -11,7 +11,7 @@ export const skillLists = [
     {
         label: '{ backend }',
         id: 'backend',
-        skills: ['Node.js', 'Express', 'Server Side Rendering', 'PostgreSQL', 'Supabase', 'REST APIs', 'Auth / OAuth']
+        skills: ['Node.js', 'Express', 'Server Side Rendering', 'SQL','PostgreSQL', 'Supabase', 'REST APIs', 'Auth / OAuth']
     },
     {
         label: '~/tools',

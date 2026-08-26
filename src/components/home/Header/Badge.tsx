@@ -14,7 +14,7 @@ export async function DevBadge() {
     return (
         <section className={styles.statusContainer}>
             <p className={`${styles.statusHeader} tech secondary-text`}>
-                Software Engineer & <br/> Creative Developer<span>DEV_ID. IY-0901</span>
+                Software Engineer & Creative Developer<span>DEV_ID. IY-0901</span>
             </p>
             <div className={styles.picContainer}>
                 <div className={styles.profilePic}>

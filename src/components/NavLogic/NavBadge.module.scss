@@ -1,4 +1,5 @@
 @use '@/styles/variables' as *;
+@use '@/styles/mixins.scss' as *;
 
 .scanButton {
     position: fixed;
@@ -55,14 +56,14 @@
             transparent 225deg
         );
 
-        animation: logoSpinBack 6s linear infinite;
+        @include logoSpinBack;
     }
 
     .ringTwo {
-        top: -0.7rem;
-        left: -0.7rem;
-        height: 4.4rem;
-        width: 4.4rem;
+        top: -0.45rem;
+        left: -0.45rem;
+        height: 4rem;
+        width: 4rem;
 
         background: conic-gradient(
             from 0,
@@ -70,26 +71,8 @@
             var(--color-accent-med-light) 120deg 300deg,
             transparent 100deg
         );
-        animation: logoSpin 25s linear infinite;
+        @include logoSpin;
 
-    }
-}
-
-@keyframes logoSpin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes logoSpinBack {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(-360deg);
     }
 }
 

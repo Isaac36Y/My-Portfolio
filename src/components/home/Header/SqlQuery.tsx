@@ -36,8 +36,8 @@ export function SQLQuery() {
                 {displayedText}
                 <span className={`${styles.loadingDots} ${loading ? styles.loading : ''}`}>
                     <span></span>
-                    <span style={{animationDelay: '0.1s'}}></span>
-                    <span style={{animationDelay: '0.2s'}}></span>
+                    <span style={{animationDelay: '0.15s'}}></span>
+                    <span style={{animationDelay: '0.3s'}}></span>
                 </span>
             </p>
         </div>

@@ -44,6 +44,36 @@
 
 }
 
+@mixin logoSpin {
+    animation: logoSpin 25s linear infinite;
+
+    @keyframes logoSpin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+@mixin logoSpinBack {
+    animation: logoSpinBack 10s linear infinite;
+
+    @keyframes logoSpinBack {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(-360deg);
+        }
+    }
+}
+
+
+
+
+
 @keyframes neon-flicker {
   0%, 30%    { filter: brightness(1); }
   31%        { filter: brightness(0.55); }

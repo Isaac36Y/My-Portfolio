@@ -221,10 +221,7 @@
                         line-height: 1;
                     }
             
-                    a:link {
-                        color: var(--color-accent)
-                    }
-                    a:visited {
+                    a:link, a:visited, span {
                         color: var(--color-accent)
                     }
                 }
@@ -329,16 +326,6 @@
             grid-template-columns: 1fr 3fr;
             justify-content: center;
             width: min(100%, 45rem);
-            
-            .picContainer {
-                &::after {
-                    top: 1.45rem;
-                }
-
-                &::before {
-                    top: 1.1rem;
-                }
-            }
 
             .stats {
                 .contributions {
@@ -393,19 +380,6 @@
         .hero {
             .description {
                 font-size: var(--fs-sm);
-            }
-        }
-
-        .statusContainer {
-            width: 45rem;
-            .picContainer {
-                &::after {
-                    top: 1.45rem;
-                }
-
-                &::before {
-                    top: 1.1rem;
-                }
             }
         }
 

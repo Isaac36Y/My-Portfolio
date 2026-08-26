@@ -11,6 +11,8 @@ export default function Footer() {
                 <a className={styles.footerLink} href="https://www.linkedin.com/in/isaac-young-7a12123b1/"><IconBrandLinkedin /></a>
                 <a className={styles.footerLink} href="mailto:isaac@isaacyoungs.dev?subject=Let%27s%20build%20something"><IconMail /></a>
             </nav>
+            <p className={'secondary-text'}>•</p>
+        <p className={'body secondary-text'}>Younger Systems &copy; 2026</p>
         </div>
     )
 }

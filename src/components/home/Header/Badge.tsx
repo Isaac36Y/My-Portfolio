@@ -22,6 +22,9 @@ export async function DevBadge() {
                 </div>
                 <div className={`${styles.live} secondary-text`}>
                     <div className={styles.stat}>
+                        <p className="title">founding <span>Younger Systems</span></p>
+                    </div>
+                    <div className={styles.stat}>
                         <p className="title">working on <a href="https://github.com/Isaac36Y">my-portfolio</a></p>
                     </div>
                     <div className={styles.stat}>

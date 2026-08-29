@@ -269,9 +269,13 @@
                     &:nth-child(3), &:nth-child(7) {
                         border-right: none;
                     }
-                    &:nth-child(7) {
+                    &:nth-child(8) {
+                        border-right: none;
+                        border-left: none;
                         border-bottom: none;
+                        grid-column: span 6;
                     }
+                    
 
                     &:nth-child(2) > .title > .clock {
                         position: relative;
@@ -327,6 +331,15 @@
             justify-content: center;
             width: min(100%, 45rem);
 
+            .picContainer {
+                &::after {
+                    top: 3rem;
+                }
+                &::before {
+                    top: 2.7rem;
+                }
+            }
+
             .stats {
                 .contributions {
                     display: block;
@@ -350,7 +363,6 @@
                         &:nth-child(6) {
                             grid-column: span 3;
                             grid-row: auto;
-                            border-bottom: none;
                         }
                     }
                 }
@@ -381,6 +393,10 @@
             .description {
                 font-size: var(--fs-sm);
             }
+        }
+        
+        .statusContainer {
+            width: 45rem;
         }
 
         hr {

@@ -1,4 +1,4 @@
-import { IconBrandGithub, IconMail, IconBrandLinkedin, IconMapPin, IconMailFast, IconHexagonAsterisk, IconProgressCheck, IconCircleOpenArrowUp } from '@tabler/icons-react';
+import { IconBrandGithub, IconMail, IconBrandLinkedin, IconMapPin, IconMailFast, IconHexagonAsterisk, IconProgressCheck, IconCircleOpenArrowUp, IconCode } from '@tabler/icons-react';
 import styles from "@/components/home/ProjectCards.module.scss";
 
 export const skillLists = [
@@ -277,6 +277,11 @@ export const statusBadgeStats = [
         icon: IconMail,
         title: "EMAIL",
         value: "isaac@isaacyoungs.dev"
+    },
+    {
+        icon: IconCode,
+        title: "TECH STACK",
+        value: "TypeScript/React • SQL • Node"
     }
 ]
 

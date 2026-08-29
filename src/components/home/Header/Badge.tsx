@@ -24,9 +24,9 @@ export async function DevBadge() {
                     <div className={styles.stat}>
                         <p className="title">founding <span>Younger Systems</span></p>
                     </div>
-                    <div className={styles.stat}>
+                    {/* <div className={styles.stat}>
                         <p className="title">working on <a href="https://github.com/Isaac36Y">my-portfolio</a></p>
-                    </div>
+                    </div> */}
                     <div className={styles.stat}>
                         <p className="title"><a href="https://www.strava.com/athletes/125614194">{miles} miles</a> this week</p>
                     </div >

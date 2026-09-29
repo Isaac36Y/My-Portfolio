@@ -17,7 +17,8 @@ export default function Hero() {
                     {services.map((service) => (
                         <li key={service.href}>
                             <a href={service.href} className={`${styles.navLink} body`}>
-                                {service.label}
+                                <span className={styles.navWash} aria-hidden="true" />
+                                <span className={styles.navLabel}>{service.label}</span>
                             </a>
                         </li>
                     ))}

@@ -54,12 +54,14 @@
     --color-mint: #50dca0;
     --color-ice: #dff6f7;
     --color-mint-deep: #308561;
+    --color-mint-wash: color-mix(in srgb, var(--color-mint) 12%, transparent);
 
     --size-tap-target: 44px;
     --hero-inset-block-start: 5svh;
     --hero-inset-block-end: 15svh;
 
     --duration-hover: 200ms;
+    --duration-frame: 450ms;
     --duration-reveal: 900ms;
     --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }

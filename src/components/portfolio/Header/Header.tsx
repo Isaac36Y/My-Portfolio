@@ -1,6 +1,6 @@
 import styles from "./Header.module.scss";
 import { DevBadge } from "./Badge";
-import { NavBarWrapper, SlideAway } from "../../NavLogic/SlideAway";
+import { NavBarWrapper, SlideAway } from "@/components/NavLogic/SlideAway";
 import { Nav } from "../Nav";
 import { HeaderShell } from "./HeaderShell";
 

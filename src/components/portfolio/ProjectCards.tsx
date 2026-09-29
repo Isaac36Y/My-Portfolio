@@ -3,8 +3,8 @@
 import styles from "./ProjectCards.module.scss";
 import Image from "next/image";
 import { useRef, useState, useLayoutEffect, useEffect } from "react";
-import { cardData } from "@/data/HomePage";
-import { SlideAway } from "../NavLogic/SlideAway";
+import { cardData } from "@/data/Portfolio";
+import { SlideAway } from "@/components/NavLogic/SlideAway";
 import animateScrollTo from "animated-scroll-to";
 
 function lockScroll() {

@@ -1,0 +1,225 @@
+@use "@/styles/variables" as *;
+@use "@/styles/business" as *;
+
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100svh - 2 * var(--page-inset));
+    padding: var(--space-xxl) var(--space-lg) var(--space-xxxxl);
+    color: $ys-ink;
+    background: linear-gradient(180deg, $ys-panel-top, $ys-panel-bottom);
+    border: 1px solid $ys-panel-border;
+    border-radius: var(--br-lg);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+
+    @media (min-width: $tablet) {
+        padding-inline: var(--space-xxxl);
+    }
+}
+
+// Clips the chevrons to the panel while letting the connector hang outside it.
+.backdrop {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.chevron {
+    position: absolute;
+    top: 0;
+    width: 34%;
+    height: 100%;
+    opacity: 0.55;
+
+    @media (min-width: $tablet) {
+        width: 24%;
+        opacity: 1;
+    }
+}
+
+// ">" band pointing in from the left edge, brightest at its tip
+.chevronLeft {
+    left: 0;
+    clip-path: polygon(0 0, 42% 0, 100% 50%, 42% 100%, 0 100%, 58% 50%);
+    background: linear-gradient(90deg, rgba($ys-accent, 0) 10%, rgba($ys-accent, 0.35) 100%);
+}
+
+.chevronRight {
+    right: 0;
+    clip-path: polygon(100% 0, 58% 0, 0 50%, 58% 100%, 100% 100%, 42% 50%);
+    background: linear-gradient(270deg, rgba($ys-accent, 0) 10%, rgba($ys-accent, 0.35) 100%);
+}
+
+// Fainter, wider copy behind each chevron for depth
+.chevronEcho {
+    width: 44%;
+    opacity: 0.25;
+
+    @media (min-width: $tablet) {
+        width: 32%;
+        opacity: 0.35;
+    }
+}
+
+.nav {
+    position: relative;
+    z-index: 1;
+}
+
+.navList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-lg) var(--space-xl);
+
+    @media (min-width: $tablet) {
+        gap: var(--space-xxxl);
+    }
+}
+
+.navLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: clamp(0.8rem, 0.75rem + 0.25vw, 0.95rem);
+    font-weight: 600;
+    color: $ys-ink;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &::after {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: $ys-accent;
+        box-shadow: 0 0 8px rgba($ys-accent, 0.8);
+        transition: transform 0.2s ease;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: $ys-accent-bright;
+
+        &::after {
+            transform: scale(1.5);
+        }
+    }
+
+    &:focus-visible {
+        outline: 1px solid $ys-accent;
+        outline-offset: 4px;
+        border-radius: var(--br-sm);
+    }
+}
+
+.brand {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    padding-block: var(--space-xxxl);
+    text-align: center;
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+}
+
+.logo {
+    width: clamp(5.5rem, 4rem + 7vw, 9.5rem);
+    filter: drop-shadow(0 0 24px rgba($ys-accent, 0.3));
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: clamp(3.2rem, 2rem + 6vw, 7rem);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+}
+
+.titleTop {
+    color: $ys-ink;
+}
+
+.titleBottom {
+    position: relative;
+    background: linear-gradient(180deg, $ys-accent-bright, $ys-accent-deep);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    // keeps descenders ("y") from being clipped by background-clip
+    padding-block-end: 0.08em;
+}
+
+// Hangs off the right of "Systems" so the wordmark itself stays centered
+.version {
+    position: absolute;
+    left: 100%;
+    bottom: 0.3em;
+    margin-inline-start: 0.35em;
+    padding: 0.15em 0.5em;
+    font-family: var(--font-body);
+    font-size: clamp(0.65rem, 0.55rem + 0.5vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: $ys-panel-bottom;
+    background-color: $ys-accent;
+    border-radius: var(--br-sm);
+    box-shadow: 0 0 14px rgba($ys-accent, 0.45);
+}
+
+.tagline {
+    max-width: 34rem;
+    margin-block-start: var(--space-sm);
+    font-size: var(--fs-sm);
+    color: $ys-ink-muted;
+}
+
+// Map-style node on the bottom edge that links this panel to the next one down
+.connector {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: $ys-accent;
+    box-shadow: 0 0 12px rgba($ys-accent, 0.8);
+    transform: translate(-50%, 50%);
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        height: var(--page-inset);
+        border-left: 2px dashed rgba($ys-accent, 0.6);
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        translate: 0 1.5rem;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}

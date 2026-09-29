@@ -1,5 +1,5 @@
 import { IconBrandGithub, IconMail, IconBrandLinkedin, IconMapPin, IconMailFast, IconHexagonAsterisk, IconProgressCheck, IconCircleOpenArrowUp, IconCode } from '@tabler/icons-react';
-import styles from "@/components/home/ProjectCards.module.scss";
+import styles from "@/components/portfolio/ProjectCards.module.scss";
 
 export const skillLists = [
     {

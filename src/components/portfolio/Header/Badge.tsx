@@ -2,7 +2,7 @@ import styles from "./Header.module.scss";
 import filterStravaActivities from "@/lib/strava";
 import { getHalfYearContributions } from "@/lib/contributions";
 import ContributionsGraph from "./graph";
-import { statusBadgeStats } from "@/data/HomePage";
+import { statusBadgeStats } from "@/data/Portfolio";
 import { LocalTime } from "./timeZone";
 
 export async function DevBadge() {

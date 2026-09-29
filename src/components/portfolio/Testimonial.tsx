@@ -1,7 +1,7 @@
 import styles from './Testimonial.module.scss'
-import { liveRunners } from '@/data/HomePage'
+import { liveRunners } from '@/data/Portfolio'
 import { IconArrowNarrowRight } from '@tabler/icons-react';
-import { SlideAway } from '../NavLogic/SlideAway';
+import { SlideAway } from '@/components/NavLogic/SlideAway';
 
 export default function TestimonialRunner() {
     const statusColor = ['var(--color-accent)', 'var(--color-accent)', 'var(--color-secondary)']

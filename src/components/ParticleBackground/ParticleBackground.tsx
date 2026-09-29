@@ -3,7 +3,7 @@
 import { useRef, useEffect, useContext } from 'react';
 import styles from './ParticleBackground.module.scss'
 import { ThemeContext, TransitionContext } from '../NavLogic/Provider';
-import { particleColors, lineColors } from '@/data/HomePage';
+import { particleColors, lineColors } from '@/data/Portfolio';
 
 interface particleState {
     x: number, vx: number, y: number, originalY: number, tightenedY: number, radius: number 

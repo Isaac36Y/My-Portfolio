@@ -1,7 +1,7 @@
 'use client'
 import React, { useRef, useEffect, useContext, useState } from "react";
 import { TransitionContext } from "./Provider";
-import styles from "../home/Nav.module.scss"
+import styles from "@/components/portfolio/Nav.module.scss"
 
 
 export function SlideAway({children, className}: {children : React.ReactNode, className?: string}) {

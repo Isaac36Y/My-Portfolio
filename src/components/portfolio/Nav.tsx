@@ -3,7 +3,7 @@ import animateScrollTo from 'animated-scroll-to'
 import styles from './Nav.module.scss'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import NavPop from '../NavLogic/NavBadge'
+import NavPop from '@/components/NavLogic/NavBadge'
 
 
 function NavButton({ link, description }: { link: string, description: string }) {

@@ -2,7 +2,7 @@
 import styles from './NavBadge.module.scss'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { ThemeContext, TransitionContext } from './Provider'
-import { sideNavAnchors } from '@/data/HomePage'
+import { sideNavAnchors } from '@/data/Portfolio'
 import { IconSun, IconMoon } from '@tabler/icons-react';
 
 export default function NavPop() {

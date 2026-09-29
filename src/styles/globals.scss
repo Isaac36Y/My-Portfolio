@@ -30,6 +30,7 @@
     --fs-subheading: clamp(2.2rem, 1.9073rem + 1.2488vw, 3rem);
     --fs-heading-sm: clamp(3rem, 2.561rem + 1.8732vw, 4.2rem);
     --fs-heading: clamp(4rem, 3.2683rem + 3.122vw, 6rem);
+    --fs-display: clamp(4rem, min(1rem + 6.5vw, 1rem + 11svh), 7.5rem);
 
     --br-sm: 0.2rem;
     --br-med: 0.6rem;
@@ -55,6 +56,9 @@
     --color-ice: #dff6f7;
     --color-mint-deep: #308561;
     --color-mint-wash: color-mix(in srgb, var(--color-mint) 12%, transparent);
+    --color-navy-muted: color-mix(in srgb, var(--color-navy) 72%, var(--color-ice));
+
+    --fs-body: 1rem;
 
     --size-tap-target: 44px;
     --hero-inset-block-start: 5svh;
@@ -63,7 +67,14 @@
     --duration-hover: 200ms;
     --duration-frame: 450ms;
     --duration-reveal: 900ms;
+    --duration-travel: 800ms;
+    --duration-crossfade: 400ms;
+    --duration-draw: 800ms;
+    --delay-arrival-reveal: 800ms;
+    --pause-before-paths: 500ms;
+    --stagger: 150ms;
     --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-travel: cubic-bezier(0.65, 0, 0.25, 1);
 }
 
 :root[data-theme="dark"] {

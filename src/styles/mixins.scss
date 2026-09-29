@@ -1,5 +1,11 @@
 @use '@/styles/variables' as *;
 
+@mixin bp($min-width) {
+    @media (min-width: $min-width) {
+        @content;
+    }
+}
+
 @mixin divider($color: var(--color-primary)) {
     border: none;
     height: 2px;

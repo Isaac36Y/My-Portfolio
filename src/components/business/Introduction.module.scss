@@ -1,0 +1,441 @@
+@use "sass:list";
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// data-presence is set by the Stage (components/experience/Stage.tsx). It flips to "present" the
+// moment travel toward this scene begins, so every delay below is measured from the start of travel.
+@mixin on-arrival {
+    :global([data-presence="present"]) & {
+        @content;
+    }
+}
+
+// Leaving is instant but waits for the scene to be fully off screen, so nothing vanishes in view.
+@mixin reset-after-departure($properties...) {
+    $resets: ();
+    @each $property in $properties {
+        $resets: list.append($resets, $property 0s linear var(--duration-travel), $separator: comma);
+    }
+    transition: $resets;
+}
+
+// A feathered patch of ice behind the text, so the backdrop hairline fades out before it reaches the copy.
+@mixin clear-backdrop-behind {
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: calc(var(--space-lg) * -1);
+        z-index: -1;
+        background-color: var(--color-ice);
+        filter: blur(var(--space-lg));
+    }
+}
+
+.introduction {
+    // Isaac fills only the middle of his photo; the rest of the frame is transparent.
+    --body-half-width: calc(var(--figure-width) * 0.21);
+    --figure-top: max(40svh, 20rem);
+    --figure-height: 72svh;
+    --figure-width: calc(var(--figure-height) * 2 / 3);
+    --figure-center-x: 62vw;
+    --path-reach: calc(var(--body-half-width) + var(--space-xl));
+    --path-max-width: calc(var(--figure-center-x) - var(--path-reach) - var(--space-lg));
+
+    position: relative;
+    height: 100%;
+    padding: var(--space-xxxl) var(--space-lg) 0;
+    color: var(--color-navy);
+
+    @include bp($desktop) {
+        --figure-top: 5svh;
+        // Taller than the screen on purpose: his legs run off the bottom edge.
+        --figure-height: min(125svh, 90vw);
+        --figure-center-x: 50vw;
+        --path-reach: calc(var(--body-half-width) + var(--space-xxxxl) * 2);
+        --path-max-width: 24rem;
+
+        padding: 12svh var(--space-xxxl) 0;
+    }
+}
+
+.backdrop {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100vw, 120svh);
+    max-width: none;
+    height: auto;
+    translate: -50% -50%;
+    pointer-events: none;
+}
+
+.copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+
+    @include bp($desktop) {
+        max-width: calc(var(--figure-center-x) - var(--body-half-width) - var(--space-xxxl) * 2);
+    }
+}
+
+.title {
+    @include clear-backdrop-behind;
+
+    // The descenders in "Young" dip into the mission's ice patch, so the heading has to paint above it.
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.surname {
+    color: var(--color-mint-deep);
+}
+
+.mission {
+    @include clear-backdrop-behind;
+
+    max-width: 28rem;
+    font-size: var(--fs-med);
+    color: var(--color-navy-muted);
+
+    @include bp($desktop) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.figure {
+    position: absolute;
+    top: var(--figure-top);
+    left: var(--figure-center-x);
+    width: var(--figure-width);
+    height: var(--figure-height);
+    translate: -50% 0;
+}
+
+// The line (z 1) passes behind the portrait (z 2) and ends on Isaac's centerline, so it reads as
+// reaching him; the button (z 3) always stays on top.
+.portrait {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
+.path {
+    --path-delay: calc(
+        var(--delay-arrival-reveal) + var(--duration-reveal) + var(--stagger) * 2 + var(--pause-before-paths) +
+            var(--stagger) * var(--path-order)
+    );
+    --line-start: calc(var(--path-delay) + var(--duration-frame));
+    --line-weight: 2px;
+    // How far from Isaac's centerline the line stops, measured into his silhouette at that height.
+    --line-end-inset: calc(var(--figure-width) * 0.12);
+    --line-length: calc(var(--path-reach) - var(--line-end-inset));
+    --line-run-share: 1;
+    --line-run-ease: var(--ease-out);
+    --line-drop-angle: 0deg;
+
+    position: absolute;
+    top: var(--path-top);
+    right: calc(50% + var(--path-reach));
+
+    &[data-path="about"] {
+        --path-top: 14%;
+    }
+
+    &[data-path="work"] {
+        --path-top: 30%;
+    }
+
+    &[data-path="why"] {
+        --path-top: 46%;
+    }
+
+    @include bp($desktop) {
+        &[data-path="about"] {
+            --path-top: 20%;
+            --line-end-inset: calc(var(--figure-width) * 0.15);
+        }
+
+        &[data-path="why"] {
+            --path-top: 46%;
+            --line-end-inset: calc(var(--figure-width) * 0.15);
+        }
+
+        &[data-path="work"] {
+            --path-top: 54%;
+            --line-end-inset: calc(var(--figure-width) * 0.15);
+
+            // Rises instead of drops: the drawing is flipped upside down, then lifted so it still
+            // starts level with the button.
+            .pathLine {
+                scale: 1 -1;
+                translate: 0 calc(-100% + var(--line-weight));
+            }
+        }
+
+        &[data-path="about"],
+        &[data-path="work"] {
+            --line-run-share: 0.45;
+            --line-run-ease: linear;
+            --line-drop-angle: 35deg;
+        }
+
+        &[data-path="about"],
+        &[data-path="why"] {
+            right: auto;
+            left: calc(50% + var(--path-reach));
+
+            .pathLine {
+                right: 100%;
+                left: auto;
+                scale: -1 1;
+            }
+
+            .pathLink::before {
+                right: auto;
+                left: 0;
+                translate: -50% -50%;
+            }
+        }
+    }
+}
+
+// Drawn for a button on Isaac's left, running right and then down; the right side mirrors it.
+.pathLine {
+    --line-run: calc(var(--line-length) * var(--line-run-share));
+    --line-drop-span: calc(var(--line-length) - var(--line-run));
+
+    position: absolute;
+    top: calc(50% - var(--line-weight) / 2);
+    left: 100%;
+    z-index: 1;
+    width: var(--line-length);
+    height: calc(var(--line-drop-span) * tan(var(--line-drop-angle)) + var(--line-weight));
+    // A mask, not a color: it keeps the line at full strength near the button and eases it
+    // down to about a third as it slides behind Isaac.
+    mask-image: linear-gradient(to right, rgb(0 0 0) 30%, rgb(0 0 0 / 0.35));
+}
+
+.lineRun,
+.lineDrop {
+    position: absolute;
+    top: 0;
+    height: var(--line-weight);
+    background-color: var(--color-mint-deep);
+    border-radius: var(--line-weight);
+    transform: scaleX(0);
+    transform-origin: left center;
+
+    @include on-arrival {
+        transform: scaleX(1);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @include reset-after-departure(transform);
+    }
+}
+
+.lineRun {
+    left: 0;
+    width: var(--line-run);
+
+    @media (prefers-reduced-motion: no-preference) {
+        @include on-arrival {
+            transition: transform calc(var(--duration-draw) * var(--line-run-share)) var(--line-run-ease)
+                var(--line-start);
+        }
+    }
+}
+
+.lineDrop {
+    left: var(--line-run);
+    width: calc(var(--line-drop-span) / cos(var(--line-drop-angle)));
+    rotate: var(--line-drop-angle);
+
+    @media (prefers-reduced-motion: no-preference) {
+        @include on-arrival {
+            transition: transform calc(var(--duration-draw) * (1 - var(--line-run-share))) var(--ease-out)
+                calc(var(--line-start) + var(--duration-draw) * var(--line-run-share));
+        }
+    }
+}
+
+.pathLink {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-xs);
+    width: max-content;
+    max-width: var(--path-max-width);
+    min-height: var(--size-tap-target);
+    padding: var(--space-med) var(--space-lg);
+    color: var(--color-navy);
+    text-decoration: none;
+    background-color: var(--color-ice);
+    border: var(--line-weight) solid var(--color-mint-deep);
+    border-radius: var(--br-sm);
+    opacity: 0;
+    scale: 0.94;
+
+    @include bp($desktop) {
+        gap: var(--space-sm);
+        padding: var(--space-lg) var(--space-xl);
+    }
+
+    // The junction dot where the line leaves the button.
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: var(--space-med);
+        height: var(--space-med);
+        background-color: var(--color-mint-deep);
+        border-radius: 50%;
+        translate: 50% -50%;
+    }
+
+    @include on-arrival {
+        opacity: 1;
+        scale: 1;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @include reset-after-departure(opacity, scale);
+
+        @include on-arrival {
+            transition:
+                opacity var(--duration-frame) var(--ease-out) var(--path-delay),
+                scale var(--duration-frame) var(--ease-out) var(--path-delay);
+        }
+    }
+
+    @media (hover: hover) {
+        &:hover .pathWash {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    }
+
+    &:focus-visible {
+        opacity: 1;
+        scale: 1;
+        transition-delay: 0s;
+        outline: 2px solid var(--color-mint-deep);
+        outline-offset: var(--space-xs);
+    }
+}
+
+// Origin sits on the right at rest so the wash leaves in the direction it entered.
+.pathWash {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-mint-wash);
+    transform: scaleX(0);
+    transform-origin: right;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-frame) var(--ease-out);
+    }
+}
+
+.pathTitle,
+.pathDescription {
+    position: relative;
+}
+
+.pathTitle {
+    font-family: var(--font-heading);
+    font-size: var(--fs-med);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+
+    @include bp($desktop) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.pathDescription {
+    display: none;
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    text-wrap: balance;
+    color: var(--color-navy-muted);
+
+    @include bp($tablet) {
+        display: block;
+    }
+
+    @include bp($desktop) {
+        font-size: var(--fs-reg);
+    }
+}
+
+.portrait {
+    opacity: 0;
+    translate: 0 var(--space-xxxl);
+    scale: 0.94;
+
+    @include on-arrival {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @include reset-after-departure(opacity, translate, scale);
+
+        @include on-arrival {
+            transition:
+                opacity var(--duration-reveal) var(--ease-out) var(--delay-arrival-reveal),
+                translate var(--duration-reveal) var(--ease-out) var(--delay-arrival-reveal),
+                scale var(--duration-reveal) var(--ease-out) var(--delay-arrival-reveal);
+        }
+    }
+}
+
+.title,
+.mission {
+    opacity: 0;
+    translate: 0 var(--space-xl);
+
+    @include on-arrival {
+        opacity: 1;
+        translate: 0 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @include reset-after-departure(opacity, translate);
+
+        @include on-arrival {
+            transition:
+                opacity var(--duration-reveal) var(--ease-out) var(--reveal-delay),
+                translate var(--duration-reveal) var(--ease-out) var(--reveal-delay);
+        }
+    }
+}
+
+.title {
+    --reveal-delay: calc(var(--delay-arrival-reveal) + var(--stagger));
+}
+
+.mission {
+    --reveal-delay: calc(var(--delay-arrival-reveal) + var(--stagger) * 2);
+}

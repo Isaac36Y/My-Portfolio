@@ -10,7 +10,6 @@
     min-height: 100svh;
     padding: var(--hero-inset-block-start) var(--space-lg) var(--hero-inset-block-end);
     color: var(--color-ice);
-    background-color: var(--color-navy);
 }
 
 .nav {
@@ -153,6 +152,10 @@
 
     position: relative;
     width: clamp(11rem, 6rem + 28vw, 30rem);
+
+    &:focus {
+        outline: none;
+    }
 
     img {
         width: 100%;

@@ -35,7 +35,7 @@ export default function Hero() {
                     className={styles.mark}
                     preload
                 />
-                <h1 id="hero-title" className={styles.wordmark}>
+                <h1 id="hero-title" tabIndex={-1} className={styles.wordmark}>
                     <Image
                         src="/images/wordmark-2048.png"
                         alt={siteConfig.name}

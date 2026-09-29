@@ -1,0 +1,68 @@
+// Mint is only safe on navy, so the ice ground swaps the ticks to navy and Mint Deep.
+.sceneNav {
+    --tick-color: var(--color-ice);
+    --tick-active-color: var(--color-mint);
+
+    position: absolute;
+    top: 50%;
+    right: var(--space-sm);
+    translate: 0 -50%;
+
+    &[data-ground="ice"] {
+        --tick-color: var(--color-navy);
+        --tick-active-color: var(--color-mint-deep);
+    }
+}
+
+.sceneButton {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: var(--size-tap-target);
+    height: var(--size-tap-target);
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid var(--tick-active-color);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.sceneLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.sceneTick {
+    width: var(--space-xl);
+    height: 2px;
+    margin-inline-end: var(--space-sm);
+    background-color: var(--tick-color);
+    opacity: 0.6;
+    transform: scaleX(0.5);
+    transform-origin: right;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition:
+            transform var(--duration-frame) var(--ease-out),
+            opacity var(--duration-frame) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .sceneButton:hover & {
+            opacity: 1;
+            transform: scaleX(0.75);
+        }
+    }
+
+    .sceneButton[aria-current="true"] & {
+        background-color: var(--tick-active-color);
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}

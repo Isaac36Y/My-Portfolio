@@ -1,10 +1,10 @@
+import Image from "next/image";
+import { siteConfig } from "@/site.config";
 import styles from "./Hero.module.scss";
-import YSLogo from "./YSLogo";
 
-// Anchors point at the service sections that will follow the hero on this page.
 const services = [
     { label: "Websites", href: "#websites" },
-    { label: "Tools", href: "#tools" },
+    { label: "Custom Tools", href: "#custom-tools" },
     { label: "SEO", href: "#seo" },
     { label: "Digital Marketing", href: "#digital-marketing" },
 ];
@@ -12,13 +12,6 @@ const services = [
 export default function Hero() {
     return (
         <section className={styles.hero} aria-labelledby="hero-title">
-            <div className={styles.backdrop} aria-hidden="true">
-                <span className={`${styles.chevron} ${styles.chevronLeft}`} />
-                <span className={`${styles.chevron} ${styles.chevronLeft} ${styles.chevronEcho}`} />
-                <span className={`${styles.chevron} ${styles.chevronRight}`} />
-                <span className={`${styles.chevron} ${styles.chevronRight} ${styles.chevronEcho}`} />
-            </div>
-
             <nav className={styles.nav} aria-label="Services">
                 <ul role="list" className={styles.navList}>
                     {services.map((service) => (
@@ -32,22 +25,31 @@ export default function Hero() {
             </nav>
 
             <div className={styles.brand}>
-                <YSLogo className={styles.logo} />
-                <h1 id="hero-title" className={styles.title}>
-                    <span className={styles.titleTop}>Younger</span>
-                    <span className={styles.titleBottom}>
-                        Systems
-                        <span className={styles.version} aria-hidden="true">
-                            v.new
-                        </span>
+                <Image
+                    src="/images/mark-2048.png"
+                    alt=""
+                    width={2048}
+                    height={1387}
+                    sizes="10rem"
+                    className={styles.mark}
+                    preload
+                />
+                <h1 id="hero-title" className={styles.wordmark}>
+                    <Image
+                        src="/images/wordmark-2048.png"
+                        alt={siteConfig.name}
+                        width={2048}
+                        height={930}
+                        sizes="(max-width: 480px) 70vw, 30rem"
+                        preload
+                    />
+                    <span className={styles.version} aria-hidden="true">
+                        v.new
                     </span>
                 </h1>
-                <p className={`${styles.tagline} body`}>
-                    Websites, search visibility, and custom tools built to make your business work better.
-                </p>
             </div>
 
-            <span className={styles.connector} aria-hidden="true" />
+            <p className={`${styles.tagline} body`}>{siteConfig.tagline}</p>
         </section>
     );
 }

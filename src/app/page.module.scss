@@ -1,21 +1,9 @@
-@use "@/styles/business" as *;
-
-// The business page is always on its dark "map" canvas, whatever the theme, so the body
-// behind it (visible on overscroll) matches instead of flashing the light theme background.
+// Matches the body to the hero so overscroll never flashes the light theme background.
 :global(body):has(.main) {
-    background-color: $ys-canvas;
+    background-color: var(--color-navy);
 }
 
 .main {
-    --page-inset: clamp(0.5rem, 0.2rem + 1.5vw, 1.5rem);
-
     min-height: 100svh;
-    padding: var(--page-inset);
-    background-color: $ys-canvas;
-    // faint grid that reads as the map the panels sit on
-    background-image:
-        linear-gradient($ys-canvas-line 1px, transparent 1px),
-        linear-gradient(90deg, $ys-canvas-line 1px, transparent 1px);
-    background-size: 4rem 4rem;
-    background-position: center top;
+    background-color: var(--color-navy);
 }

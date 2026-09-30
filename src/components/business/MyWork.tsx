@@ -1,9 +1,17 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import SceneLink from "@/components/experience/SceneLink";
-import { work } from "@/content/work";
+import { work, type WorkPreview } from "@/content/work";
 import styles from "./MyWork.module.scss";
-import { IconChevronRight } from '@tabler/icons-react';
+import { IconArrowRight, IconChevronRight } from '@tabler/icons-react';
+
+const previewSizes: Record<WorkPreview["device"], string> = {
+    laptop: "(min-width: 1252px) 30vw, 100vw",
+    phone: "(min-width: 1252px) 12vw, 40vw",
+    panel: "(min-width: 1252px) 30vw, 100vw",
+};
 
 export default function MyWork() {
     const { titleLead, titleAccent, lede, returnLabel, categories } = work;
@@ -35,10 +43,30 @@ export default function MyWork() {
                         <span className={`${styles.categoryNumber} tech`} aria-hidden="true">
                             {String(order + 1).padStart(2, "0")}
                         </span>
-                        <h2 className={styles.categoryTitle}>{category.title}</h2>
+                        <h2 className={styles.categoryTitle}>
+                            <Link href={category.href} className={styles.categoryLink}>
+                                {category.title}
+                            </Link>
+                        </h2>
                         <p className={`${styles.categoryDescription} body`}>{category.description}</p>
-                        {/* TODO: image, 1280x800, real screenshot of a project in this category */}
-                        <div className={styles.preview} aria-hidden="true" />
+                        <span className={styles.categoryArrow} aria-hidden="true">
+                            <IconArrowRight stroke={2} />
+                        </span>
+                        {category.previews && (
+                            <div className={styles.preview}>
+                                {category.previews.map((preview) => (
+                                    <Image
+                                        key={preview.src}
+                                        src={preview.src}
+                                        alt={preview.alt}
+                                        width={preview.width}
+                                        height={preview.height}
+                                        sizes={previewSizes[preview.device]}
+                                        className={`${styles.previewImage} ${styles[preview.device]}`}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </li>
                 ))}
             </ol>

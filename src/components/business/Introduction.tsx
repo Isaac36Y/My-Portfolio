@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { introduction } from "@/content/introduction";
+import { travelTypesFor } from "@/lib/motion/routeTravel";
 import styles from "./Introduction.module.scss";
 
 export default function Introduction() {
@@ -27,7 +28,7 @@ export default function Introduction() {
 
             <div className={styles.figure}>
                 <Image
-                    src="/images/fullIsaac.png"
+                    src="/images/isaacStanding.png"
                     alt={portraitAlt}
                     width={1024}
                     height={1536}
@@ -47,7 +48,11 @@ export default function Introduction() {
                                 <span className={styles.lineRun} />
                                 <span className={styles.lineDrop} />
                             </span>
-                            <Link href={path.href} className={styles.pathLink}>
+                            <Link
+                                href={path.href}
+                                transitionTypes={path.travelDirection && travelTypesFor(path.travelDirection)}
+                                className={styles.pathLink}
+                            >
                                 <span className={styles.pathWash} aria-hidden="true" />
                                 <span className={styles.pathTitle}>{path.title}</span>
                                 <span className={`${styles.pathDescription} body`}>{path.description}</span>

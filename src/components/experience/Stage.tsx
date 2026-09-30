@@ -3,6 +3,7 @@
 import { useEffect, useEffectEvent, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { prefersReducedMotion, readDurationMs, readToken } from "@/lib/motion/tokens";
 import { findNeighbor, scenes, type Ground, type Scene, type SceneId, type TravelDirection } from "./scenes";
+import { rememberScene, sceneToResume } from "./sceneMemory";
 import SceneNav from "./SceneNav";
 import styles from "./Stage.module.scss";
 
@@ -32,6 +33,10 @@ function worldTransformFor(scene: Scene): string {
     return `translate(${scene.column * -100}%, ${scene.row * -100}%)`;
 }
 
+function findScene(sceneId: SceneId): Scene {
+    return scenes.find((scene) => scene.id === sceneId) ?? scenes[0];
+}
+
 function directionForKey(event: KeyboardEvent): TravelDirection | undefined {
     if (event.key !== " ") return directionByKey[event.key];
 
@@ -48,8 +53,9 @@ async function animateToRest(element: HTMLElement, keyframes: Keyframe[], timing
 }
 
 export default function Stage({ sceneContent }: StageProps) {
-    const [activeSceneId, setActiveSceneId] = useState<SceneId>(scenes[0].id);
-    const [groundUnderNav, setGroundUnderNav] = useState<Ground>(scenes[0].ground);
+    const [arrivalScene] = useState(() => findScene(sceneToResume()));
+    const [activeSceneId, setActiveSceneId] = useState<SceneId>(arrivalScene.id);
+    const [groundUnderNav, setGroundUnderNav] = useState<Ground>(arrivalScene.ground);
     const [announcement, setAnnouncement] = useState("");
 
     const stageRef = useRef<HTMLDivElement>(null);
@@ -60,7 +66,11 @@ export default function Stage({ sceneContent }: StageProps) {
     const wheelGestureRef = useRef({ lastWheelAtMs: -Infinity, accumulatedDeltaPx: 0, hasTraveled: false });
     const swipeRef = useRef<{ startX: number; startY: number; hasTraveled: boolean } | null>(null);
 
-    const activeScene = scenes.find((scene) => scene.id === activeSceneId) ?? scenes[0];
+    const activeScene = findScene(activeSceneId);
+
+    function focusSceneHeading(sceneId: SceneId) {
+        sceneElementsRef.current.get(sceneId)?.querySelector<HTMLElement>("h1, h2")?.focus({ preventScroll: true });
+    }
 
     async function travelTo(destination: Scene) {
         const stage = stageRef.current;
@@ -71,6 +81,7 @@ export default function Stage({ sceneContent }: StageProps) {
         isTravelingRef.current = true;
         const origin = activeScene;
         setActiveSceneId(destination.id);
+        rememberScene(destination.id);
 
         if (prefersReducedMotion()) {
             const halfCrossfadeMs = readDurationMs(stage, "--duration-crossfade") / 2;
@@ -93,7 +104,7 @@ export default function Stage({ sceneContent }: StageProps) {
         isTravelingRef.current = false;
         const destinationNumber = scenes.indexOf(destination) + 1;
         setAnnouncement(`${destination.label}, ${destinationNumber} of ${scenes.length}`);
-        sceneElementsRef.current.get(destination.id)?.querySelector<HTMLElement>("h1, h2")?.focus({ preventScroll: true });
+        focusSceneHeading(destination.id);
     }
 
     function travelToward(direction: TravelDirection): boolean {
@@ -156,6 +167,13 @@ export default function Stage({ sceneContent }: StageProps) {
         travelToward(swipeDistanceY < 0 ? "down" : "up");
     });
 
+    const focusResumedScene = useEffectEvent(() => {
+        const isResumingMidJourney = arrivalScene.id !== scenes[0].id;
+        if (isResumingMidJourney) focusSceneHeading(arrivalScene.id);
+    });
+
+    useEffect(() => focusResumedScene(), []);
+
     useEffect(() => {
         const listeners = new AbortController();
         const { signal } = listeners;
@@ -169,7 +187,7 @@ export default function Stage({ sceneContent }: StageProps) {
     return (
         <div ref={stageRef} className={styles.stage}>
             <div ref={viewportRef} className={styles.viewport}>
-                <div ref={worldRef} className={styles.world}>
+                <div ref={worldRef} className={styles.world} style={{ transform: worldTransformFor(arrivalScene) }}>
                     {scenes.map((scene) => {
                         const isActive = scene.id === activeSceneId;
                         return (

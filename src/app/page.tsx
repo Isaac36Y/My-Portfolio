@@ -1,12 +1,15 @@
 import Hero from "@/components/business/Hero";
 import Introduction from "@/components/business/Introduction";
+import RouteScene from "@/components/experience/RouteScene";
 import Stage from "@/components/experience/Stage";
 import styles from "./page.module.scss";
 
 export default function Home() {
     return (
-        <main className={styles.main}>
-            <Stage sceneContent={{ hero: <Hero />, introduction: <Introduction /> }} />
-        </main>
+        <RouteScene>
+            <main className={styles.main}>
+                <Stage sceneContent={{ hero: <Hero />, introduction: <Introduction /> }} />
+            </main>
+        </RouteScene>
     );
 }

@@ -1,0 +1,58 @@
+// Route travel matches scene travel in components/experience/Stage.tsx: both pages move as one
+// strip, so the old page leaves on the side opposite the destination while the new one fills in behind it.
+::view-transition-old(.travel-left),
+::view-transition-old(.travel-right) {
+    animation: var(--duration-travel) var(--ease-travel) both travel-out;
+}
+
+::view-transition-new(.travel-left),
+::view-transition-new(.travel-right) {
+    animation: var(--duration-travel) var(--ease-travel) both travel-in;
+}
+
+::view-transition-old(.travel-left),
+::view-transition-new(.travel-right) {
+    --travel-offset: 100%;
+}
+
+::view-transition-old(.travel-right),
+::view-transition-new(.travel-left) {
+    --travel-offset: -100%;
+}
+
+@keyframes travel-out {
+    to {
+        transform: translateX(var(--travel-offset));
+    }
+}
+
+@keyframes travel-in {
+    from {
+        transform: translateX(var(--travel-offset));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(.travel-left),
+    ::view-transition-old(.travel-right) {
+        animation: calc(var(--duration-crossfade) / 2) var(--ease-out) both travel-fade-out;
+    }
+
+    ::view-transition-new(.travel-left),
+    ::view-transition-new(.travel-right) {
+        animation: calc(var(--duration-crossfade) / 2) var(--ease-out) calc(var(--duration-crossfade) / 2) both
+            travel-fade-in;
+    }
+}
+
+@keyframes travel-fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes travel-fade-in {
+    from {
+        opacity: 0;
+    }
+}

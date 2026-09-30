@@ -57,6 +57,10 @@
     --color-mint-deep: #308561;
     --color-mint-wash: color-mix(in srgb, var(--color-mint) 12%, transparent);
     --color-navy-muted: color-mix(in srgb, var(--color-navy) 72%, var(--color-ice));
+    --color-ice-muted: color-mix(in srgb, var(--color-ice) 78%, var(--color-navy));
+    --color-navy-raised: color-mix(in srgb, var(--color-ice) 4%, var(--color-navy));
+    --color-navy-well: color-mix(in srgb, var(--color-ice) 9%, var(--color-navy));
+    --color-mint-hairline: color-mix(in srgb, var(--color-mint) 22%, transparent);
 
     --fs-body: 1rem;
 
@@ -71,7 +75,7 @@
     --duration-crossfade: 400ms;
     --duration-draw: 800ms;
     --delay-arrival-reveal: 800ms;
-    --pause-before-paths: 500ms;
+    --pause-before-paths: 0ms;
     --stagger: 150ms;
     --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
     --ease-travel: cubic-bezier(0.65, 0, 0.25, 1);

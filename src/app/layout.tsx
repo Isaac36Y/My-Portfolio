@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Courier_Prime, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.scss";
+import "@/styles/view-transitions.scss";
 import { ThemeProvider } from "@/components/NavLogic/Provider";
 import { Analytics } from "@vercel/analytics/next"
 

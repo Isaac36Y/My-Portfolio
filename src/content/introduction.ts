@@ -1,3 +1,4 @@
+import type { RouteTravelDirection } from "@/lib/motion/routeTravel";
 import { siteConfig } from "@/site.config";
 
 export type IntroductionPath = {
@@ -5,6 +6,7 @@ export type IntroductionPath = {
     title: string;
     description: string;
     href: string;
+    travelDirection?: RouteTravelDirection;
 };
 
 export const introduction = {
@@ -15,7 +17,13 @@ export const introduction = {
     portraitAlt: "Isaac Young standing in a black suit and bow tie, hands in his pockets",
     paths: [
         { id: "about", title: "Get to Know Me", description: "Who you’d be working with.", href: "/about" },
-        { id: "work", title: "My Work", description: "Sites and tools I’ve built.", href: "/portfolio" },
+        {
+            id: "work",
+            title: "My Work",
+            description: "Sites and tools I’ve built.",
+            href: "/my-work",
+            travelDirection: "left",
+        },
         {
             id: "why",
             title: `Why ${siteConfig.name}`,

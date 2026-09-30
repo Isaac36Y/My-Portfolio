@@ -1,0 +1,20 @@
+// One screen tall, matching a Stage scene, so the frame on a route page covers exactly what the scene it replaces did.
+.window {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 100svh;
+    overflow: clip;
+    pointer-events: none;
+}
+
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100vw, 120svh);
+    max-width: none;
+    height: auto;
+    translate: -50% -50%;
+    // On the image, not the window: a named view transition element's own opacity may not survive into its snapshot.
+    opacity: var(--logo-backdrop-opacity, 1);
+}

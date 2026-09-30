@@ -19,6 +19,8 @@
 .scene {
     position: absolute;
     inset: 0;
+    // Oversized backdrops and figures would otherwise paint into the neighboring scene.
+    overflow: clip;
     translate: calc(var(--scene-column) * 100%) calc(var(--scene-row) * 100%);
 
     &[data-ground="navy"] {

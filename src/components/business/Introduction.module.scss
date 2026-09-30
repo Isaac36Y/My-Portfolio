@@ -19,20 +19,6 @@
     transition: $resets;
 }
 
-// A feathered patch of ice behind the text, so the backdrop hairline fades out before it reaches the copy.
-@mixin clear-backdrop-behind {
-    position: relative;
-
-    &::before {
-        content: "";
-        position: absolute;
-        inset: calc(var(--space-lg) * -1);
-        z-index: -1;
-        background-color: var(--color-ice);
-        filter: blur(var(--space-lg));
-    }
-}
-
 .introduction {
     // Isaac fills only the middle of his photo; the rest of the frame is transparent.
     --body-half-width: calc(var(--figure-width) * 0.21);
@@ -60,17 +46,6 @@
     }
 }
 
-.backdrop {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: max(100vw, 120svh);
-    max-width: none;
-    height: auto;
-    translate: -50% -50%;
-    pointer-events: none;
-}
-
 .copy {
     position: relative;
     z-index: 1;
@@ -84,7 +59,7 @@
 }
 
 .title {
-    @include clear-backdrop-behind;
+    @include clear-backdrop-behind(var(--color-ice));
 
     // The descenders in "Young" dip into the mission's ice patch, so the heading has to paint above it.
     z-index: 1;
@@ -105,7 +80,7 @@
 }
 
 .mission {
-    @include clear-backdrop-behind;
+    @include clear-backdrop-behind(var(--color-ice));
 
     max-width: 28rem;
     font-size: var(--fs-med);

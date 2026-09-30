@@ -32,6 +32,96 @@
     }
 }
 
+:root:active-view-transition-type(travel-left) {
+    --travel-exit-offset: 100%;
+}
+
+:root:active-view-transition-type(travel-right) {
+    --travel-exit-offset: -100%;
+}
+
+// Elements opt in with data-travel-layer, and only route travel lifts them out of their page snapshot.
+// This lives here rather than in a module because CSS Modules would hash the transition names and classes.
+@media (prefers-reduced-motion: no-preference) {
+    @each $direction in left, right {
+        :root:active-view-transition-type(travel-#{$direction}) {
+            [data-travel-layer] {
+                view-transition-name: match-element;
+            }
+
+            [data-travel-layer="foreground"] {
+                view-transition-class: travel-#{$direction} travel-foreground;
+            }
+
+            [data-travel-layer="window"] {
+                view-transition-class: travel-window travel-window-arriving;
+            }
+
+            [data-travel-layer="window"][data-travel-leaves-on="#{$direction}"] {
+                view-transition-class: travel-window travel-window-leaving;
+            }
+        }
+    }
+}
+
+// Page grounds stay in the page snapshots underneath; backdrop logos sit on the grounds; copy sits on the logos.
+::view-transition-group(.travel-window) {
+    z-index: 1;
+    clip-path: inset(0);
+}
+
+::view-transition-group(.travel-foreground) {
+    z-index: 2;
+}
+
+// A travel window's frame moves with its page while the picture inside moves back by the same amount.
+// The logo holds still on screen, and the seam between the pages becomes the seam between its two versions.
+::view-transition-old(.travel-window),
+::view-transition-new(.travel-window) {
+    animation: none;
+}
+
+::view-transition-group(.travel-window-leaving) {
+    animation: var(--duration-travel) var(--ease-travel) both window-frame-leave;
+}
+
+::view-transition-image-pair(.travel-window-leaving) {
+    animation: var(--duration-travel) var(--ease-travel) both window-picture-leave;
+}
+
+::view-transition-group(.travel-window-arriving) {
+    animation: var(--duration-travel) var(--ease-travel) both window-frame-arrive;
+}
+
+::view-transition-image-pair(.travel-window-arriving) {
+    animation: var(--duration-travel) var(--ease-travel) both window-picture-arrive;
+}
+
+// translate, not transform: the browser places each group with its own transform.
+@keyframes window-frame-leave {
+    to {
+        translate: var(--travel-exit-offset);
+    }
+}
+
+@keyframes window-picture-leave {
+    to {
+        translate: calc(var(--travel-exit-offset) * -1);
+    }
+}
+
+@keyframes window-frame-arrive {
+    from {
+        translate: calc(var(--travel-exit-offset) * -1);
+    }
+}
+
+@keyframes window-picture-arrive {
+    from {
+        translate: var(--travel-exit-offset);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     ::view-transition-old(.travel-left),
     ::view-transition-old(.travel-right) {

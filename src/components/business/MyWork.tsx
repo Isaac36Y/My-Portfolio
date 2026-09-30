@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import SceneLink from "@/components/experience/SceneLink";
 import { work } from "@/content/work";
 import styles from "./MyWork.module.scss";
@@ -8,7 +9,9 @@ export default function MyWork() {
     const { titleLead, titleAccent, lede, returnLabel, categories } = work;
 
     return (
-        <section className={styles.myWork} aria-labelledby="my-work-title">
+        <section className={styles.myWork} aria-labelledby="my-work-title" data-travel-layer="foreground">
+            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} travelLeavesOn="right" />
+
             <SceneLink sceneId="introduction" direction="right" className={styles.returnLink}>
                 <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
                 <IconChevronRight stroke={2} className={styles.returnArrow} aria-hidden="true" />

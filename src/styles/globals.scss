@@ -35,6 +35,7 @@
     --br-sm: 0.2rem;
     --br-med: 0.6rem;
     --br-lg: 1rem;
+    --br-card: 1.5rem;
 
     --space-xxs: 0.1rem;
     --space-xs: 0.25rem;
@@ -50,6 +51,9 @@
 
     --elevated-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
     --holo-shadow: 0 0 6px var(--color-accent-medium), 0 0 20px var(--color-accent-light);
+    --shadow-card:
+        var(--space-xxs) var(--space-xxs) var(--space-xs) var(--color-card-shadow),
+        var(--space-lg) var(--space-xl) var(--space-xxxxl) calc(var(--space-lg) * -1) var(--color-card-shadow);
 
     --color-navy: #00002a;
     --color-mint: #50dca0;
@@ -63,8 +67,21 @@
     --color-mint-hairline: color-mix(in srgb, var(--color-mint) 22%, transparent);
     --color-ice-glow: color-mix(in srgb, var(--color-ice) 20%, transparent);
     --color-navy-hairline: color-mix(in srgb, var(--color-navy) 14%, transparent);
+    --color-card: color-mix(in srgb, var(--color-ice) 6%, var(--color-navy));
+    --color-card-lit: color-mix(in srgb, var(--color-ice) 15%, var(--color-navy));
+    --color-card-shade: color-mix(in srgb, var(--color-ice) 2%, var(--color-navy));
+    --color-card-rim: color-mix(in srgb, var(--color-ice) 30%, transparent);
+    --color-card-rim-shade: color-mix(in srgb, black 40%, transparent);
+    --color-card-glare: color-mix(in srgb, var(--color-ice) 34%, transparent);
+    --color-card-diffuse: color-mix(in srgb, var(--color-ice) 12%, transparent);
+    --color-card-falloff: color-mix(in srgb, black 35%, transparent);
+    --color-card-shadow: color-mix(in srgb, black 55%, transparent);
+    --color-photo-backdrop: color-mix(in srgb, var(--color-ice) 80%, transparent);
 
     --fs-body: 1rem;
+    --fs-label: 0.8125rem;
+    // Follows the screen's height, not its width: the card it sets is as tall as the screen allows.
+    --fs-card-copy: clamp(1rem, 0.4rem + 1.6svh, 1.25rem);
 
     --size-tap-target: 44px;
     --hero-inset-block-start: 5svh;
@@ -83,6 +100,12 @@
     --delay-arrival-reveal: 800ms;
     --pause-before-paths: 0ms;
     --stagger: 150ms;
+    --duration-signal-pulse: 2400ms;
+    --duration-tilt: 400ms;
+    --duration-flip: 800ms;
+    --duration-sheen: 1400ms;
+    --tilt-limit: 6deg;
+    --perspective-card: 1400px;
     --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
     --ease-travel: cubic-bezier(0.65, 0, 0.25, 1);
 }

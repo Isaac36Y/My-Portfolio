@@ -1,30 +1,32 @@
-import type { ComponentType, CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import Image from "next/image";
-import {
-    IconChevronLeft,
-    IconClock,
-    IconHexagonAsterisk,
-    IconMailFast,
-    IconMapPin,
-    IconProgressCheck,
-    type IconProps,
-} from "@tabler/icons-react";
+import { IconChevronLeft } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import SceneLink from "@/components/experience/SceneLink";
-import { about, type AboutStat } from "@/content/about";
+import { about } from "@/content/about";
 import LocalTime from "./LocalTime";
+import FlipButton from "./FlipButton";
+import FlipCard from "./FlipCard";
 import styles from "./About.module.scss";
 
-const statIcons: Record<AboutStat["id"], ComponentType<IconProps>> = {
-    location: IconMapPin,
-    "local-time": IconClock,
-    response: IconMailFast,
-    status: IconProgressCheck,
-    specialty: IconHexagonAsterisk,
-};
+const IDENTITY_LINES = 2;
 
 export default function About() {
-    const { titleLead, titleAccent, returnLabel, portraitAlt, statsLabel, stats } = about;
+    const {
+        titleLead,
+        titleAccent,
+        returnLabel,
+        portraitAlt,
+        statsLabel,
+        cardName,
+        cardRole,
+        flipText,
+        flipToBackLabel,
+        flipToFrontLabel,
+        stats,
+        cardBack,
+    } = about;
+    const flipButtonCopy = { text: flipText, toBackLabel: flipToBackLabel, toFrontLabel: flipToFrontLabel };
 
     return (
         <section className={styles.about} aria-labelledby="about-title" data-travel-layer="foreground">
@@ -45,47 +47,96 @@ export default function About() {
                 </h1>
             </header>
 
-            <aside className={styles.card} aria-label={statsLabel}>
-                <span className={styles.cardFill} aria-hidden="true" />
-                <div className={styles.portrait} data-carried="portrait">
-                    <Image
-                        src="/images/isaacStanding.png"
-                        alt={portraitAlt}
-                        width={1024}
-                        height={1536}
-                        // The desktop size matches the introduction's so both pick the same file and the carried portrait is already cached.
-                        sizes="(min-width: 1252px) 85vh, 45rem"
-                        loading="eager"
-                        className={styles.portraitImage}
-                    />
-                </div>
-                <dl className={styles.stats}>
-                    {stats.map((stat, order) => {
-                        const StatIcon = statIcons[stat.id];
-                        return (
-                            <div
-                                key={stat.id}
-                                className={styles.stat}
-                                style={{ "--stat-order": order } as CSSProperties}
-                            >
-                                <dt className={`${styles.statLabel} tech`}>
-                                    <StatIcon stroke={1.75} className={styles.statIcon} aria-hidden="true" />
-                                    {stat.label}
-                                </dt>
-                                <dd className={`${styles.statValue} body`}>
-                                    {stat.id === "local-time" ? <LocalTime timeZone={stat.timeZone} /> : stat.value}
-                                </dd>
-                            </div>
-                        );
-                    })}
-                </dl>
-                <span className={styles.cardEdges} aria-hidden="true">
-                    <span className={styles.edgeTop} />
-                    <span className={styles.edgeLeft} />
-                    <span className={styles.edgeRight} />
-                    <span className={styles.edgeBottom} />
-                </span>
-            </aside>
+            <FlipCard
+                className={styles.card}
+                label={statsLabel}
+                front={
+                    <div className={styles.front}>
+                        <span className={styles.photoBackdrop} aria-hidden="true" />
+                        <div className={styles.portrait} data-carried="portrait">
+                            <Image
+                                src="/images/isaacStanding.png"
+                                alt={portraitAlt}
+                                width={1024}
+                                height={1536}
+                                // The desktop size matches the introduction's so both pick the same file and the carried portrait is already cached.
+                                sizes="(min-width: 1252px) 85vh, 45rem"
+                                loading="eager"
+                                className={styles.portraitImage}
+                            />
+                        </div>
+                        <div className={styles.details}>
+                            <p className={styles.identity}>
+                                <span className={styles.name} style={{ "--reveal-order": 0 } as CSSProperties}>
+                                    {cardName}
+                                </span>
+                                <span
+                                    className={`${styles.role} tech`}
+                                    style={{ "--reveal-order": 1 } as CSSProperties}
+                                >
+                                    {cardRole}
+                                </span>
+                            </p>
+                            <dl className={styles.stats}>
+                                {stats.map((stat, order) => (
+                                    <div
+                                        key={stat.id}
+                                        className={styles.stat}
+                                        style={{ "--reveal-order": IDENTITY_LINES + order } as CSSProperties}
+                                    >
+                                        <dt className={`${styles.label} tech`}>{stat.label}</dt>
+                                        <dd className={`${styles.statValue} body`}>
+                                            {stat.id === "status" && (
+                                                <span className={styles.availableSignal} aria-hidden="true" />
+                                            )}
+                                            {stat.id === "local-time" ? <LocalTime timeZone={stat.timeZone} /> : stat.value}
+                                        </dd>
+                                    </div>
+                                ))}
+                            </dl>
+                            <FlipButton
+                                {...flipButtonCopy}
+                                className={styles.frontFlip}
+                                style={{ "--reveal-order": IDENTITY_LINES + stats.length } as CSSProperties}
+                            />
+                        </div>
+                    </div>
+                }
+                back={
+                    <div className={styles.back}>
+                        <div className={styles.backFields}>
+                            {cardBack.fieldGroups.map((fields) => (
+                                <dl key={fields[0].label} className={styles.fieldGroup}>
+                                    {fields.map((field) => (
+                                        <div
+                                            key={field.label}
+                                            className={field.isFullWidth ? `${styles.field} ${styles.fullWidth}` : styles.field}
+                                        >
+                                            <dt className={`${styles.label} tech`}>{field.label}</dt>
+                                            <dd className={`${styles.fieldValue} body`}>{field.value}</dd>
+                                        </div>
+                                    ))}
+                                </dl>
+                            ))}
+                            <dl className={styles.fieldGroup}>
+                                <div className={`${styles.field} ${styles.fullWidth}`}>
+                                    <dt className={`${styles.label} tech`}>{cardBack.reachLabel}</dt>
+                                    <dd>
+                                        <a href={`mailto:${cardBack.email}`} className={styles.email}>
+                                            {cardBack.email}
+                                        </a>
+                                    </dd>
+                                    <dd className={`${styles.backNote} body`}>{cardBack.replyPromise}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div className={styles.backFooter}>
+                            <p className={`${styles.issuer} tech`}>{cardBack.issuer}</p>
+                            <FlipButton {...flipButtonCopy} />
+                        </div>
+                    </div>
+                }
+            />
 
             {/* TODO: story sections. This block only gives the page enough length to test the sticky card. */}
             <div className={styles.story} aria-hidden="true" />

@@ -10,6 +10,11 @@
     min-height: 100svh;
     padding: var(--hero-inset-block-start) var(--space-lg) var(--hero-inset-block-end);
     color: var(--color-ice);
+    background-image:
+        linear-gradient(to right, var(--color-grid-line) var(--width-grid-line), transparent var(--width-grid-line)),
+        linear-gradient(to bottom, var(--color-grid-line) var(--width-grid-line), transparent var(--width-grid-line));
+    background-size: var(--size-grid-cell) var(--size-grid-cell);
+    background-position: center;
 }
 
 .nav {

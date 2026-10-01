@@ -77,6 +77,7 @@
     --color-card-falloff: color-mix(in srgb, black 35%, transparent);
     --color-card-shadow: color-mix(in srgb, black 55%, transparent);
     --color-photo-backdrop: color-mix(in srgb, var(--color-ice) 80%, transparent);
+    --color-grid-line: color-mix(in srgb, var(--color-ice) 15%, var(--color-navy));
 
     --fs-body: 1rem;
     --fs-label: 0.8125rem;
@@ -86,6 +87,9 @@
     --size-tap-target: 44px;
     --hero-inset-block-start: 5svh;
     --hero-inset-block-end: 15svh;
+    // Matches the business card, which fits about thirteen cells across its width.
+    --size-grid-cell: clamp(3rem, 7.75vw, 7rem);
+    --width-grid-line: 1px;
     --page-inset-block: 6svh;
     // Taller than the screen on purpose: Isaac's legs run off the bottom edge.
     --height-portrait-standing: min(125svh, 90vw);

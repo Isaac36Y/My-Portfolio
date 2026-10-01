@@ -41,7 +41,7 @@
     // Runs into the edge Isaac's scene lies beyond, so the way back points toward him.
     @include bp($desktop) {
         position: absolute;
-        top: 12svh;
+        top: var(--page-inset-block);
         right: var(--space-lg);
         padding-inline: var(--space-lg) 0;
     }

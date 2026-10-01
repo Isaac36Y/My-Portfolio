@@ -62,12 +62,17 @@
     --color-navy-well: color-mix(in srgb, var(--color-ice) 9%, var(--color-navy));
     --color-mint-hairline: color-mix(in srgb, var(--color-mint) 22%, transparent);
     --color-ice-glow: color-mix(in srgb, var(--color-ice) 20%, transparent);
+    --color-navy-hairline: color-mix(in srgb, var(--color-navy) 14%, transparent);
 
     --fs-body: 1rem;
 
     --size-tap-target: 44px;
     --hero-inset-block-start: 5svh;
     --hero-inset-block-end: 15svh;
+    --page-inset-block: 6svh;
+    // Taller than the screen on purpose: Isaac's legs run off the bottom edge.
+    --height-portrait-standing: min(125svh, 90vw);
+    --scale-portrait-in-card: 1.25;
 
     --duration-hover: 200ms;
     --duration-frame: 450ms;

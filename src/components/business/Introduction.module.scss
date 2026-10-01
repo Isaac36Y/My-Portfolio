@@ -36,8 +36,7 @@
 
     @include bp($desktop) {
         --figure-top: 5svh;
-        // Taller than the screen on purpose: his legs run off the bottom edge.
-        --figure-height: min(125svh, 90vw);
+        --figure-height: var(--height-portrait-standing);
         --figure-center-x: 50vw;
         --path-reach: calc(var(--body-half-width) + var(--space-xxxxl) * 2);
         --path-max-width: 24rem;

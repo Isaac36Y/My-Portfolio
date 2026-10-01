@@ -1,3 +1,6 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
 // Route travel matches scene travel in components/experience/Stage.tsx: both pages move as one
 // strip, so the old page leaves on the side opposite the destination while the new one fills in behind it.
 ::view-transition-old(.travel-left),
@@ -57,11 +60,35 @@
                 view-transition-class: travel-window travel-window-arriving;
             }
 
-            [data-travel-layer="window"][data-travel-leaves-on="#{$direction}"] {
+            [data-travel-layer="window"][data-travel-leaves-on~="#{$direction}"] {
                 view-transition-class: travel-window travel-window-leaving;
             }
         }
     }
+}
+
+// Isaac's portrait crosses between the introduction and the About card as one element instead of
+// leaving with either page. On phones the card sits under the title, so he travels with his page there.
+@media (prefers-reduced-motion: no-preference) {
+    @include bp($desktop) {
+        :root:active-view-transition-type(carry-portrait) [data-carried="portrait"] {
+            view-transition-name: carried-portrait;
+        }
+    }
+}
+
+// Both pages size the portrait identically and differ only in position and scale, so the group
+// animates transform alone. The two snapshots crossfade on the same curve so the unchanged upper body
+// stays solid while the legs, faded out on the About card, dissolve or return.
+::view-transition-group(carried-portrait),
+::view-transition-old(carried-portrait),
+::view-transition-new(carried-portrait) {
+    animation-duration: var(--duration-travel);
+    animation-timing-function: var(--ease-travel);
+}
+
+::view-transition-group(carried-portrait) {
+    z-index: 3;
 }
 
 // Page grounds stay in the page snapshots underneath; backdrop logos sit on the grounds; copy sits on the logos.

@@ -1,0 +1,336 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// The card forms once the route travel lands and the carried portrait has settled into it:
+// the frame draws, the fill rises behind Isaac, then the stats surface over his lower half.
+@keyframes draw-across {
+    from {
+        transform: scaleX(0);
+    }
+}
+
+@keyframes draw-down {
+    from {
+        transform: scaleY(0);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes surface {
+    from {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(var(--space-lg));
+    }
+}
+
+.about {
+    --logo-backdrop-opacity: 1;
+    --photo-window-height: 26rem;
+    --phone-portrait-zoom: 2.6;
+
+    position: relative;
+    display: grid;
+    grid-template-areas:
+        "nav"
+        "header"
+        "card"
+        "story";
+    gap: var(--space-xxl);
+    min-height: 100svh;
+    padding: var(--space-lg) var(--space-lg) var(--space-xxxl);
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        grid-template-areas:
+            "nav card"
+            "header card"
+            "story card";
+        grid-template-rows: auto auto 1fr;
+        grid-template-columns: 1fr clamp(24rem, 36vw, 36rem);
+        column-gap: var(--space-xxxxl);
+        padding: var(--page-inset-block) var(--space-xxxl) var(--page-inset-block) var(--space-lg);
+    }
+}
+
+.returnLink {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: nav;
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    // Runs into the edge Isaac's scene lies beyond, so the way back points toward him.
+    @include bp($desktop) {
+        padding-inline: 0 var(--space-lg);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.returnLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.returnArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .returnLink:hover & {
+            transform: translateX(calc(var(--space-med) * -1));
+        }
+    }
+}
+
+.header {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: header;
+    max-width: 40rem;
+
+    @include bp($desktop) {
+        padding-left: var(--space-xl);
+    }
+}
+
+.title {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.titleAccent {
+    color: var(--color-mint);
+}
+
+.card {
+    --edge-weight: 2px;
+    --portrait-inset-top: var(--space-xl);
+    --forms-at: var(--duration-travel);
+    --frame-drawn-at: calc(var(--forms-at) + var(--duration-frame));
+    --stats-surface-at: calc(var(--frame-drawn-at) + var(--stagger) * 2);
+
+    position: relative;
+    z-index: 1;
+    grid-area: card;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: var(--photo-window-height);
+    overflow: clip;
+    isolation: isolate;
+    color: var(--color-navy);
+    border-radius: var(--br-sm);
+
+    // Equal insets above and below keep the card centered on screen while the story scrolls past it.
+    @include bp($desktop) {
+        position: sticky;
+        top: var(--page-inset-block);
+        align-self: start;
+        height: calc(100svh - var(--page-inset-block) * 2);
+        padding-top: 0;
+    }
+}
+
+.cardFill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: color-mix(in srgb, var(--color-ice), transparent 10%);
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: fade-in var(--duration-reveal) var(--ease-out) var(--frame-drawn-at) both;
+    }
+}
+
+// Sized like the introduction's portrait and zoomed with scale alone, so the carried portrait
+// crosses between the two pages without animating its width or height.
+.portrait {
+    --portrait-height: calc(var(--photo-window-height) * var(--phone-portrait-zoom));
+
+    position: absolute;
+    top: var(--portrait-inset-top);
+    left: 50%;
+    width: calc(var(--portrait-height) * 2 / 3);
+    max-width: none;
+    height: var(--portrait-height);
+    translate: -50% 0;
+    transform-origin: top center;
+
+    @include bp($desktop) {
+        --portrait-height: var(--height-portrait-standing);
+
+        scale: var(--scale-portrait-in-card);
+    }
+}
+
+.portraitImage {
+    width: 100%;
+    height: 100%;
+
+    // The legs fade out above the card's bottom edge instead of being cut off by it. The carried
+    // portrait crossfades into this image mid-travel, so the legs dissolve rather than vanish on landing.
+    // Measured in the image's own unscaled pixels, so the card's height is divided back out of the zoom.
+    @include bp($desktop) {
+        --card-bottom-in-portrait: calc(
+            (100svh - var(--page-inset-block) * 2 - var(--portrait-inset-top)) / var(--scale-portrait-in-card)
+        );
+
+        mask-image: linear-gradient(
+            to bottom,
+            rgb(0 0 0) calc(var(--card-bottom-in-portrait) - var(--space-xxxxl) * 2),
+            transparent var(--card-bottom-in-portrait)
+        );
+    }
+}
+
+.stats {
+    position: relative;
+    display: grid;
+    padding: var(--space-med) var(--space-xl) var(--space-xl);
+    background-color: var(--color-ice);
+    border-top: 1px solid var(--color-navy-hairline);
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: surface var(--duration-reveal) var(--ease-out) var(--stats-surface-at) both;
+    }
+}
+
+.stat {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-lg);
+    padding-block: var(--space-med);
+
+    & + & {
+        border-top: 1px solid var(--color-navy-hairline);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: rise-in var(--duration-frame) var(--ease-out) both;
+        animation-delay: calc(var(--stats-surface-at) + var(--stagger) * (var(--stat-order) + 1));
+    }
+}
+
+.statLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-navy-muted);
+}
+
+.statIcon {
+    flex-shrink: 0;
+    width: 1.25em;
+    height: 1.25em;
+    color: var(--color-mint-deep);
+}
+
+.statValue {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
+
+.cardEdges {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.edgeTop,
+.edgeLeft,
+.edgeRight,
+.edgeBottom {
+    position: absolute;
+    background-color: var(--color-mint-deep);
+}
+
+.edgeTop,
+.edgeBottom {
+    inset-inline: 0;
+    height: var(--edge-weight);
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: draw-across var(--duration-frame) var(--ease-out) var(--forms-at) both;
+    }
+}
+
+.edgeTop {
+    top: 0;
+}
+
+.edgeBottom {
+    bottom: 0;
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation-delay: calc(var(--frame-drawn-at) + var(--duration-draw));
+    }
+}
+
+.edgeLeft,
+.edgeRight {
+    inset-block: 0;
+    width: var(--edge-weight);
+    transform-origin: top;
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: draw-down var(--duration-draw) var(--ease-out) var(--frame-drawn-at) both;
+    }
+}
+
+.edgeLeft {
+    left: 0;
+}
+
+.edgeRight {
+    right: 0;
+}
+
+.story {
+    grid-area: story;
+    min-height: 150svh;
+    border: 1px dashed var(--color-ice-glow);
+    border-radius: var(--br-sm);
+}

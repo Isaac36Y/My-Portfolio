@@ -11,7 +11,7 @@ export default function Introduction() {
 
     return (
         <section className={styles.introduction} aria-labelledby="introduction-title" data-travel-layer="foreground">
-            <LogoBackdrop src="/images/mark-outline-1-2048.png" width={2048} height={1388} travelLeavesOn="left" />
+            <LogoBackdrop src="/images/mark-outline-1-2048.png" width={2048} height={1388} travelLeavesOn={["left", "right"]} />
             <div className={styles.copy}>
                 <h2 id="introduction-title" tabIndex={-1} className={styles.title}>
                     <span>{greeting}</span> <span className={styles.surname}>{surname}</span>
@@ -28,6 +28,7 @@ export default function Introduction() {
                     sizes="(min-width: 1252px) 85vh, 50vh"
                     loading="eager"
                     className={styles.portrait}
+                    data-carried="portrait"
                 />
                 <ul role="list" className={styles.paths}>
                     {paths.map((path, order) => (
@@ -43,7 +44,7 @@ export default function Introduction() {
                             </span>
                             <Link
                                 href={path.href}
-                                transitionTypes={path.travelDirection && travelTypesFor(path.travelDirection)}
+                                transitionTypes={path.travel && travelTypesFor(path.travel)}
                                 className={styles.pathLink}
                             >
                                 <span className={styles.pathWash} aria-hidden="true" />

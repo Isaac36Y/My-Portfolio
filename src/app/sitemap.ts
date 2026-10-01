@@ -15,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://isaacyoungs.dev/why",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://isaacyoungs.dev/portfolio",
       lastModified: new Date(),
       changeFrequency: "monthly",

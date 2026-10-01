@@ -4,49 +4,71 @@
 // Route travel matches scene travel in components/experience/Stage.tsx: both pages move as one
 // strip, so the old page leaves on the side opposite the destination while the new one fills in behind it.
 ::view-transition-old(.travel-left),
-::view-transition-old(.travel-right) {
+::view-transition-old(.travel-right),
+::view-transition-old(.travel-up),
+::view-transition-old(.travel-down) {
     animation: var(--duration-travel) var(--ease-travel) both travel-out;
 }
 
 ::view-transition-new(.travel-left),
-::view-transition-new(.travel-right) {
+::view-transition-new(.travel-right),
+::view-transition-new(.travel-up),
+::view-transition-new(.travel-down) {
     animation: var(--duration-travel) var(--ease-travel) both travel-in;
 }
 
 ::view-transition-old(.travel-left),
 ::view-transition-new(.travel-right) {
-    --travel-offset: 100%;
+    --travel-offset-x: 100%;
 }
 
 ::view-transition-old(.travel-right),
 ::view-transition-new(.travel-left) {
-    --travel-offset: -100%;
+    --travel-offset-x: -100%;
+}
+
+::view-transition-old(.travel-up),
+::view-transition-new(.travel-down) {
+    --travel-offset-y: 100%;
+}
+
+::view-transition-old(.travel-down),
+::view-transition-new(.travel-up) {
+    --travel-offset-y: -100%;
 }
 
 @keyframes travel-out {
     to {
-        transform: translateX(var(--travel-offset));
+        transform: translate(var(--travel-offset-x, 0), var(--travel-offset-y, 0));
     }
 }
 
 @keyframes travel-in {
     from {
-        transform: translateX(var(--travel-offset));
+        transform: translate(var(--travel-offset-x, 0), var(--travel-offset-y, 0));
     }
 }
 
 :root:active-view-transition-type(travel-left) {
-    --travel-exit-offset: 100%;
+    --travel-exit-x: 100%;
 }
 
 :root:active-view-transition-type(travel-right) {
-    --travel-exit-offset: -100%;
+    --travel-exit-x: -100%;
+}
+
+:root:active-view-transition-type(travel-up) {
+    --travel-exit-y: 100%;
+}
+
+:root:active-view-transition-type(travel-down) {
+    --travel-exit-y: -100%;
 }
 
 // Elements opt in with data-travel-layer, and only route travel lifts them out of their page snapshot.
 // This lives here rather than in a module because CSS Modules would hash the transition names and classes.
 @media (prefers-reduced-motion: no-preference) {
-    @each $direction in left, right {
+    @each $direction in left, right, up, down {
         :root:active-view-transition-type(travel-#{$direction}) {
             [data-travel-layer] {
                 view-transition-name: match-element;
@@ -60,7 +82,7 @@
 
     // The browser cannot tell a window whether it is leaving or arriving, but every route travel either
     // leaves the stage or returns to it, so which side of that trip a window sits on decides it.
-    :root:active-view-transition-type(travel-left, travel-right) {
+    :root:active-view-transition-type(travel-left, travel-right, travel-up, travel-down) {
         &:not(:active-view-transition-type(travel-return)) {
             [data-travel-layer="window"] {
                 view-transition-class: travel-window travel-window-arriving;
@@ -117,6 +139,14 @@
     z-index: 2;
 }
 
+// A page's snapshot keeps whatever hangs past its edges, like the legs below Isaac's portrait. Sideways
+// travel never shows that overhang, but vertical travel slides it into view, so it is trimmed to the page.
+// The trim sits on the snapshots, not the group: the group holds still while the snapshots slide through it.
+:root:active-view-transition-type(travel-up, travel-down)::view-transition-old(.travel-foreground),
+:root:active-view-transition-type(travel-up, travel-down)::view-transition-new(.travel-foreground) {
+    clip-path: inset(0);
+}
+
 // A travel window's frame moves with its page while the picture inside moves back by the same amount.
 // The logo holds still on screen, and the seam between the pages becomes the seam between its two versions.
 ::view-transition-old(.travel-window),
@@ -141,38 +171,43 @@
 }
 
 // translate, not transform: the browser places each group with its own transform.
+// The 0% fallbacks keep the calc() results lengths; a bare 0 would make the reversed translate invalid.
 @keyframes window-frame-leave {
     to {
-        translate: var(--travel-exit-offset);
+        translate: var(--travel-exit-x, 0%) var(--travel-exit-y, 0%);
     }
 }
 
 @keyframes window-picture-leave {
     to {
-        translate: calc(var(--travel-exit-offset) * -1);
+        translate: calc(var(--travel-exit-x, 0%) * -1) calc(var(--travel-exit-y, 0%) * -1);
     }
 }
 
 @keyframes window-frame-arrive {
     from {
-        translate: calc(var(--travel-exit-offset) * -1);
+        translate: calc(var(--travel-exit-x, 0%) * -1) calc(var(--travel-exit-y, 0%) * -1);
     }
 }
 
 @keyframes window-picture-arrive {
     from {
-        translate: var(--travel-exit-offset);
+        translate: var(--travel-exit-x, 0%) var(--travel-exit-y, 0%);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     ::view-transition-old(.travel-left),
-    ::view-transition-old(.travel-right) {
+    ::view-transition-old(.travel-right),
+    ::view-transition-old(.travel-up),
+    ::view-transition-old(.travel-down) {
         animation: calc(var(--duration-crossfade) / 2) var(--ease-out) both travel-fade-out;
     }
 
     ::view-transition-new(.travel-left),
-    ::view-transition-new(.travel-right) {
+    ::view-transition-new(.travel-right),
+    ::view-transition-new(.travel-up),
+    ::view-transition-new(.travel-down) {
         animation: calc(var(--duration-crossfade) / 2) var(--ease-out) calc(var(--duration-crossfade) / 2) both
             travel-fade-in;
     }

@@ -35,6 +35,7 @@ export const introduction = {
             title: `Why ${siteConfig.name}`,
             description: "Built for you, never from a template.",
             href: "/why",
+            travel: { direction: "down" },
         },
     ] satisfies IntroductionPath[],
 };

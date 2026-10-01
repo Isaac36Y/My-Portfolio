@@ -4,6 +4,7 @@ import { IconChevronLeft } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import SceneLink from "@/components/experience/SceneLink";
 import { about } from "@/content/about";
+import AboutStory from "./AboutStory";
 import LocalTime from "./LocalTime";
 import FlipButton from "./FlipButton";
 import FlipCard from "./FlipCard";
@@ -30,7 +31,7 @@ export default function About() {
 
     return (
         <section className={styles.about} aria-labelledby="about-title" data-travel-layer="foreground">
-            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} />
+            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} staysInView />
 
             <SceneLink
                 sceneId="introduction"
@@ -138,8 +139,7 @@ export default function About() {
                 }
             />
 
-            {/* TODO: story sections. This block only gives the page enough length to test the sticky card. */}
-            <div className={styles.story} aria-hidden="true" />
+            <AboutStory className={styles.story} />
         </section>
     );
 }

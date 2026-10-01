@@ -7,6 +7,10 @@
     pointer-events: none;
 }
 
+.staysInView {
+    position: fixed;
+}
+
 .logo {
     position: absolute;
     top: 50%;

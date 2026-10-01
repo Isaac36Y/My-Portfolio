@@ -13,7 +13,7 @@ export const introduction = {
     greeting: "I’m Isaac",
     surname: "Young",
     mission:
-        "My goal is software that grows your business or streamlines the unorganized process that eats up weekly hours.",
+        "My goal is software that grows your business and streamlines the unorganized process that eats up weekly hours.",
     portraitAlt: "Isaac Young standing in a black suit and bow tie, hands in his pockets",
     paths: [
         {

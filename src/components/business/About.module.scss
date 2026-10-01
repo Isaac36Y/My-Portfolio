@@ -429,7 +429,9 @@
 
 .story {
     grid-area: story;
-    min-height: 150svh;
-    border: 1px dashed var(--color-ice-glow);
-    border-radius: var(--br-sm);
+    padding-top: var(--space-xxl);
+
+    @include bp($desktop) {
+        padding-left: var(--space-xl);
+    }
 }

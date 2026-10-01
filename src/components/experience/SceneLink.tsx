@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { travelTypesFor, type RouteTravel } from "@/lib/motion/routeTravel";
+import { RETURN_TO_STAGE_TYPE, travelTypesFor, type RouteTravel } from "@/lib/motion/routeTravel";
 import { rememberScene } from "./sceneMemory";
 import type { SceneId } from "./scenes";
 
@@ -17,7 +17,7 @@ export default function SceneLink({ sceneId, travel, className, children }: Scen
     return (
         <Link
             href="/"
-            transitionTypes={travelTypesFor(travel)}
+            transitionTypes={[...travelTypesFor(travel), RETURN_TO_STAGE_TYPE]}
             onNavigate={() => rememberScene(sceneId)}
             className={className}
         >

@@ -12,6 +12,8 @@ export function travelTypesFor({ direction, carriesPortrait = false }: RouteTrav
     return [travelType, "carry-portrait"];
 }
 
+export const RETURN_TO_STAGE_TYPE = "travel-return";
+
 export const routeTravelClasses = {
     "travel-left": "travel-left",
     "travel-right": "travel-right",

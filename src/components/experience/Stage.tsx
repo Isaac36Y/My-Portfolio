@@ -185,7 +185,7 @@ export default function Stage({ sceneContent }: StageProps) {
     }, []);
 
     return (
-        <div ref={stageRef} className={styles.stage}>
+        <div ref={stageRef} className={styles.stage} data-stage>
             <div ref={viewportRef} className={styles.viewport}>
                 <div ref={worldRef} className={styles.world} style={{ transform: worldTransformFor(arrivalScene) }}>
                     {scenes.map((scene) => {

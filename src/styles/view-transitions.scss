@@ -55,13 +55,29 @@
             [data-travel-layer="foreground"] {
                 view-transition-class: travel-#{$direction} travel-foreground;
             }
+        }
+    }
 
+    // The browser cannot tell a window whether it is leaving or arriving, but every route travel either
+    // leaves the stage or returns to it, so which side of that trip a window sits on decides it.
+    :root:active-view-transition-type(travel-left, travel-right) {
+        &:not(:active-view-transition-type(travel-return)) {
             [data-travel-layer="window"] {
                 view-transition-class: travel-window travel-window-arriving;
             }
 
-            [data-travel-layer="window"][data-travel-leaves-on~="#{$direction}"] {
+            [data-stage] [data-travel-layer="window"] {
                 view-transition-class: travel-window travel-window-leaving;
+            }
+        }
+
+        &:active-view-transition-type(travel-return) {
+            [data-travel-layer="window"] {
+                view-transition-class: travel-window travel-window-leaving;
+            }
+
+            [data-stage] [data-travel-layer="window"] {
+                view-transition-class: travel-window travel-window-arriving;
             }
         }
     }

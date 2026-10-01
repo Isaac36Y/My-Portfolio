@@ -18,7 +18,7 @@ export default function MyWork() {
 
     return (
         <section className={styles.myWork} aria-labelledby="my-work-title" data-travel-layer="foreground">
-            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} travelLeavesOn="right" />
+            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} />
 
             <SceneLink sceneId="introduction" travel={{ direction: "right" }} className={styles.returnLink}>
                 <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>

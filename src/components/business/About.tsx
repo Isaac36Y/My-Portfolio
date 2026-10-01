@@ -28,7 +28,7 @@ export default function About() {
 
     return (
         <section className={styles.about} aria-labelledby="about-title" data-travel-layer="foreground">
-            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} travelLeavesOn="left" />
+            <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} />
 
             <SceneLink
                 sceneId="introduction"

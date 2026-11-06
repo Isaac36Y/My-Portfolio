@@ -1,0 +1,9 @@
+// Matches the body to the page so overscroll never flashes the light theme background.
+:global(body):has(.main) {
+    background-color: var(--color-navy);
+}
+
+.main {
+    min-height: 100svh;
+    background-color: var(--color-navy);
+}

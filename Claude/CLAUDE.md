@@ -1,0 +1,2 @@
+## Overview 
+This is the claude md file dedicated to specific patterns, styles, decisions, and directions for this project. It is your job to update this file with my permision to improve how other agents run in this code base over time. If you feels something belongs in a CLAUDE.md, add it here, then tell me.

@@ -1,0 +1,289 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// Every card is drawn finished first. Where the browser can tie animation to scroll, each card's copy rises
+// in as it arrives.
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+.gallery {
+    --page-gutter: var(--space-lg);
+
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-xxxxl);
+    min-height: 100svh;
+    padding: var(--space-lg) var(--page-gutter) calc(var(--space-xxxxl) * 2);
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        --page-gutter: var(--space-xxxl);
+
+        padding-top: var(--page-inset-block);
+    }
+}
+
+.header {
+    display: grid;
+    gap: var(--space-xxxl);
+}
+
+.wayfinding {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-lg);
+}
+
+.wayLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.wayLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.myWorkArrow,
+.stageArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+}
+
+// Points down, toward My Work: the gallery sits above it.
+.myWorkArrow {
+    @media (hover: hover) {
+        .wayLink:hover & {
+            transform: translateY(var(--space-sm));
+        }
+    }
+}
+
+// The hero lies directly right of the gallery. The introduction lies down and to the right, and travel has
+// no diagonal, so that trip travels right as well.
+.stageArrow {
+    @media (hover: hover) {
+        .wayLink:hover & {
+            transform: translateX(var(--space-med));
+        }
+    }
+}
+
+.title {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.projects {
+    display: grid;
+    gap: var(--space-xl);
+
+    @include bp($tablet) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp($desktop) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-xxl);
+    }
+}
+
+// Each card takes its rows from the grid, so screenshot, type, name, story, and link line up across a row
+// even when one card's type carries a tag or its story runs longer.
+.project {
+    --card-parts: 5;
+
+    position: relative;
+    display: grid;
+    grid-row: span var(--card-parts);
+    grid-template-rows: subgrid;
+    justify-items: start;
+    row-gap: var(--space-med);
+    padding: var(--space-lg);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    // The resting border is a hairline; a full mint edge fades over it so only opacity animates.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 1px solid var(--color-mint);
+        border-radius: inherit;
+        opacity: 0;
+        pointer-events: none;
+
+        @media (prefers-reduced-motion: no-preference) {
+            transition: opacity var(--duration-hover) var(--ease-out);
+        }
+    }
+
+    &:has(.visitLink:focus-visible) {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+    }
+
+    @media (hover: hover) {
+        &:has(.visitLink):hover::before {
+            opacity: 1;
+        }
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        &:has(.visitLink):hover {
+            transform: translateY(calc(var(--space-xs) * -1));
+        }
+    }
+}
+
+// Shaped like the 1600x1000 screenshots it holds, so the whole page shows. An empty frame is the neutral
+// block that holds a screenshot's place until one exists.
+.thumbnail {
+    justify-self: stretch;
+    margin-block-end: var(--space-med);
+    aspect-ratio: 16 / 10;
+    overflow: clip;
+    background-color: var(--color-navy-well);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-sm);
+}
+
+.thumbnailImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pageType {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.conceptTag {
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-ice);
+    border: 1px solid var(--color-mint);
+    border-radius: var(--br-sm);
+}
+
+.business {
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.reflection {
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+// The link covers the whole card, so the domain stays the link's accessible name.
+.visitLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: var(--size-tap-target);
+    font-size: var(--fs-sm);
+    color: var(--color-mint);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+.visitArrow {
+    flex-shrink: 0;
+    width: 1.25em;
+    height: 1.25em;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .project:hover & {
+            transform: translate(var(--space-xs), calc(var(--space-xs) * -1));
+        }
+    }
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .project {
+            view-timeline: --project block;
+        }
+
+        // The visit link stays still: a moving ancestor would become the containing block of its
+        // card-wide hit area and shrink it mid-animation.
+        .pageType,
+        .business {
+            animation: rise-in linear both;
+            animation-timeline: --project;
+            animation-range: entry 20% entry 80%;
+        }
+
+        .reflection {
+            animation: rise-in linear both;
+            animation-timeline: --project;
+            animation-range: entry 40% entry 100%;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import MyWork from "@/components/business/MyWork";
 import FocusOnArrival from "@/components/experience/FocusOnArrival";
+import RememberScene from "@/components/experience/RememberScene";
 import RouteScene from "@/components/experience/RouteScene";
 import { siteConfig } from "@/site.config";
 import styles from "./page.module.scss";
@@ -27,6 +28,7 @@ export default function MyWorkPage() {
             <main className={styles.main}>
                 <MyWork />
                 <FocusOnArrival headingId="my-work-title" />
+                <RememberScene sceneId="introduction" />
             </main>
         </RouteScene>
     );

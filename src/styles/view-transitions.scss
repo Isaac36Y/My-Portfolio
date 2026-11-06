@@ -80,8 +80,8 @@
         }
     }
 
-    // The browser cannot tell a window whether it is leaving or arriving, but every route travel either
-    // leaves the stage or returns to it, so which side of that trip a window sits on decides it.
+    // The browser cannot tell a window whether it is leaving or arriving, but a trip that touches the stage
+    // either leaves it or returns to it, so which side of that trip a window sits on decides it.
     :root:active-view-transition-type(travel-left, travel-right, travel-up, travel-down) {
         &:not(:active-view-transition-type(travel-return)) {
             [data-travel-layer="window"] {
@@ -102,6 +102,12 @@
                 view-transition-class: travel-window travel-window-arriving;
             }
         }
+    }
+
+    // Between two route pages there is no stage on either side, so no seam for a window to hold still
+    // across. Each window stays in its page's snapshot and travels with it.
+    :root:active-view-transition-type(travel-off-stage) [data-travel-layer="window"] {
+        view-transition-name: none;
     }
 }
 

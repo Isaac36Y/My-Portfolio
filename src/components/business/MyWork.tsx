@@ -4,6 +4,7 @@ import Link from "next/link";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import SceneLink from "@/components/experience/SceneLink";
 import { work, type WorkPreview } from "@/content/work";
+import { travelTypesFor } from "@/lib/motion/routeTravel";
 import styles from "./MyWork.module.scss";
 import { IconArrowRight, IconChevronRight } from '@tabler/icons-react';
 
@@ -44,7 +45,11 @@ export default function MyWork() {
                             {String(order + 1).padStart(2, "0")}
                         </span>
                         <h2 className={styles.categoryTitle}>
-                            <Link href={category.href} className={styles.categoryLink}>
+                            <Link
+                                href={category.href}
+                                transitionTypes={category.travel && travelTypesFor(category.travel)}
+                                className={styles.categoryLink}
+                            >
                                 {category.title}
                             </Link>
                         </h2>

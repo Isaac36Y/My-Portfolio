@@ -1,3 +1,5 @@
+import type { RouteTravel } from "@/lib/motion/routeTravel";
+
 export type WorkPreview = {
     device: "laptop" | "phone" | "panel";
     src: string;
@@ -11,6 +13,7 @@ export type WorkCategory = {
     title: string;
     description: string;
     href: string;
+    travel?: RouteTravel;
     previews?: WorkPreview[];
 };
 
@@ -23,6 +26,7 @@ export const work = {
         {
             id: "websites",
             href: "/my-work/websites",
+            travel: { direction: "up", staysOffStage: true },
             title: "Websites",
             description: "Fast, custom sites that make it easy for a customer to call, book, or buy.",
             previews: [

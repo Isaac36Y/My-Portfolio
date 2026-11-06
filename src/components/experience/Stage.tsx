@@ -3,7 +3,7 @@
 import { useEffect, useEffectEvent, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { prefersReducedMotion, readDurationMs, readToken } from "@/lib/motion/tokens";
 import { findNeighbor, scenes, type Ground, type Scene, type SceneId, type TravelDirection } from "./scenes";
-import { rememberScene, sceneToResume } from "./sceneMemory";
+import { isReturningToStage, rememberScene, sceneToResume } from "./sceneMemory";
 import SceneNav from "./SceneNav";
 import styles from "./Stage.module.scss";
 
@@ -168,8 +168,7 @@ export default function Stage({ sceneContent }: StageProps) {
     });
 
     const focusResumedScene = useEffectEvent(() => {
-        const isResumingMidJourney = arrivalScene.id !== scenes[0].id;
-        if (isResumingMidJourney) focusSceneHeading(arrivalScene.id);
+        if (isReturningToStage()) focusSceneHeading(arrivalScene.id);
     });
 
     useEffect(() => focusResumedScene(), []);

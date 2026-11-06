@@ -4,12 +4,16 @@ export type RouteTravelDirection = "left" | "right" | "up" | "down";
 export type RouteTravel = {
     direction: RouteTravelDirection;
     carriesPortrait?: boolean;
+    staysOffStage?: boolean;
 };
 
-export function travelTypesFor({ direction, carriesPortrait = false }: RouteTravel): string[] {
-    const travelType = `travel-${direction}`;
-    if (!carriesPortrait) return [travelType];
-    return [travelType, "carry-portrait"];
+const OFF_STAGE_TYPE = "travel-off-stage";
+
+export function travelTypesFor({ direction, carriesPortrait = false, staysOffStage = false }: RouteTravel): string[] {
+    const travelTypes = [`travel-${direction}`];
+    if (carriesPortrait) travelTypes.push("carry-portrait");
+    if (staysOffStage) travelTypes.push(OFF_STAGE_TYPE);
+    return travelTypes;
 }
 
 export const RETURN_TO_STAGE_TYPE = "travel-return";

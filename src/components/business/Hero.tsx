@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { siteConfig } from "@/site.config";
 import styles from "./Hero.module.scss";
+import { travelTypesFor } from "@/lib/motion/routeTravel";
+import Link from "next/link";
 
 const services = [
-    { label: "Websites", href: "#websites" },
+    { label: "Websites", href: "/my-work/websites", transitionType: travelTypesFor({ direction: "left" }) },
     { label: "Custom Tools", href: "#custom-tools" },
     { label: "SEO", href: "#seo" },
     { label: "Digital Marketing", href: "#digital-marketing" },
@@ -16,10 +18,10 @@ export default function Hero() {
                 <ul role="list" className={styles.navList}>
                     {services.map((service) => (
                         <li key={service.href}>
-                            <a href={service.href} className={`${styles.navLink} body`}>
+                            <Link href={service.href} transitionTypes={service.transitionType} className={`${styles.navLink} body`}>
                                 <span className={styles.navWash} aria-hidden="true" />
                                 <span className={styles.navLabel}>{service.label}</span>
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>

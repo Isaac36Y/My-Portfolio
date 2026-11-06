@@ -150,28 +150,25 @@
 .mark {
     width: clamp(5.5rem, 4rem + 7vw, 9.5rem);
     height: auto;
+    display: flex;
+    justify-content: center;
 }
 
 .wordmark {
-    --systems-baseline-from-bottom: 11%;
-
     position: relative;
-    width: clamp(11rem, 6rem + 28vw, 30rem);
+    font-size: var(--fs-display);
+    line-height: 0.9;
 
-    &:focus {
-        outline: none;
-    }
-
-    img {
-        width: 100%;
-        height: auto;
+    .systems {
+        color: var(--color-mint)
     }
 }
 
 .version {
+    display: none;
     position: absolute;
     left: 100%;
-    bottom: var(--systems-baseline-from-bottom);
+    top: 80%;
     margin-inline-start: var(--space-sm);
     padding: var(--space-xxs) var(--space-sm);
     font-family: var(--font-body);
@@ -182,6 +179,10 @@
     color: var(--color-navy);
     background-color: var(--color-mint);
     border-radius: var(--br-sm);
+
+    @media (min-width: 35rem) {
+        display: block;
+    }
 }
 
 .tagline {

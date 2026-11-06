@@ -6,9 +6,9 @@ import Link from "next/link";
 
 const services = [
     { label: "Websites", href: "/my-work/websites", transitionType: travelTypesFor({ direction: "left" }) },
-    { label: "Custom Tools", href: "#custom-tools" },
-    { label: "SEO", href: "#seo" },
-    { label: "Digital Marketing", href: "#digital-marketing" },
+    { label: "Custom Tools", href: "/my-work/custom-tools" },
+    { label: "SEO", href: "/my-work/seo" },
+    { label: "Log In", href: "/login" },
 ];
 
 export default function Hero() {
@@ -38,14 +38,7 @@ export default function Hero() {
                     preload
                 />
                 <h1 id="hero-title" tabIndex={-1} className={styles.wordmark}>
-                    <Image
-                        src="/images/wordmark-2048.png"
-                        alt={siteConfig.name}
-                        width={2048}
-                        height={930}
-                        sizes="(max-width: 480px) 70vw, 30rem"
-                        preload
-                    />
+                    Younger <br></br><span className={styles.systems}>Systems</span>
                     <span className={styles.version} aria-hidden="true">
                         v.new
                     </span>

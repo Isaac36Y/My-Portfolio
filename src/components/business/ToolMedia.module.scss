@@ -1,0 +1,39 @@
+// The same 16:10 well on the card and on the case study, so a tool's picture keeps its shape wherever it shows.
+.well {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: clip;
+    background-color: var(--color-navy-well);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+}
+
+.video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+}
+
+// Percent offsets so the pair keeps its arrangement at strip-card and case-study size. The second screen sits
+// a step lower, like phones set down on a table one after the other.
+.phones {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6%;
+    padding-top: 5%;
+}
+
+// Sized by width so the pair always fits across the well; the well trims their bottoms.
+.phone {
+    width: 36%;
+    height: auto;
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-lg);
+
+    &:nth-child(2) {
+        translate: 0 12%;
+    }
+}

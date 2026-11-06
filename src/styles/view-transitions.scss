@@ -202,6 +202,22 @@
     }
 }
 
+// The case panel on the Custom Tools dashboard: the old case study clears out before the new one rises in.
+::view-transition-old(.case-swap-out) {
+    animation: calc(var(--duration-crossfade) / 2) var(--ease-out) both travel-fade-out;
+}
+
+::view-transition-new(.case-swap-in) {
+    animation: var(--duration-frame) var(--ease-out) calc(var(--duration-crossfade) / 4) both case-rise-in;
+}
+
+@keyframes case-rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(var(--space-xl));
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     ::view-transition-old(.travel-left),
     ::view-transition-old(.travel-right),
@@ -216,6 +232,12 @@
     ::view-transition-new(.travel-down) {
         animation: calc(var(--duration-crossfade) / 2) var(--ease-out) calc(var(--duration-crossfade) / 2) both
             travel-fade-in;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-new(.case-swap-in) {
+        animation-name: travel-fade-in;
     }
 }
 

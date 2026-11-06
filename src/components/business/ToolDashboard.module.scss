@@ -1,0 +1,133 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// On desktop the dashboard is exactly one screen tall. The strip and the case study each scroll inside it, so
+// reading a case study never moves the strip. Below desktop it is an ordinary scrolling page.
+.dashboard {
+    --page-gutter: var(--space-lg);
+
+    display: grid;
+    grid-template-areas:
+        "bar"
+        "strip"
+        "panel";
+    grid-template-rows: auto auto 1fr;
+    min-height: 100svh;
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        --page-gutter: var(--space-xxxl);
+
+        grid-template-areas:
+            "bar bar"
+            "strip panel";
+        grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+        grid-template-rows: auto minmax(0, 1fr);
+        height: 100svh;
+    }
+}
+
+.bar {
+    grid-area: bar;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg) var(--space-xxl);
+    padding: var(--space-lg) var(--page-gutter);
+    border-block-end: 1px solid var(--color-mint-hairline);
+
+    @include bp($desktop) {
+        padding-block: var(--space-xl);
+    }
+}
+
+.heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-sm) var(--space-xxl);
+}
+
+.title {
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.lede {
+    max-width: 56ch;
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--color-ice-muted);
+}
+
+.wayfinding {
+    display: flex;
+    gap: var(--space-lg);
+}
+
+.wayLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.wayLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.myWorkArrow,
+.stageArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+}
+
+// My Work lies above the tools and the stage below them, so each arrow points the way its trip travels.
+.myWorkArrow {
+    @media (hover: hover) {
+        .wayLink:hover & {
+            transform: translateY(calc(var(--space-sm) * -1));
+        }
+    }
+}
+
+.stageArrow {
+    @media (hover: hover) {
+        .wayLink:hover & {
+            transform: translateY(var(--space-sm));
+        }
+    }
+}
+
+.strip {
+    grid-area: strip;
+    min-width: 0;
+}
+
+.panel {
+    grid-area: panel;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+}

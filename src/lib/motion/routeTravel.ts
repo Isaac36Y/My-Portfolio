@@ -25,3 +25,9 @@ export const routeTravelClasses = {
     "travel-down": "travel-down",
     default: "none",
 };
+
+// Swapping the open case study on the Custom Tools dashboard. Only the case panel moves; the strip and header stay put.
+export const TOOL_SWITCH_TYPE = "tool-switch";
+
+export const toolSwitchEnterClasses = { [TOOL_SWITCH_TYPE]: "case-swap-in", default: "none" };
+export const toolSwitchExitClasses = { [TOOL_SWITCH_TYPE]: "case-swap-out", default: "none" };

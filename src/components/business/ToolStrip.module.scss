@@ -1,0 +1,156 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// One column in the narrow desktop strip, side by side wherever there is room for two. Cards take their
+// width from the space they are given, never a fixed size.
+.strip {
+    padding: var(--space-lg) var(--page-gutter);
+
+    @include bp($desktop) {
+        overflow-y: auto;
+        overscroll-behavior-block: contain;
+        padding: var(--space-xl) var(--space-xl) var(--space-xxxl) var(--page-gutter);
+        border-inline-end: 1px solid var(--color-mint-hairline);
+    }
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-lg);
+
+    @include bp($desktop) {
+        gap: var(--space-xl);
+    }
+}
+
+.card {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-sm);
+    padding: var(--space-med);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-lg);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    // The resting border is a hairline; a full mint edge fades over it so only opacity animates.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 1px solid var(--color-mint);
+        border-radius: inherit;
+        opacity: 0;
+        pointer-events: none;
+
+        @media (prefers-reduced-motion: no-preference) {
+            transition: opacity var(--duration-hover) var(--ease-out);
+        }
+    }
+
+    &:has(.openLink:focus-visible) {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+    }
+
+    @media (hover: hover) {
+        &:hover::before {
+            opacity: 1;
+        }
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        &:not(.open):hover {
+            transform: translateY(calc(var(--space-xs) * -1));
+        }
+    }
+}
+
+.thumbnail {
+    margin-block-end: var(--space-sm);
+    aspect-ratio: 16 / 10;
+    overflow: clip;
+    background-color: var(--color-navy-well);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+}
+
+.thumbnailImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.open {
+    background-color: var(--color-navy-well);
+
+    &::before {
+        opacity: 1;
+    }
+}
+
+.field {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.name {
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+// The heading's link covers the whole card, so the tool's name stays the link's accessible name.
+.openLink {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+.summary {
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--color-ice-muted);
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-xs);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--color-ice-muted);
+
+    &::before {
+        content: "";
+        width: var(--space-sm);
+        height: var(--space-sm);
+        background-color: var(--color-mint);
+        border-radius: 50%;
+    }
+
+    .open & {
+        color: var(--color-mint);
+        text-transform: uppercase;
+    }
+}

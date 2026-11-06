@@ -1,0 +1,311 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// On desktop the case study is its own scroll area beside the strip, so reading it never moves the strip.
+// overscroll-behavior keeps a hard flick at either end from carrying on into the page.
+.caseStudy {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xxxxl);
+    padding: var(--space-xl) var(--page-gutter) calc(var(--space-xxxxl) * 2);
+
+    @include bp($desktop) {
+        overflow-y: auto;
+        overscroll-behavior-block: contain;
+        padding: var(--space-xxl) var(--page-gutter) calc(var(--space-xxxxl) * 2) var(--space-xxxl);
+    }
+}
+
+.hero {
+    display: grid;
+    gap: var(--space-xxl);
+
+    @include bp($desktop) {
+        grid-template-columns: 5fr 7fr;
+        align-items: end;
+        gap: var(--space-xxxl);
+    }
+}
+
+.heroCopy {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.field {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.title {
+    font-size: var(--fs-heading);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.summary {
+    max-width: 40ch;
+    font-size: var(--fs-story);
+    line-height: 1.55;
+}
+
+.shift {
+    display: grid;
+    gap: var(--space-med);
+    margin-block-start: var(--space-sm);
+    padding-block-start: var(--space-lg);
+    border-block-start: 1px solid var(--color-mint-hairline);
+}
+
+.shiftRow {
+    display: grid;
+    grid-template-columns: 7ch 1fr;
+    gap: var(--space-lg);
+    align-items: baseline;
+}
+
+.shiftLabel {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.after {
+    color: var(--color-mint);
+}
+
+.shiftText {
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    color: var(--color-ice-muted);
+}
+
+.heroMedia {
+    min-width: 0;
+}
+
+.facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-xl);
+    padding-block: var(--space-xl);
+    border-block: 1px solid var(--color-mint-hairline);
+
+    @include bp($desktop) {
+        grid-column: 1 / -1;
+    }
+}
+
+.fact {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.factLabel {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.factValue {
+    font-size: var(--fs-body);
+    line-height: 1.5;
+}
+
+.liveLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: var(--size-tap-target);
+    color: var(--color-mint);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+.liveArrow {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+// Each chapter is a row: its number and heading hold still on the left while the text runs beside them, so
+// the reader always knows where they are without a separate contents list.
+.chapters {
+    display: grid;
+}
+
+.chapter {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-xxxl);
+    border-block-start: 1px solid var(--color-mint-hairline);
+    scroll-margin-top: var(--space-xl);
+
+    @include bp($desktop) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        gap: var(--space-xxxl);
+        padding-block: var(--space-xxxxl);
+    }
+}
+
+.chapterAside {
+    display: grid;
+    align-content: start;
+    gap: var(--space-med);
+
+    @include bp($desktop) {
+        position: sticky;
+        top: var(--space-xl);
+        align-self: start;
+    }
+}
+
+.chapterNumber {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    color: var(--color-mint);
+}
+
+.chapterHeading {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+}
+
+// Short enough to stay pinned beside the text on a laptop screen.
+.chapterVideo {
+    width: auto;
+    max-width: 100%;
+    max-height: 55svh;
+    margin-block-start: var(--space-lg);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-lg);
+}
+
+.chapterText {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xl);
+    max-width: 70ch;
+}
+
+.lead {
+    font-size: var(--fs-med);
+    line-height: 1.5;
+    color: var(--color-ice);
+}
+
+.paragraph {
+    font-size: var(--fs-story);
+    line-height: 1.7;
+    color: var(--color-ice-muted);
+}
+
+.plansHeading {
+    margin-block-start: var(--space-lg);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: var(--space-lg);
+}
+
+.plan {
+    display: grid;
+    align-content: start;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+}
+
+.planNumber {
+    font-size: var(--fs-label);
+    color: var(--color-mint);
+}
+
+.planText {
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    color: var(--color-ice-muted);
+}
+
+.next {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-sm);
+    padding-block-start: var(--space-xxl);
+    border-block-start: 1px solid var(--color-mint-hairline);
+}
+
+.nextLabel {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.nextLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-ice);
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+.nextArrow {
+    width: 0.7em;
+    height: 0.7em;
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .nextLink:hover & {
+            transform: translateX(var(--space-sm));
+        }
+    }
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

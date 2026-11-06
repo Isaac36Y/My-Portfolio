@@ -42,6 +42,7 @@ export const work = {
         {
             id: "custom-tools",
             href: "/my-work/custom-tools",
+            travel: { direction: "down", staysOffStage: true },
             title: "Custom Tools",
             description: "Software built around how your business already runs, replacing the paper forms and spreadsheets.",
             previews: [

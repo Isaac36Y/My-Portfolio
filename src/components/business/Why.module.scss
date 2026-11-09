@@ -74,14 +74,18 @@
     }
 }
 
-.returnLink {
-    @include clear-backdrop-behind(var(--color-navy));
-
+.wayfinding {
     z-index: 1;
     grid-area: nav;
     display: flex;
-    align-items: center;
     justify-self: start;
+}
+
+.returnLink {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: flex;
+    align-items: center;
     gap: var(--space-med);
     min-height: var(--size-tap-target);
     padding-inline: var(--space-sm);

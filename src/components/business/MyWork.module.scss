@@ -25,13 +25,23 @@
     }
 }
 
+.wayfinding {
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    @include bp($desktop) {
+        position: absolute;
+        top: var(--page-inset-block);
+        right: var(--space-lg);
+    }
+}
+
 .returnLink {
     @include clear-backdrop-behind(var(--color-navy));
 
-    z-index: 1;
     display: flex;
     align-items: center;
-    align-self: flex-end;
     gap: var(--space-med);
     min-height: var(--size-tap-target);
     padding-inline: var(--space-sm);
@@ -40,9 +50,6 @@
 
     // Runs into the edge Isaac's scene lies beyond, so the way back points toward him.
     @include bp($desktop) {
-        position: absolute;
-        top: var(--page-inset-block);
-        right: var(--space-lg);
         padding-inline: var(--space-lg) 0;
     }
 

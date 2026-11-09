@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { IconArrowNarrowRight, IconChevronUp } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
+import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
 import SceneLink from "@/components/experience/SceneLink";
 import { why } from "@/content/why";
 import styles from "./Why.module.scss";
@@ -22,10 +23,12 @@ export default function Why() {
             />
 
             <header className={styles.opener}>
-                <SceneLink sceneId="introduction" travel={{ direction: "up" }} className={styles.returnLink}>
-                    <IconChevronUp stroke={2} className={styles.returnArrow} aria-hidden="true" />
-                    <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
-                </SceneLink>
+                <PinnedWayfinding className={styles.wayfinding} label="Leave Why">
+                    <SceneLink sceneId="introduction" travel={{ direction: "up" }} className={styles.returnLink}>
+                        <IconChevronUp stroke={2} className={styles.returnArrow} aria-hidden="true" />
+                        <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
+                    </SceneLink>
+                </PinnedWayfinding>
                 <h1 id="why-title" tabIndex={-1} className={styles.title}>
                     {titleLead} <span className={styles.titleAccent}>{titleAccent}</span>
                 </h1>

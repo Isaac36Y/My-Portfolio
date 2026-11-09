@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { IconArrowNarrowRight, IconArrowUpRight, IconCheck, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
+import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
 import StageReturnLink from "@/components/experience/StageReturnLink";
 import { seo } from "@/content/seo";
 import { travelTypesFor } from "@/lib/motion/routeTravel";
@@ -29,7 +30,7 @@ export default function SearchVisibility() {
             />
 
             <header className={styles.opener}>
-                <div className={styles.wayfinding}>
+                <PinnedWayfinding className={styles.wayfinding} label="Leave Search Visibility">
                     <Link
                         href="/my-work"
                         transitionTypes={travelTypesFor({ direction: "right", staysOffStage: true })}
@@ -53,7 +54,7 @@ export default function SearchVisibility() {
                             },
                         }}
                     />
-                </div>
+                </PinnedWayfinding>
                 <div className={styles.titleBlock}>
                     <p className={`${styles.eyebrow} tech`}>{seo.eyebrow}</p>
                     <h1 id="seo-title" tabIndex={-1} className={styles.title}>

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
+import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
 import SceneLink from "@/components/experience/SceneLink";
 import { work, type WorkPreview } from "@/content/work";
 import { travelTypesFor } from "@/lib/motion/routeTravel";
@@ -21,10 +22,12 @@ export default function MyWork() {
         <section className={styles.myWork} aria-labelledby="my-work-title" data-travel-layer="foreground">
             <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} />
 
-            <SceneLink sceneId="introduction" travel={{ direction: "right" }} className={styles.returnLink}>
-                <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
-                <IconChevronRight stroke={2} className={styles.returnArrow} aria-hidden="true" />
-            </SceneLink>
+            <PinnedWayfinding className={styles.wayfinding} label="Leave My Work">
+                <SceneLink sceneId="introduction" travel={{ direction: "right" }} className={styles.returnLink}>
+                    <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
+                    <IconChevronRight stroke={2} className={styles.returnArrow} aria-hidden="true" />
+                </SceneLink>
+            </PinnedWayfinding>
 
             <header className={styles.header}>
 

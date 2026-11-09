@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IconArrowUpRight, IconChevronDown, IconChevronRight } from "@tabler/icons-react";
+import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
 import StageReturnLink from "@/components/experience/StageReturnLink";
 import { websites } from "@/content/websites";
 import { travelTypesFor } from "@/lib/motion/routeTravel";
@@ -12,7 +13,7 @@ export default function WebsiteGallery() {
     return (
         <section className={styles.gallery} aria-labelledby="websites-title" data-travel-layer="foreground">
             <header className={styles.header}>
-                <div className={styles.wayfinding}>
+                <PinnedWayfinding className={styles.wayfinding} label="Leave Websites">
                     <Link
                         href="/my-work"
                         transitionTypes={travelTypesFor({ direction: "down", staysOffStage: true })}
@@ -28,7 +29,7 @@ export default function WebsiteGallery() {
                         labelClassName={`${styles.wayLabel} tech`}
                         arrow={<IconChevronRight stroke={2} className={styles.stageArrow} aria-hidden="true" />}
                     />
-                </div>
+                </PinnedWayfinding>
                 <h1 id="websites-title" tabIndex={-1} className={styles.title}>
                     {title}
                 </h1>

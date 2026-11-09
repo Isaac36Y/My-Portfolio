@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import { IconChevronLeft } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
+import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
 import SceneLink from "@/components/experience/SceneLink";
 import { about } from "@/content/about";
 import AboutStory from "./AboutStory";
@@ -33,14 +34,16 @@ export default function About() {
         <section className={styles.about} aria-labelledby="about-title" data-travel-layer="foreground">
             <LogoBackdrop src="/images/mark-outline-icemint-2-2048.png" width={2048} height={1387} staysInView />
 
-            <SceneLink
-                sceneId="introduction"
-                travel={{ direction: "left", carriesPortrait: true }}
-                className={styles.returnLink}
-            >
-                <IconChevronLeft stroke={2} className={styles.returnArrow} aria-hidden="true" />
-                <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
-            </SceneLink>
+            <PinnedWayfinding className={styles.wayfinding} label="Leave About">
+                <SceneLink
+                    sceneId="introduction"
+                    travel={{ direction: "left", carriesPortrait: true }}
+                    className={styles.returnLink}
+                >
+                    <IconChevronLeft stroke={2} className={styles.returnArrow} aria-hidden="true" />
+                    <span className={`${styles.returnLabel} tech`}>{returnLabel}</span>
+                </SceneLink>
+            </PinnedWayfinding>
 
             <header className={styles.header}>
                 <h1 id="about-title" tabIndex={-1} className={styles.title}>

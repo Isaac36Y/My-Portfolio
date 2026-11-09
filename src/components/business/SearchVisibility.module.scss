@@ -1,0 +1,1040 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// Every piece is drawn in its finished state first. Where the browser can tie animation to scroll, pieces
+// rise in as they arrive, the process rail draws itself down the page, and each checklist ticks off in order.
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+@keyframes draw-across {
+    from {
+        scale: 0 1;
+    }
+}
+
+@keyframes draw-down {
+    from {
+        scale: 1 0;
+    }
+}
+
+@keyframes tick-in {
+    from {
+        opacity: 0;
+        scale: 0.4;
+    }
+}
+
+@keyframes arrive-from-start {
+    from {
+        opacity: 0;
+        translate: calc(var(--space-xxxxl) * -2) 0;
+    }
+}
+
+@keyframes arrive-from-end {
+    from {
+        opacity: 0;
+        translate: calc(var(--space-xxxxl) * 2) 0;
+    }
+}
+
+@keyframes orbit {
+    to {
+        rotate: 360deg;
+    }
+}
+
+@keyframes flow-around {
+    to {
+        stroke-dashoffset: -96;
+    }
+}
+
+.page {
+    --logo-backdrop-opacity: 1;
+    --section-gap: clamp(var(--space-xxxxl) * 1.5, 22svh, calc(var(--space-xxxxl) * 3.5));
+    --page-gutter: var(--space-lg);
+
+    position: relative;
+    display: grid;
+    gap: var(--section-gap);
+    min-height: 100svh;
+    padding: 0 var(--page-gutter) var(--section-gap);
+    // The send-off's halves start beyond the page edges; clip keeps them from widening the page.
+    overflow-x: clip;
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        --page-gutter: var(--space-xxxl);
+    }
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+// ---------- Opener ----------
+
+.opener {
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+        "nav"
+        "."
+        "title"
+        "lede";
+    row-gap: var(--space-xl);
+    min-height: 100svh;
+    padding-block: var(--space-lg) var(--page-inset-block);
+
+    // The title and the line under it split the full width and share a baseline at the bottom of the screen.
+    @include bp($desktop) {
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        grid-template-areas:
+            "nav nav"
+            ". ."
+            "title lede";
+        column-gap: var(--space-xxxl);
+        padding-top: var(--page-inset-block);
+    }
+}
+
+.wayfinding {
+    z-index: 1;
+    grid-area: nav;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-lg);
+}
+
+.wayLink {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.wayLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+// My Work and the stage both lie to the right of this page, so both ways back point right.
+.wayArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .wayLink:hover & {
+            transform: translateX(var(--space-med));
+        }
+    }
+}
+
+.titleBlock {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: title;
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.eyebrow {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.title {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.titleAccent {
+    color: var(--color-mint);
+}
+
+.lede {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: lede;
+    align-self: end;
+    max-width: 30ch;
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+    color: var(--color-ice-muted);
+}
+
+// ---------- Shared section parts ----------
+
+.found,
+.process,
+.checklist,
+.dashboard,
+.report,
+.timeline,
+.finePrint {
+    display: grid;
+    gap: var(--space-xxxxl);
+    min-width: 0;
+}
+
+.sectionIntro {
+    display: grid;
+    align-content: start;
+    gap: var(--space-lg);
+}
+
+.sectionHeading {
+    font-size: var(--fs-heading);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+}
+
+.sectionLede {
+    max-width: 44ch;
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+    color: var(--color-ice-muted);
+}
+
+// ---------- Getting found ----------
+
+.foundIntro {
+    display: grid;
+    gap: var(--space-xxxl);
+
+    @include bp($desktop) {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        column-gap: var(--space-xxxl);
+        align-items: end;
+    }
+}
+
+.stat {
+    display: grid;
+    gap: var(--space-med);
+    padding: var(--space-xl);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-left: 3px solid var(--color-mint);
+    border-radius: var(--br-med);
+}
+
+.statValue {
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--color-mint);
+}
+
+.statText {
+    max-width: 34ch;
+    font-size: var(--fs-story);
+    line-height: 1.5;
+}
+
+.statSource {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    gap: var(--space-xs);
+    min-height: var(--size-tap-target);
+    font-size: var(--fs-label);
+    letter-spacing: 0.04em;
+    color: var(--color-ice-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--color-mint-hairline);
+    text-underline-offset: 0.25em;
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--color-mint);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+.statSourceArrow {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+}
+
+.disciplines {
+    display: grid;
+    gap: var(--space-xl);
+}
+
+.disciplinesHeading {
+    font-size: var(--fs-sm);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.disciplineList {
+    display: grid;
+    gap: var(--space-xl);
+
+    @include bp($tablet) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp($desktop) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.discipline {
+    display: grid;
+    align-content: start;
+    gap: var(--space-med);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-mint-hairline);
+}
+
+.disciplineTerm {
+    display: grid;
+    gap: var(--space-xs);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.disciplineExpansion {
+    font-size: var(--fs-label);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.disciplineDefinition {
+    font-size: var(--fs-story);
+    line-height: 1.55;
+    color: var(--color-ice-muted);
+}
+
+// ---------- Process ----------
+
+.steps {
+    display: grid;
+}
+
+// Each step hangs off a rail on the left. The rail runs through every step and ends at the monthly loop.
+.step {
+    --node-size: 2.75rem;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--node-size) minmax(0, 1fr);
+    column-gap: var(--space-lg);
+    row-gap: var(--space-lg);
+    padding-bottom: var(--space-xxxxl);
+
+    @include bp($desktop) {
+        --node-size: 3.5rem;
+
+        grid-template-columns: var(--node-size) minmax(0, 6fr) minmax(0, 5fr);
+        column-gap: var(--space-xxxl);
+    }
+}
+
+.stepRail {
+    position: absolute;
+    top: var(--node-size);
+    bottom: 0;
+    left: calc(var(--node-size) / 2);
+    width: var(--width-grid-line);
+    background-color: var(--color-mint);
+    transform-origin: top center;
+    opacity: 0.6;
+}
+
+.stepNode {
+    display: grid;
+    place-items: center;
+    width: var(--node-size);
+    height: var(--node-size);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--color-mint);
+    background-color: var(--color-navy);
+    border: 1px solid var(--color-mint);
+    border-radius: 50%;
+}
+
+.stepLead {
+    display: grid;
+    align-content: start;
+    gap: var(--space-med);
+    padding-top: var(--space-sm);
+}
+
+.stepName {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.stepHeading {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+}
+
+.stepBodyBlock {
+    grid-column: 2;
+    display: grid;
+    align-content: start;
+    gap: var(--space-lg);
+
+    @include bp($desktop) {
+        grid-column: 3;
+        padding-top: var(--space-sm);
+    }
+}
+
+.stepBody {
+    max-width: 48ch;
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+.stepDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.stepDetail {
+    padding: var(--space-xs) var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.03em;
+    color: var(--color-ice);
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: 999px;
+}
+
+// The rail ends here, so the last step has no line running out of it.
+.loopStep {
+    padding-bottom: 0;
+
+    .stepRail {
+        display: none;
+    }
+}
+
+.loopNode {
+    background-color: var(--color-mint);
+    box-shadow: 0 0 var(--space-xl) var(--color-mint-hairline);
+}
+
+.loop {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 22rem);
+
+    @include bp($desktop) {
+        grid-column: 3;
+        justify-self: start;
+    }
+}
+
+.loopArt {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.loopTrack {
+    fill: none;
+    stroke: var(--color-mint-hairline);
+    stroke-width: 2;
+}
+
+.loopFlow {
+    fill: none;
+    stroke: var(--color-mint);
+    stroke-width: 2;
+    stroke-dasharray: 4 12;
+    stroke-linecap: round;
+    opacity: 0.7;
+}
+
+.loopOrbit {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+}
+
+.loopRunner {
+    fill: var(--color-mint);
+    filter: drop-shadow(0 0 6px var(--color-mint));
+}
+
+.loopStop {
+    fill: var(--color-navy);
+    stroke: var(--color-mint);
+    stroke-width: 2;
+}
+
+.loopLabel {
+    font-family: var(--font-tech), monospace;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: var(--color-ice);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .loopOrbit {
+        animation: orbit 9s linear infinite;
+    }
+
+    .loopFlow {
+        animation: flow-around 6s linear infinite;
+    }
+}
+
+// ---------- Checklist ----------
+
+.checklistIntro {
+    display: grid;
+    gap: var(--space-xxxl);
+
+    @include bp($desktop) {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+    }
+}
+
+.checkCount {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-sm);
+
+    @include bp($desktop) {
+        justify-items: end;
+        text-align: right;
+    }
+}
+
+.checkCountValue {
+    font-family: var(--font-heading), sans-serif;
+    font-size: calc(var(--fs-display) * 1.4);
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--color-mint);
+}
+
+.checkCountLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.checkGroups {
+    display: grid;
+    gap: var(--space-xl);
+
+    @include bp($tablet) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp($desktop) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-xxl);
+    }
+}
+
+.checkGroup {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+}
+
+.checkGroupName {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.checkGroupCount {
+    font-size: var(--fs-label);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--color-mint);
+}
+
+.checkItems {
+    display: grid;
+    gap: var(--space-med);
+}
+
+.checkItem {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-med);
+    font-size: var(--fs-body);
+    line-height: 1.45;
+    color: var(--color-ice-muted);
+}
+
+.checkBox {
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.1rem;
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-mint);
+    border-radius: var(--br-sm);
+}
+
+.checkMark {
+    width: 0.9rem;
+    height: 0.9rem;
+    color: var(--color-mint);
+}
+
+// ---------- Monthly report ----------
+
+.reportBody {
+    display: grid;
+    gap: var(--space-xxxl);
+
+    @include bp($desktop) {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+        column-gap: var(--space-xxxxl);
+        align-items: center;
+    }
+}
+
+// Reads like a short letter, not a dashboard export.
+.reportCard {
+    display: grid;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
+    background:
+        linear-gradient(160deg, var(--color-card-lit), var(--color-card) 30%, var(--color-card-shade));
+    border: 1px solid var(--color-card-rim);
+    border-radius: var(--br-lg);
+    box-shadow: var(--shadow-card);
+
+    @include bp($tablet) {
+        padding: var(--space-xxl) var(--space-xxxl);
+    }
+}
+
+.reportHeader {
+    display: grid;
+    gap: var(--space-xs);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-mint-hairline);
+}
+
+.reportKicker {
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.reportTag {
+    padding: 0.1rem var(--space-sm);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--color-ice-muted);
+    border: 1px solid var(--color-ice-glow);
+    border-radius: 999px;
+}
+
+.reportMonth {
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+}
+
+.reportFrom {
+    font-size: var(--fs-body);
+    color: var(--color-ice-muted);
+}
+
+.reportBlock {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.reportBlockHeading {
+    font-size: var(--fs-label);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.reportLines {
+    display: grid;
+    gap: var(--space-xs);
+}
+
+.reportLine {
+    position: relative;
+    padding-left: var(--space-lg);
+    font-size: var(--fs-story);
+    line-height: 1.5;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0.75em;
+        left: 0;
+        width: var(--space-sm);
+        height: 1px;
+        background-color: var(--color-mint);
+    }
+}
+
+.reportSignOff {
+    justify-self: end;
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-mint);
+}
+
+.promises {
+    display: grid;
+    gap: var(--space-xxxl);
+}
+
+.promise {
+    display: grid;
+    gap: var(--space-med);
+}
+
+.promiseHeading {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+}
+
+.promiseBody {
+    max-width: 44ch;
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+// ---------- Fine print ----------
+
+// Read like the clauses of an agreement, ruled off one at a time across the full width of the page.
+.terms {
+    display: grid;
+}
+
+.term {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--space-xxxl) minmax(0, 1fr);
+    column-gap: var(--space-lg);
+    row-gap: var(--space-lg);
+    padding-block: var(--space-xxl) var(--space-xxxl);
+
+    @include bp($desktop) {
+        grid-template-columns: var(--space-xxxxl) minmax(0, 7fr) minmax(0, 5fr);
+        column-gap: var(--space-xxxl);
+        align-items: start;
+    }
+}
+
+.termRule {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--width-grid-line);
+    background-color: var(--color-mint);
+    transform-origin: left center;
+}
+
+.termNumber {
+    padding-top: var(--space-sm);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    color: var(--color-mint);
+}
+
+.termStatement {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+
+    @include bp($desktop) {
+        font-size: var(--fs-heading-sm);
+    }
+}
+
+.termDetail {
+    grid-column: 2;
+    max-width: 48ch;
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+
+    @include bp($desktop) {
+        grid-column: 3;
+        padding-top: var(--space-sm);
+    }
+}
+
+// ---------- Send-off ----------
+
+.sendOff {
+    display: grid;
+    align-content: center;
+    gap: var(--space-xxxxl);
+    min-height: 80svh;
+}
+
+// The visitor's half holds one edge and mine holds the other, so the sentence spans the whole page.
+.handshake {
+    display: grid;
+    gap: var(--space-sm);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+
+    @include bp($tablet) {
+        font-size: var(--fs-display);
+    }
+}
+
+.yourPart {
+    justify-self: start;
+}
+
+.myPart {
+    justify-self: end;
+    text-align: right;
+    color: var(--color-mint);
+}
+
+.invitation {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-xl);
+    justify-self: end;
+    max-width: 34rem;
+}
+
+.invitationText {
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+.helloLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-mint);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--color-ice);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+.helloArrow {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .helloLink:hover & {
+            transform: translateX(var(--space-med));
+        }
+    }
+}
+
+// ---------- Scroll-driven motion ----------
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        // Finishes as each piece fully enters, so anything wholly on screen is wholly readable.
+        .revealsOnScroll {
+            animation: rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%;
+        }
+
+        .step {
+            view-timeline: --step block;
+        }
+
+        .stepNode,
+        .stepLead {
+            animation: rise-in linear both;
+            animation-timeline: --step;
+            animation-range: entry 0% entry 60%;
+        }
+
+        .stepBodyBlock,
+        .loop {
+            animation: rise-in linear both;
+            animation-timeline: --step;
+            animation-range: entry 20% entry 80%;
+        }
+
+        // The rail out of each step draws down as the step passes, leading the eye to the next one.
+        .stepRail {
+            animation: draw-down linear both;
+            animation-timeline: --step;
+            animation-range: entry 40% cover 60%;
+        }
+
+        .checkGroup {
+            view-timeline: --check-group block;
+            animation: rise-in linear both;
+            animation-timeline: --check-group;
+            animation-range: entry 0% entry 40%;
+        }
+
+        // Ticked off one at a time, top to bottom.
+        .checkMark {
+            animation: tick-in linear both;
+            animation-timeline: --check-group;
+            animation-range: entry calc(20% + var(--item-order) * 8%) entry calc(30% + var(--item-order) * 8%);
+        }
+
+        .term {
+            view-timeline: --term block;
+        }
+
+        .termRule {
+            animation: draw-across linear both;
+            animation-timeline: --term;
+            animation-range: entry 0% entry 60%;
+        }
+
+        .termNumber,
+        .termStatement {
+            animation: rise-in linear both;
+            animation-timeline: --term;
+            animation-range: entry 20% entry 80%;
+        }
+
+        .termDetail {
+            animation: rise-in linear both;
+            animation-timeline: --term;
+            animation-range: entry 40% entry 100%;
+        }
+
+        .handshake {
+            view-timeline: --handshake block;
+        }
+
+        .yourPart {
+            animation: arrive-from-start linear both;
+            animation-timeline: --handshake;
+            animation-range: entry 0% entry 70%;
+        }
+
+        .myPart {
+            animation: arrive-from-end linear both;
+            animation-timeline: --handshake;
+            animation-range: entry 30% entry 100%;
+        }
+    }
+}

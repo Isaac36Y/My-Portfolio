@@ -9,7 +9,7 @@ export type WorkPreview = {
 };
 
 export type WorkCategory = {
-    id: "websites" | "custom-tools" | "seo-marketing";
+    id: "websites" | "custom-tools" | "search-visibility";
     title: string;
     description: string;
     href: string;
@@ -63,10 +63,11 @@ export const work = {
             ],
         },
         {
-            id: "seo-marketing",
+            id: "search-visibility",
             href: "/my-work/seo",
-            title: "SEO & Digital Marketing",
-            description: "Getting you found by the people already searching for what you do.",
+            travel: { direction: "left", staysOffStage: true },
+            title: "Search Visibility",
+            description: "Getting you found on Google, on the map, and in AI answers by the people already looking for what you do.",
             previews: [
                 {
                     device: "panel",

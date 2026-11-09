@@ -33,7 +33,7 @@ const themeScript = `(function(){try{document.documentElement.dataset.theme=wind
 
 const title = "Isaac Young | Websites, Custom Tools & SEO in Medford, OR";
 const description =
-  "Freelance developer in Medford, Oregon. I build websites and custom tools for small businesses, plus the SEO and digital marketing to get them found.";
+  "Freelance developer in Medford, Oregon. I build websites and custom tools for small businesses, plus the SEO and AI search visibility to get them found.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://isaacyoungs.dev"),

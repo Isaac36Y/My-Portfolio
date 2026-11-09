@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: "https://isaacyoungs.dev/my-work/seo",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...customTools.tools.slice(1).map((tool) => ({
       url: `https://isaacyoungs.dev/my-work/custom-tools/${tool.slug}`,
       lastModified: new Date(),

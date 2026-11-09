@@ -44,15 +44,14 @@
 
 .heading {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
+    align-items: flex-end;
     gap: var(--space-sm) var(--space-xxl);
 }
 
 .title {
     font-size: var(--fs-heading-sm);
     font-weight: 700;
-    line-height: 1;
+    line-height: 0.9;
     letter-spacing: -0.03em;
 
     &:focus {

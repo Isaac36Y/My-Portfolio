@@ -1,7 +1,7 @@
 import type { StaticImageData } from "next/image";
 import type { SceneId } from "@/components/experience/scenes";
 import bullseyeRound from "./projects/bullseye-round.png";
-import hestlyWalkthrough from "./projects/hestly-walkthrough.png";
+import hestlyWalkthrough from "./projects/hestly-screenshot.png";
 
 export type ToolThumbnail = {
     image: StaticImageData;
@@ -72,10 +72,10 @@ export const customTools = {
             },
             media: {
                 kind: "video",
-                src: "/images/homebaseDesktopVid.mp4",
+                src: "/images/hestly-overview.mp4",
                 label: "A walk through the Hestly dashboard: active walkthroughs, finished listings, and buyer profiles.",
-                width: 3392,
-                height: 1772,
+                width: 1920,
+                height: 1200,
             },
             chapters: [
                 {

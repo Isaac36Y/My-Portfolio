@@ -7,7 +7,7 @@ import Link from "next/link";
 const services = [
     { label: "Websites", href: "/my-work/websites", transitionType: travelTypesFor({ direction: "left" }) },
     { label: "Custom Tools", href: "/my-work/custom-tools", transitionType: travelTypesFor({ direction: "up" }) },
-    { label: "SEO", href: "/my-work/seo" },
+    { label: "SEO", href: "/my-work/seo", transitionType: travelTypesFor({ direction: "right" }) },
     { label: "Log In", href: "/login" },
 ];
 

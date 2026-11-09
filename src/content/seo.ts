@@ -84,7 +84,7 @@ export const seo = {
         },
         diagramLabel:
             "One customer question goes four places: Google Search, Google Maps, Google's AI Overviews, and AI assistants like ChatGPT. Each one decides who to recommend in its own way, and all four lead back to your business.",
-        question: "Who’s the best plumber near me?",
+        question: "Who’s the best software developer near me?",
         questionLabel: "Your customer asks",
         answer: "Your business",
         answerLabel: "The answer, everywhere they ask",
@@ -210,6 +210,8 @@ export const seo = {
             heading: "Then it never stops.",
             body: "Search never sits still, so neither do I. Every month I measure what moved, walk you through it, and sharpen the plan for the month ahead.",
             stages: ["Measure", "Report", "Adjust"],
+            cycleValue: "30",
+            cycleLabel: "Day cycle",
         },
     },
 

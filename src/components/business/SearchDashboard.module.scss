@@ -414,49 +414,49 @@
         .trace {
             animation: reveal-area linear both;
             animation-timeline: --tile;
-            animation-range: entry 30% cover 55%;
+            animation-range: entry 10% cover 32%;
         }
 
         .endDot {
             animation: pop linear both;
             animation-timeline: --tile;
-            animation-range: cover 50% cover 58%;
+            animation-range: cover 28% cover 35%;
         }
 
         .bar {
             animation: rise-bar linear both;
             animation-timeline: --tile;
-            animation-range: entry calc(20% + var(--bar-order) * 5%) cover calc(30% + var(--bar-order) * 2.5%);
+            animation-range: entry calc(10% + var(--bar-order) * 4%) cover calc(32% + var(--bar-order) * 1.5%);
         }
 
         .ring {
             animation: spread-ring linear both;
             animation-timeline: --tile;
-            animation-range: entry calc(40% + var(--ring-order) * 15%) cover calc(40% + var(--ring-order) * 5%);
+            animation-range: entry calc(20% + var(--ring-order) * 15%) cover calc(20% + var(--ring-order) * 5%);
         }
 
         .pin {
             animation: drop-pin linear both;
             animation-timeline: --tile;
-            animation-range: entry 20% cover 45%;
+            animation-range: entry 10% cover 25%;
         }
 
         .ask {
             animation: bubble-in linear both;
             animation-timeline: --tile;
-            animation-range: entry 20% entry 80%;
+            animation-range: entry 10% entry 60%;
         }
 
         .reply {
             animation: bubble-in linear both;
             animation-timeline: --tile;
-            animation-range: entry 60% cover 45%;
+            animation-range: entry 40% cover 25%;
         }
 
         .named {
             animation: grow-across linear both;
             animation-timeline: --tile;
-            animation-range: cover 40% cover 55%;
+            animation-range: cover 22% cover 32%;
         }
     }
 }

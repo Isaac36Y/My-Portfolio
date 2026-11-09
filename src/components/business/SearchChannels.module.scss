@@ -33,7 +33,24 @@
     }
 }
 
+// The box sits dark until the last wire reaches it, then lights up.
+@keyframes connect {
+    from {
+        border-color: var(--color-mint-hairline);
+        box-shadow: 0 0 0 transparent;
+    }
+}
+
+@keyframes light-up {
+    from {
+        opacity: 0;
+    }
+}
+
 .diagram {
+    // Lets the answer box below the wires read the wires' scroll timeline, so it lights up as they land.
+    timeline-scope: --wires-in;
+
     display: grid;
     justify-items: center;
     min-width: 0;
@@ -94,6 +111,15 @@
     stroke-dasharray: 1;
     stroke-dashoffset: 0;
     opacity: 0.55;
+}
+
+// White where the wire has been drawn, so the pulses masked by it only show along the drawn part.
+.wireMask {
+    fill: none;
+    stroke: white;
+    stroke-width: 14;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
 }
 
 // A short bright pulse that runs down each wire, so the diagram reads as something flowing.
@@ -237,15 +263,31 @@
 // ---------- Answer ----------
 
 .answer {
+    position: relative;
+    isolation: isolate;
     display: grid;
     justify-items: center;
     gap: var(--space-sm);
     padding: var(--space-xl) var(--space-xxxl);
+    overflow: hidden;
     text-align: center;
-    background: radial-gradient(circle at 50% 0%, var(--color-mint-wash), transparent 70%), var(--color-navy-raised);
+    background-color: var(--color-navy-raised);
     border: 1px solid var(--color-mint);
     border-radius: var(--br-lg);
-    box-shadow: 0 0 var(--space-xxxl) var(--color-mint-hairline);
+    box-shadow:
+        0 0 var(--space-xxxl) color-mix(in srgb, var(--color-mint) 30%, transparent),
+        0 0 calc(var(--space-xxxxl) * 1.5) var(--color-mint-hairline);
+
+    // The glow pours in from the edge the wires arrive at.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+            radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--color-mint) 38%, transparent), transparent 70%),
+            radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--color-mint) 10%, transparent), transparent 70%);
+    }
 }
 
 .answerIcon {
@@ -281,14 +323,28 @@
             animation-range: entry 0% entry 100%;
         }
 
-        .wires {
-            view-timeline: --wires block;
+        .wiresOut {
+            view-timeline: --wires-out block;
         }
 
-        .wire {
+        .wiresIn {
+            view-timeline: --wires-in block;
+        }
+
+        // A short stretch of scroll draws each set of wires, and the mask that lets the pulses through
+        // draws on exactly the same clock.
+        .wiresOut .wire,
+        .wiresOut .wireMask {
             animation: draw-wire linear both;
-            animation-timeline: --wires;
-            animation-range: entry 40% cover 55%;
+            animation-timeline: --wires-out;
+            animation-range: entry 60% cover 40%;
+        }
+
+        .wiresIn .wire,
+        .wiresIn .wireMask {
+            animation: draw-wire linear both;
+            animation-timeline: --wires-in;
+            animation-range: entry 60% cover 40%;
         }
 
         .channel {
@@ -297,15 +353,29 @@
             animation-range: entry calc(10% + var(--channel-order) * 8%) entry calc(60% + var(--channel-order) * 8%);
         }
 
+        // Lights up the moment the wires finish drawing into it.
         .answer {
-            animation: glow-in linear both;
-            animation-timeline: view();
-            animation-range: entry 20% entry 100%;
+            animation:
+                rise-in linear both,
+                connect linear both;
+            animation-timeline: view(), --wires-in;
+            animation-range:
+                entry 0% entry 100%,
+                cover 40% cover 48%;
         }
-    }
 
-    // The pulses keep running once the wires are in, independent of scroll.
-    @media (prefers-reduced-motion: no-preference) {
+        .answer::before {
+            animation: light-up linear both;
+            animation-timeline: --wires-in;
+            animation-range: cover 40% cover 52%;
+        }
+
+        .answerIcon {
+            animation: glow-in linear both;
+            animation-timeline: --wires-in;
+            animation-range: cover 38% cover 48%;
+        }
+
         .signal {
             opacity: 1;
             animation: run-signal 2.4s var(--ease-travel) infinite;

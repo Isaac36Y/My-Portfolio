@@ -39,8 +39,11 @@ function fanIn(order: number, count: number) {
     return `M ${x} 0 C ${x} ${mid}, ${WIRE_WIDTH / 2} ${mid}, ${WIRE_WIDTH / 2} ${WIRE_HEIGHT}`;
 }
 
-function Wires({ shape, className }: { shape: typeof fanOut; className: string }) {
+// The pulses are masked by a copy of the wires that draws in step with them, so a pulse can only travel
+// as far as its wire has been drawn.
+function Wires({ id, shape, className }: { id: string; shape: typeof fanOut; className: string }) {
     const count = seo.found.channels.length;
+    const maskId = `${id}-drawn`;
 
     return (
         <svg
@@ -49,12 +52,27 @@ function Wires({ shape, className }: { shape: typeof fanOut; className: string }
             aria-hidden="true"
             focusable="false"
         >
+            <defs>
+                <mask id={maskId} maskUnits="userSpaceOnUse" x="-20" y="-20" width={WIRE_WIDTH + 40} height={WIRE_HEIGHT + 40}>
+                    {seo.found.channels.map((channel, order) => (
+                        <path key={channel.id} d={shape(order, count)} pathLength={1} className={styles.wireMask} />
+                    ))}
+                </mask>
+            </defs>
             {seo.found.channels.map((channel, order) => (
-                <g key={channel.id} style={{ "--wire-order": order } as CSSProperties}>
-                    <path d={shape(order, count)} pathLength={1} className={styles.wire} />
-                    <path d={shape(order, count)} pathLength={1} className={styles.signal} />
-                </g>
+                <path key={channel.id} d={shape(order, count)} pathLength={1} className={styles.wire} />
             ))}
+            <g mask={`url(#${maskId})`}>
+                {seo.found.channels.map((channel, order) => (
+                    <path
+                        key={channel.id}
+                        d={shape(order, count)}
+                        pathLength={1}
+                        className={styles.signal}
+                        style={{ "--wire-order": order } as CSSProperties}
+                    />
+                ))}
+            </g>
         </svg>
     );
 }
@@ -72,7 +90,7 @@ export default function SearchChannels() {
                 </p>
             </div>
 
-            <Wires shape={fanOut} className={styles.wiresOut} />
+            <Wires id="seo-wires-out" shape={fanOut} className={styles.wiresOut} />
             <span className={styles.stem} aria-hidden="true" />
 
             <ul role="list" className={styles.channels}>
@@ -107,7 +125,7 @@ export default function SearchChannels() {
                 })}
             </ul>
 
-            <Wires shape={fanIn} className={styles.wiresIn} />
+            <Wires id="seo-wires-in" shape={fanIn} className={styles.wiresIn} />
             <span className={styles.stem} aria-hidden="true" />
 
             <div className={styles.answer}>

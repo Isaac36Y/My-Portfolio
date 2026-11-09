@@ -1,26 +1,18 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import { IconArrowNarrowRight, IconArrowUpRight, IconCheck, IconChevronRight } from "@tabler/icons-react";
+import { IconArrowNarrowRight, IconArrowUpRight, IconCheck, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import StageReturnLink from "@/components/experience/StageReturnLink";
 import { seo } from "@/content/seo";
 import { travelTypesFor } from "@/lib/motion/routeTravel";
 import SearchChannels from "./SearchChannels";
 import SearchDashboard from "./SearchDashboard";
+import SearchRoadmap from "./SearchRoadmap";
 import SearchTimeline from "./SearchTimeline";
 import styles from "./SearchVisibility.module.scss";
 
 function formatOrder(order: number) {
     return String(order + 1).padStart(2, "0");
-}
-
-const LOOP_RADIUS = 92;
-const LOOP_CENTER = 130;
-
-// The three monthly stages sit evenly around the loop, starting at the top and running clockwise.
-function loopPoint(order: number, count: number) {
-    const angle = -Math.PI / 2 + (order / count) * Math.PI * 2;
-    return { x: LOOP_CENTER + Math.cos(angle) * LOOP_RADIUS, y: LOOP_CENTER + Math.sin(angle) * LOOP_RADIUS };
 }
 
 export default function SearchVisibility() {
@@ -41,17 +33,25 @@ export default function SearchVisibility() {
                     <Link
                         href="/my-work"
                         transitionTypes={travelTypesFor({ direction: "right", staysOffStage: true })}
-                        className={styles.wayLink}
+                        className={`${styles.wayLink} ${styles.wayRight}`}
                     >
                         <span className={`${styles.wayLabel} tech`}>{seo.myWorkLabel}</span>
                         <IconChevronRight stroke={2} className={styles.wayArrow} aria-hidden="true" />
                     </Link>
                     <StageReturnLink
                         labelByScene={seo.stageReturnLabels}
-                        travel={{ direction: "right" }}
-                        className={styles.wayLink}
+                        travel={{ direction: "left" }}
+                        className={`${styles.wayLink} ${styles.wayLeft}`}
                         labelClassName={`${styles.wayLabel} tech`}
-                        arrow={<IconChevronRight stroke={2} className={styles.wayArrow} aria-hidden="true" />}
+                        arrow={<IconChevronLeft stroke={2} className={styles.wayArrow} aria-hidden="true" />}
+                        byScene={{
+                            // Arriving by way of My Work, the way back runs on through it to the right.
+                            introduction: {
+                                travel: { direction: "right" },
+                                className: `${styles.wayLink} ${styles.wayRight}`,
+                                arrow: <IconChevronRight stroke={2} className={styles.wayArrow} aria-hidden="true" />,
+                            },
+                        }}
                     />
                 </div>
                 <div className={styles.titleBlock}>
@@ -103,7 +103,7 @@ export default function SearchVisibility() {
                 </div>
             </section>
 
-            {/* Five steps down a rail, then the monthly loop the rail runs into. */}
+            {/* Five stops along a winding route, ending at the monthly loop. */}
             <section className={styles.process} aria-labelledby="seo-process-title">
                 <div className={`${styles.sectionIntro} ${styles.revealsOnScroll}`}>
                     <h2 id="seo-process-title" className={styles.sectionHeading}>
@@ -112,65 +112,7 @@ export default function SearchVisibility() {
                     <p className={`${styles.sectionLede} body`}>{process.intro}</p>
                 </div>
 
-                <ol role="list" className={styles.steps}>
-                    {process.steps.map((step, order) => (
-                        <li key={step.id} className={styles.step}>
-                            <span className={styles.stepRail} aria-hidden="true" />
-                            <span className={`${styles.stepNode} tech`} aria-hidden="true">
-                                {formatOrder(order)}
-                            </span>
-                            <div className={styles.stepLead}>
-                                <p className={`${styles.stepName} tech`}>{step.name}</p>
-                                <h3 className={styles.stepHeading}>{step.heading}</h3>
-                            </div>
-                            <div className={styles.stepBodyBlock}>
-                                <p className={`${styles.stepBody} body`}>{step.body}</p>
-                                <ul role="list" className={styles.stepDetails}>
-                                    {step.details.map((detail) => (
-                                        <li key={detail} className={`${styles.stepDetail} tech`}>
-                                            {detail}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </li>
-                    ))}
-
-                    <li className={`${styles.step} ${styles.loopStep}`}>
-                        <span className={styles.stepRail} aria-hidden="true" />
-                        <span className={`${styles.stepNode} ${styles.loopNode}`} aria-hidden="true" />
-                        <div className={styles.stepLead}>
-                            <p className={`${styles.stepName} tech`}>{process.loop.name}</p>
-                            <h3 className={styles.stepHeading}>{process.loop.heading}</h3>
-                            <p className={`${styles.stepBody} body`}>{process.loop.body}</p>
-                        </div>
-                        <div className={styles.loop}>
-                            <svg viewBox="0 0 260 260" className={styles.loopArt} role="img" aria-label={process.loop.stages.join(", then ")}>
-                                <circle cx={LOOP_CENTER} cy={LOOP_CENTER} r={LOOP_RADIUS} className={styles.loopTrack} />
-                                <circle cx={LOOP_CENTER} cy={LOOP_CENTER} r={LOOP_RADIUS} className={styles.loopFlow} />
-                                <g className={styles.loopOrbit}>
-                                    <circle cx={LOOP_CENTER} cy={LOOP_CENTER - LOOP_RADIUS} r="5" className={styles.loopRunner} />
-                                </g>
-                                {process.loop.stages.map((stage, order) => {
-                                    const point = loopPoint(order, process.loop.stages.length);
-                                    return (
-                                        <g key={stage}>
-                                            <circle cx={point.x} cy={point.y} r="7" className={styles.loopStop} />
-                                            <text
-                                                x={point.x}
-                                                y={order === 0 ? point.y - 18 : point.y + 30}
-                                                textAnchor="middle"
-                                                className={styles.loopLabel}
-                                            >
-                                                {stage}
-                                            </text>
-                                        </g>
-                                    );
-                                })}
-                            </svg>
-                        </div>
-                    </li>
-                </ol>
+                <SearchRoadmap />
             </section>
 
             {/* The sheer length of this list is the point. */}

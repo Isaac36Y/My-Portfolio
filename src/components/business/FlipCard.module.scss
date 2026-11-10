@@ -193,6 +193,20 @@
     }
 }
 
+// backface-visibility alone is not enough: Safari can ignore it, most visibly in view transition snapshots,
+// where the 3D card is flattened and the mirrored back paints over the front. The turned-away face is also
+// hidden outright, swapping at the half turn when both faces are edge-on.
+@media (prefers-reduced-motion: no-preference) {
+    .face {
+        transition: visibility 0s linear calc(var(--duration-flip) / 2);
+    }
+
+    .stage[data-side="front"] .back,
+    .stage[data-side="back"] .front {
+        visibility: hidden;
+    }
+}
+
 // Reduced motion swaps the faces with a crossfade instead of turning the card over. The outgoing face
 // stays visible until it has faded so the swap never blinks.
 @media (prefers-reduced-motion: reduce) {

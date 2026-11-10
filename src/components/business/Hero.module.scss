@@ -75,6 +75,10 @@
     .systems {
         color: var(--color-mint)
     }
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .version {

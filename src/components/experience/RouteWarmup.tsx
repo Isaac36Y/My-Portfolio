@@ -8,7 +8,7 @@ import { afterIntro } from "./intro";
 
 // Next only prefetches links as they scroll into view, and the home page's second scene sits off screen
 // until the visitor travels to it, so its links to these pages would otherwise load on click.
-const routes = ["/", "/about", "/why", "/my-work", "/my-work/websites", "/my-work/custom-tools", "/my-work/seo", "/portfolio"];
+const routes = ["/", "/about", "/why", "/my-work", "/my-work/websites", "/my-work/custom-tools", "/my-work/seo"];
 
 const images = [
     getImageProps({ ...routeBackdrop, alt: "", sizes: logoBackdropSizes }).props,

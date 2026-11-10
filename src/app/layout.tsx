@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Courier_Prime, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.scss";
 import "@/styles/view-transitions.scss";
-import { ThemeProvider } from "@/components/NavLogic/Provider";
 import { Analytics } from "@vercel/analytics/next"
 import { revisitScript } from "@/components/experience/firstVisit";
 import { introScript } from "@/components/experience/intro";
@@ -80,19 +79,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
   return (
-    <ThemeProvider>
-        <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
-            <head>
-                <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-                <script dangerouslySetInnerHTML={{ __html: introScript }} />
-                <script dangerouslySetInnerHTML={{ __html: revisitScript }} />
-            </head>
-            <Analytics />
-            <body>
-                {children}
-                <RouteWarmup />
-            </body>
-        </html>
-    </ThemeProvider>
+    <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
+        <head>
+            <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+            <script dangerouslySetInnerHTML={{ __html: introScript }} />
+            <script dangerouslySetInnerHTML={{ __html: revisitScript }} />
+        </head>
+        <Analytics />
+        <body>
+            {children}
+            <RouteWarmup />
+        </body>
+    </html>
   );
 }

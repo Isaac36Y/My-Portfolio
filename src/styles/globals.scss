@@ -10,15 +10,6 @@
     --color-accent-med-light: rgba(0,150,199, 0.4);
     --color-accent-light: rgba(0,150,199, 0.2);
 
-    /* Graph Color */
-    --graph-high: #043b4c;
-    --graph-med-high: #1f7690;
-    --graph-med: #3ba0bc;
-    --graph-med-low: #70bfd2;
-    --graph-low: #d1e6ea;
-
-    --color-gradient: linear-gradient(0deg, rgb(0, 0, 42) 50%, rgb(56, 62, 93) 70%, rgb(112, 123, 145) 80%, rgb(167, 185, 196) 90%, rgb(223, 246, 247) 100%);
-
     --font-heading: var(--font-space-grotesk);
     --font-body: var(--font-dm-sans);
     --font-tech: var(--font-courier-prime);
@@ -50,7 +41,6 @@
     
 
     --elevated-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
-    --holo-shadow: 0 0 6px var(--color-accent-medium), 0 0 20px var(--color-accent-light);
     --shadow-card:
         var(--space-xxs) var(--space-xxs) var(--space-xs) var(--color-card-shadow),
         var(--space-lg) var(--space-xl) var(--space-xxxxl) calc(var(--space-lg) * -1) var(--color-card-shadow);
@@ -66,7 +56,6 @@
     --color-navy-well: color-mix(in srgb, var(--color-ice) 9%, var(--color-navy));
     --color-mint-hairline: color-mix(in srgb, var(--color-mint) 22%, transparent);
     --color-ice-glow: color-mix(in srgb, var(--color-ice) 20%, transparent);
-    --color-navy-hairline: color-mix(in srgb, var(--color-navy) 14%, transparent);
     --color-card: color-mix(in srgb, var(--color-ice) 6%, var(--color-navy));
     --color-card-lit: color-mix(in srgb, var(--color-ice) 15%, var(--color-navy));
     --color-card-shade: color-mix(in srgb, var(--color-ice) 2%, var(--color-navy));
@@ -134,26 +123,12 @@
     --color-surface: rgb(7, 7, 52);
     --color-primary: rgb(223, 246, 247);
     --color-secondary: rgb(148,172,190);
-    --color-secondary-med: rgb(148,172,190, 0.6);
-    --color-secondary-med-light: rgb(148,172,190, 0.4);
-    --color-secondary-light: rgb(148,172,190, 0.4);
     --color-accent: rgb(80, 220, 160);
     --color-accent-medium: rgba(80, 220, 160, 0.6);
     --color-accent-med-light: rgba(80, 220, 160, 0.4);
     --color-accent-light: rgba(80, 220, 160, 0.2);
 
-    /* Graph Color */
-    --graph-high: #4ACA96;
-    --graph-med-high: #369c7b;
-    --graph-med: #2f826f;
-    --graph-med-low: #194843;
-    --graph-low: #0E263F;
-    
-
-    --color-gradient: linear-gradient(0deg, rgb(223, 246, 247) 50%, rgb(167, 185, 196) 70%, rgb(112, 123, 145) 80%, rgb(56, 62, 93) 90%, rgb(0, 0, 42) 100%);
-    --shadow-accent: 0 2px 6px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(80, 220, 160, 0.2) inset, 0 3px 12px rgba(80, 220, 160, 0.25);
     --elevated-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 2px 0 rgba(255, 255, 255, 0.12) inset, 0 0 0 1px rgba(255, 255, 255, 0.12);
-    --holo-shadow: 0 0 6px var(--color-accent-medium), 0 0 20px var(--color-accent-light);
 }
 
 *,
@@ -233,24 +208,7 @@ ol[role="list"] {
   list-style-type: none;
 }
 
-
 //utils 
-
-.primary-text {
-    color: var(--color-primary);
-}
-
-.secondary-text {
-    color: var(--color-secondary)
-}
-
-.accent-text {
-    color: var(--color-accent);
-}
-
-.title {
-    font-family: var(--font-heading);
-}
 
 .body {
     font-family: var(--font-body);
@@ -258,8 +216,4 @@ ol[role="list"] {
 
 .tech {
     font-family: var(--font-tech), monospace;
-}
-
-.bold {
-    font-weight: 700;
 }

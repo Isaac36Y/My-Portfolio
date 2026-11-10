@@ -4,6 +4,9 @@ import "@/styles/globals.scss";
 import "@/styles/view-transitions.scss";
 import { ThemeProvider } from "@/components/NavLogic/Provider";
 import { Analytics } from "@vercel/analytics/next"
+import { revisitScript } from "@/components/experience/firstVisit";
+import { introScript } from "@/components/experience/intro";
+import RouteWarmup from "@/components/experience/RouteWarmup";
 
 
 const dmSans = DM_Sans({
@@ -81,9 +84,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
             <head>
                 <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+                <script dangerouslySetInnerHTML={{ __html: introScript }} />
+                <script dangerouslySetInnerHTML={{ __html: revisitScript }} />
             </head>
             <Analytics />
-            <body>{children}</body>
+            <body>
+                {children}
+                <RouteWarmup />
+            </body>
         </html>
     </ThemeProvider>
   );

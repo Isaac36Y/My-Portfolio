@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { logoBackdropSizes } from "@/lib/media/sharedImages";
 import styles from "./LogoBackdrop.module.scss";
 
 type LogoBackdropProps = {
@@ -28,7 +29,7 @@ export default function LogoBackdrop({
                 alt=""
                 width={width}
                 height={height}
-                sizes="120vw"
+                sizes={logoBackdropSizes}
                 loading="eager"
                 className={logoClassName}
             />

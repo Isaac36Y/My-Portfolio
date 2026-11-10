@@ -162,6 +162,11 @@
         transition: transform var(--duration-hover) var(--ease-out);
     }
 
+    // Rises in on the first visit this session only; FirstVisitOnly flags the repeats.
+    :global(html[data-revisit]) & {
+        animation: none;
+    }
+
     // The resting border is a hairline; a full mint edge fades over it so only opacity animates.
     &::before {
         content: "";

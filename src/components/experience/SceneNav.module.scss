@@ -12,6 +12,21 @@
         --tick-color: var(--color-navy);
         --tick-active-color: var(--color-mint-deep);
     }
+
+    :global(html[data-intro="hold"]) & {
+        opacity: 0;
+    }
+
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation: scene-nav-in var(--duration-crossfade) var(--ease-out) var(--intro-nav-start) both;
+    }
+}
+
+@keyframes scene-nav-in {
+    from {
+        opacity: 0;
+    }
 }
 
 .sceneButton {

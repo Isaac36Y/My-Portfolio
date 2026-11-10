@@ -1,0 +1,76 @@
+// One cell is centered on the hero and each line runs along a cell's top or left edge, the same pattern a
+// centered repeating background would draw.
+.grid {
+    // Fallbacks for before HeroGrid measures the screen; only the intro's timing reads them.
+    --column-reach: 8;
+    --row-reach: 5;
+
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: clip;
+    pointer-events: none;
+}
+
+.cellProbe {
+    position: absolute;
+    width: var(--size-grid-cell);
+    visibility: hidden;
+}
+
+@mixin line {
+    --line-start: calc(50% - var(--size-grid-cell) / 2 + var(--step) * var(--size-grid-cell));
+    // 0 for the first line on screen from the top-left, 1 for the last; lines off screen clamp to the ends.
+    --order: clamp(0, (var(--step) + var(--reach)) / (2 * var(--reach)), 1);
+
+    position: absolute;
+    background-color: var(--color-grid-line);
+
+    // The intro lays each line down along its length, in a wave from the top-left corner to the bottom-right.
+    :global(html[data-intro="hold"]) & {
+        opacity: 0;
+    }
+
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation: line-draw var(--intro-line-duration) var(--ease-out)
+            calc(var(--intro-lines-start) + var(--order) * var(--intro-lines-spread)) both;
+    }
+}
+
+// Columns draw downward from the top edge.
+.column {
+    @include line;
+
+    --reach: var(--column-reach);
+    --line-scale-from: 1 0;
+
+    inset-block: 0;
+    left: var(--line-start);
+    width: var(--width-grid-line);
+    transform-origin: top;
+}
+
+// Rows draw rightward from the left edge.
+.row {
+    @include line;
+
+    --reach: var(--row-reach);
+    --line-scale-from: 0 1;
+
+    inset-inline: 0;
+    top: var(--line-start);
+    height: var(--width-grid-line);
+    transform-origin: left;
+}
+
+@keyframes line-draw {
+    from {
+        opacity: 0;
+        scale: var(--line-scale-from);
+    }
+    to {
+        opacity: 1;
+        scale: 1 1;
+    }
+}

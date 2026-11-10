@@ -10,11 +10,9 @@
     min-height: 100svh;
     padding: var(--hero-inset-block-start) var(--space-lg) var(--hero-inset-block-end);
     color: var(--color-ice);
-    background-image:
-        linear-gradient(to right, var(--color-grid-line) var(--width-grid-line), transparent var(--width-grid-line)),
-        linear-gradient(to bottom, var(--color-grid-line) var(--width-grid-line), transparent var(--width-grid-line));
-    background-size: var(--size-grid-cell) var(--size-grid-cell);
-    background-position: center;
+    // HeroGrid's lines sit at z-index -1 inside this; isolation keeps them above the scene's ground.
+    position: relative;
+    isolation: isolate;
 }
 
 .nav {
@@ -47,6 +45,18 @@
     .navWash {
         transform: scaleX(1);
         transform-origin: left;
+    }
+}
+
+// The intro's last beat: these drop in from above the screen, one after another, once everything else has settled.
+.navItem {
+    :global(html[data-intro="hold"]) & {
+        translate: 0 calc(-100% - var(--hero-inset-block-start) - var(--space-xxxxl));
+    }
+
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation: drop-in 700ms var(--ease-out) calc(var(--intro-nav-start) + var(--i) * var(--intro-nav-stagger)) both;
     }
 }
 
@@ -138,6 +148,29 @@
     @media (prefers-reduced-motion: no-preference) {
         animation: rise var(--duration-reveal) var(--ease-out) both;
     }
+
+    // The intro animates the wordmark and tagline itself, and the mark inside the brand must hold still to be
+    // landed on. Matches "done" too, so the usual entrance doesn't replay once the intro has finished.
+    :global(html[data-intro]) & {
+        animation: none;
+    }
+}
+
+// Painted at full opacity during the hold, under the curtain, so Largest Contentful Paint is recorded on first
+// paint as usual. The reveal starts while the curtain is still opaque, so the switch to hidden is never seen.
+.wordmark,
+.tagline {
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation: rise var(--duration-reveal) var(--ease-out) var(--intro-copy-start) both;
+    }
+}
+
+.tagline {
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation-delay: calc(var(--intro-copy-start) + var(--intro-copy-stagger));
+    }
 }
 
 .brand {
@@ -148,10 +181,16 @@
 }
 
 .mark {
-    width: clamp(5.5rem, 4rem + 7vw, 9.5rem);
+    width: var(--size-hero-mark);
     height: auto;
     display: flex;
     justify-content: center;
+
+    // The intro's logo stands in for it until it lands here.
+    :global(html[data-intro="hold"]) &,
+    :global(html[data-intro="reveal"]) & {
+        opacity: 0;
+    }
 }
 
 .wordmark {
@@ -199,6 +238,15 @@
     }
     to {
         opacity: 1;
+        translate: 0 0;
+    }
+}
+
+@keyframes drop-in {
+    from {
+        translate: 0 calc(-100% - var(--hero-inset-block-start) - var(--space-xxxxl));
+    }
+    to {
         translate: 0 0;
     }
 }

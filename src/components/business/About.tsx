@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
+import { standingPortrait } from "@/lib/media/sharedImages";
 import { IconChevronLeft } from "@tabler/icons-react";
 import LogoBackdrop from "@/components/experience/LogoBackdrop";
 import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
@@ -59,12 +60,8 @@ export default function About() {
                         <span className={styles.photoBackdrop} aria-hidden="true" />
                         <div className={styles.portrait} data-carried="portrait">
                             <Image
-                                src="/images/isaacStanding.png"
+                                {...standingPortrait}
                                 alt={portraitAlt}
-                                width={1024}
-                                height={1536}
-                                // The desktop size matches the introduction's so both pick the same file and the carried portrait is already cached.
-                                sizes="(min-width: 1252px) 85vh, 45rem"
                                 loading="eager"
                                 className={styles.portraitImage}
                             />

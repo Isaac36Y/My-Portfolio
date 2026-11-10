@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import MyWork from "@/components/business/MyWork";
+import FirstVisitOnly from "@/components/experience/FirstVisitOnly";
 import FocusOnArrival from "@/components/experience/FocusOnArrival";
 import RememberScene from "@/components/experience/RememberScene";
 import RouteScene from "@/components/experience/RouteScene";
@@ -29,6 +30,7 @@ export default function MyWorkPage() {
                 <MyWork />
                 <FocusOnArrival headingId="my-work-title" />
                 <RememberScene sceneId="introduction" />
+                <FirstVisitOnly />
             </main>
         </RouteScene>
     );

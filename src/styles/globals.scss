@@ -88,6 +88,18 @@
     --size-tap-target: 44px;
     --hero-inset-block-start: 5svh;
     --hero-inset-block-end: 15svh;
+    // Shared by the hero mark and the intro logo that lands on it, so the hand-off needs no resize.
+    --size-hero-mark: clamp(5.5rem, 4rem + 7vw, 9.5rem);
+    // The home intro's running order, each piece in its own beat, counted from the logo leaving the center
+    // (its flight is --duration-travel long). The lines start as it lands and take 1.5s to lay end to end,
+    // the copy rises halfway through them, and the nav drops in once everything else has settled.
+    --intro-lines-start: 650ms;
+    --intro-line-duration: 500ms;
+    --intro-lines-spread: 1000ms;
+    --intro-copy-start: 1400ms;
+    --intro-copy-stagger: 150ms;
+    --intro-nav-start: 2600ms;
+    --intro-nav-stagger: 150ms;
     // Matches the business card, which fits about thirteen cells across its width.
     --size-grid-cell: clamp(3rem, 7.75vw, 7rem);
     --width-grid-line: 1px;

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import BackToTop from "@/components/experience/BackToTop";
 import PinnedWayfinding from "@/components/experience/PinnedWayfinding";
 import StageReturnLink from "@/components/experience/StageReturnLink";
 import { customTools } from "@/content/tools";
@@ -21,7 +22,17 @@ export default function ToolDashboard({ openCaseStudy }: { openCaseStudy: ReactN
                     <p className={`${styles.lede} body`}>{lede}</p>
                 </div>
 
-                <PinnedWayfinding className={styles.wayfinding} label="Leave Custom Tools">
+                <PinnedWayfinding
+                    className={styles.wayfinding}
+                    label="Leave Custom Tools"
+                    pinnedExtra={
+                        <BackToTop
+                            focusTargetId="custom-tools-title"
+                            className={styles.backToTop}
+                            arrowClassName={styles.backToTopArrow}
+                        />
+                    }
+                >
                     <Link
                         href="/my-work"
                         transitionTypes={travelTypesFor({ direction: "up", staysOffStage: true })}

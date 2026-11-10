@@ -46,6 +46,12 @@
     display: flex;
     align-items: flex-end;
     gap: var(--space-sm) var(--space-xxl);
+
+    // On a phone there is no room beside the title, so the lede sits under it.
+    @media (width < $tablet) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 .title {
@@ -115,6 +121,38 @@
     @media (hover: hover) {
         .wayLink:hover & {
             transform: translateY(var(--space-sm));
+        }
+    }
+}
+
+// Only the pinned copy carries this, and only on a phone, where the case study is long enough to need a way back up.
+// It sits at the far end of the row, apart from the links that leave the page.
+.backToTop {
+    display: none;
+
+    @media (width < $tablet) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: var(--size-tap-target);
+        min-height: var(--size-tap-target);
+        margin-inline-start: auto;
+        color: var(--color-mint);
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: 2px solid var(--color-mint);
+            outline-offset: calc(var(--space-xs) * -1);
+        }
+    }
+}
+
+.backToTopArrow {
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+
+        .backToTop:hover & {
+            transform: translateY(calc(var(--space-sm) * -1));
         }
     }
 }

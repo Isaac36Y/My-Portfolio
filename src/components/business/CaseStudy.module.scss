@@ -6,7 +6,6 @@
 .caseStudy {
     display: grid;
     align-content: start;
-    gap: var(--space-xxxxl);
     padding: var(--space-xl) var(--page-gutter) calc(var(--space-xxxxl) * 2);
 
     @include bp($desktop) {

@@ -6,6 +6,11 @@
 .strip {
     padding: var(--space-lg) var(--page-gutter);
 
+    // On a phone the scroller runs edge to edge, so its own padding holds the gutter instead.
+    @media (width < $tablet) {
+        padding-inline: 0;
+    }
+
     @include bp($desktop) {
         overflow-y: auto;
         overscroll-behavior-block: contain;
@@ -22,6 +27,23 @@
     @include bp($desktop) {
         gap: var(--space-xl);
     }
+
+    // On a phone the cards shrink into a sideways slider, so the open case study sits right below them instead of
+    // under a stack of every other tool. The next card peeks in from the edge to show there is more.
+    @media (width < $tablet) {
+        display: flex;
+        gap: var(--space-med);
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--page-gutter);
+        padding: var(--space-xs) var(--page-gutter);
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 }
 
 .card {
@@ -36,6 +58,14 @@
 
     @media (prefers-reduced-motion: no-preference) {
         transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (width < $tablet) {
+        flex: 0 0 min(58%, 13rem);
+        gap: var(--space-xs);
+        padding: var(--space-sm);
+        border-radius: var(--br-med);
+        scroll-snap-align: start;
     }
 
     // The resting border is a hairline; a full mint edge fades over it so only opacity animates.
@@ -78,6 +108,12 @@
     background-color: var(--color-navy-well);
     border: 1px solid var(--color-mint-hairline);
     border-radius: var(--br-med);
+
+    @media (width < $tablet) {
+        margin-block-end: var(--space-xs);
+        aspect-ratio: 2 / 1;
+        border-radius: var(--br-sm);
+    }
 }
 
 .thumbnailImage {
@@ -102,11 +138,25 @@
     color: var(--color-mint);
 }
 
+// Labels hold to one line on a small card so every card in the slider stays the same short height.
+.field,
+.status {
+    @media (width < $tablet) {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
 .name {
     font-size: var(--fs-lg);
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
+
+    @media (width < $tablet) {
+        font-size: var(--fs-body);
+    }
 }
 
 // The heading's link covers the whole card, so the tool's name stays the link's accessible name.
@@ -130,6 +180,16 @@
     font-size: var(--fs-body);
     line-height: 1.5;
     color: var(--color-ice-muted);
+
+    // The full summary leads the open case study below, so a small card only needs a taste of it.
+    @media (width < $tablet) {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        font-size: var(--fs-sm);
+        line-height: 1.4;
+    }
 }
 
 .status {
@@ -143,6 +203,7 @@
 
     &::before {
         content: "";
+        flex-shrink: 0;
         width: var(--space-sm);
         height: var(--space-sm);
         background-color: var(--color-mint);
@@ -152,5 +213,16 @@
     .open & {
         color: var(--color-mint);
         text-transform: uppercase;
+    }
+
+    // Ellipsis cannot clip text inside a flex row, so on a phone the status turns to block with the dot inline.
+    @media (width < $tablet) {
+        display: block;
+
+        &::before {
+            display: inline-block;
+            margin-inline-end: var(--space-sm);
+            vertical-align: 0.1em;
+        }
     }
 }

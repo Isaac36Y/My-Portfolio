@@ -7,13 +7,15 @@ type PinnedWayfindingProps = {
     label: string;
     // The page's own layout for its links. The pinned copy keeps it, so each link stays on the side it travels toward.
     className?: string;
+    // Shown only on the pinned copy, for controls that make sense once the page has scrolled, like back to top.
+    pinnedExtra?: ReactNode;
     children: ReactNode;
 };
 
 // A long page scrolls its way-out links off the top. Once they are a full screen behind the reader, a copy
 // slides down and stays pinned, each link on its own chip so it reads over whatever passes underneath.
 // The copy is a second set of the same links, inert while it is hidden, so the page's links never move or jump.
-export default function PinnedWayfinding({ label, className, children }: PinnedWayfindingProps) {
+export default function PinnedWayfinding({ label, className, pinnedExtra, children }: PinnedWayfindingProps) {
     const navRef = useRef<HTMLElement>(null);
     const [pinned, setPinned] = useState(false);
 
@@ -38,6 +40,7 @@ export default function PinnedWayfinding({ label, className, children }: PinnedW
             </nav>
             <div className={`${className ?? ""} ${styles.pinned}`} data-shown={pinned} inert={!pinned}>
                 {children}
+                {pinnedExtra}
             </div>
         </>
     );

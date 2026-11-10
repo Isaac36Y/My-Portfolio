@@ -132,6 +132,7 @@
 
     &[data-path="work"] {
         --path-top: 30%;
+        right: calc(50% + var(--path-reach) - 1.5vw);
     }
 
     &[data-path="why"] {

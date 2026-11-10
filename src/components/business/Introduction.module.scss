@@ -23,7 +23,7 @@
     // Isaac fills only the middle of his photo; the rest of the frame is transparent.
     --body-half-width: calc(var(--figure-width) * 0.21);
     --figure-top: max(40svh, 20rem);
-    --figure-height: 72svh;
+    --figure-height: var(--height-portrait-phone);
     --figure-width: calc(var(--figure-height) * 2 / 3);
     --figure-center-x: 62vw;
     --path-reach: calc(var(--body-half-width) + var(--space-xl));

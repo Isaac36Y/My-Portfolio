@@ -33,7 +33,6 @@
 .about {
     --logo-backdrop-opacity: 1;
     --photo-window-height: 26rem;
-    --phone-portrait-zoom: 2.6;
 
     position: relative;
     display: grid;
@@ -144,7 +143,7 @@
     --details-height: 15rem;
     --window-bottom: var(--photo-window-height);
     --portrait-inset-top: calc(var(--card-inset) + var(--space-xl));
-    --portrait-scale: 1;
+    --portrait-scale: var(--scale-portrait-in-card-phone);
     --backdrop-rises-at: var(--duration-travel);
     --card-forms-at: calc(var(--backdrop-rises-at) + var(--stagger) * 2);
     --printing-at: calc(var(--card-forms-at) + var(--duration-frame));
@@ -198,7 +197,7 @@
 // Sized like the introduction's portrait and zoomed with scale alone, so the carried portrait
 // crosses between the two pages without animating its width or height.
 .portrait {
-    --portrait-height: calc(var(--photo-window-height) * var(--phone-portrait-zoom));
+    --portrait-height: var(--height-portrait-phone);
 
     position: absolute;
     top: var(--portrait-inset-top);

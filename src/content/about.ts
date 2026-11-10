@@ -86,7 +86,7 @@ export const about = {
             {
                 id: "delivery-route",
                 waypoint: "Central Point, OR",
-                heading: "Before I wrote code, I drove a delivery route.",
+                heading: "Before I wrote code, I was a delivery driver.",
                 paragraphs: [
                     "I’m from Central Point, Oregon. I was driving deliveries full time, hooked on the idea of travel, and looking for work that could come along with me.",
                     "That’s how I found freeCodeCamp. I took its free HTML and CSS course to see what building for the web was like, and I liked it. But after a full shift behind the wheel, I couldn’t make the habit stick.",

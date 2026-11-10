@@ -67,57 +67,59 @@
 
 // Elements opt in with data-travel-layer, and only route travel lifts them out of their page snapshot.
 // This lives here rather than in a module because CSS Modules would hash the transition names and classes.
+// Desktop only. On phones each page travels as a single snapshot, which Mobile Safari handles far more
+// reliably than the stacked, counter-animated layers.
 @media (prefers-reduced-motion: no-preference) {
-    @each $direction in left, right, up, down {
-        :root:active-view-transition-type(travel-#{$direction}) {
-            [data-travel-layer] {
-                view-transition-name: match-element;
-            }
+    @include bp($desktop) {
+        @each $direction in left, right, up, down {
+            :root:active-view-transition-type(travel-#{$direction}) {
+                [data-travel-layer] {
+                    view-transition-name: match-element;
+                }
 
-            [data-travel-layer="foreground"] {
-                view-transition-class: travel-#{$direction} travel-foreground;
-            }
-        }
-    }
-
-    // The browser cannot tell a window whether it is leaving or arriving, but a trip that touches the stage
-    // either leaves it or returns to it, so which side of that trip a window sits on decides it.
-    :root:active-view-transition-type(travel-left, travel-right, travel-up, travel-down) {
-        &:not(:active-view-transition-type(travel-return)) {
-            [data-travel-layer="window"] {
-                view-transition-class: travel-window travel-window-arriving;
-            }
-
-            [data-stage] [data-travel-layer="window"] {
-                view-transition-class: travel-window travel-window-leaving;
+                [data-travel-layer="foreground"] {
+                    view-transition-class: travel-#{$direction} travel-foreground;
+                }
             }
         }
 
-        &:active-view-transition-type(travel-return) {
-            [data-travel-layer="window"] {
-                view-transition-class: travel-window travel-window-leaving;
+        // The browser cannot tell a window whether it is leaving or arriving, but a trip that touches the stage
+        // either leaves it or returns to it, so which side of that trip a window sits on decides it.
+        :root:active-view-transition-type(travel-left, travel-right, travel-up, travel-down) {
+            &:not(:active-view-transition-type(travel-return)) {
+                [data-travel-layer="window"] {
+                    view-transition-class: travel-window travel-window-arriving;
+                }
+
+                [data-stage] [data-travel-layer="window"] {
+                    view-transition-class: travel-window travel-window-leaving;
+                }
             }
 
-            [data-stage] [data-travel-layer="window"] {
-                view-transition-class: travel-window travel-window-arriving;
+            &:active-view-transition-type(travel-return) {
+                [data-travel-layer="window"] {
+                    view-transition-class: travel-window travel-window-leaving;
+                }
+
+                [data-stage] [data-travel-layer="window"] {
+                    view-transition-class: travel-window travel-window-arriving;
+                }
             }
         }
-    }
 
-    // Between two route pages there is no stage on either side, so no seam for a window to hold still
-    // across. Each window stays in its page's snapshot and travels with it.
-    :root:active-view-transition-type(travel-off-stage) [data-travel-layer="window"] {
-        view-transition-name: none;
+        // Between two route pages there is no stage on either side, so no seam for a window to hold still
+        // across. Each window stays in its page's snapshot and travels with it.
+        :root:active-view-transition-type(travel-off-stage) [data-travel-layer="window"] {
+            view-transition-name: none;
+        }
     }
 }
 
 // Isaac's portrait crosses between the introduction and the About card as one element instead of
-// leaving with either page. On phones the card sits under the title, so he travels with his page there.
+// leaving with either page.
 @media (prefers-reduced-motion: no-preference) {
-    @include bp($desktop) {
-        :root:active-view-transition-type(carry-portrait) [data-carried="portrait"] {
-            view-transition-name: carried-portrait;
-        }
+    :root:active-view-transition-type(carry-portrait) [data-carried="portrait"] {
+        view-transition-name: carried-portrait;
     }
 }
 

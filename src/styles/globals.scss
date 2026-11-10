@@ -95,7 +95,9 @@
     --page-inset-block: 6svh;
     // Taller than the screen on purpose: Isaac's legs run off the bottom edge.
     --height-portrait-standing: min(125svh, 90vw);
+    --height-portrait-phone: 72svh;
     --scale-portrait-in-card: 1.25;
+    --scale-portrait-in-card-phone: 2.25;
 
     --duration-hover: 200ms;
     --duration-frame: 450ms;

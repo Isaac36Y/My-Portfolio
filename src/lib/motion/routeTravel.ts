@@ -26,6 +26,10 @@ export const routeTravelClasses = {
     default: "none",
 };
 
+// Between the hero and the login page: the shared frame holds still, the mark glides between its two
+// spots, and the hero's copy fades out before the login card fades in. Animations in styles/view-transitions.scss.
+export const PORTAL_SWAP_TYPE = "portal-swap";
+
 // Swapping the open case study on the Custom Tools dashboard. Only the case panel moves; the strip and header stay put.
 export const TOOL_SWITCH_TYPE = "tool-switch";
 

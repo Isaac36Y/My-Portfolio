@@ -1,5 +1,7 @@
-// One cell is centered on the hero and each line runs along a cell's top or left edge, the same pattern a
-// centered repeating background would draw.
+// One cell is centered on the first screen and each line runs along a cell's top or left edge, the same
+// pattern a centered repeating background would draw. Rows anchor to the screen (50svh) rather than the
+// container, so a page that runs taller than one screen, like the login page on a short phone, still draws
+// its grid on the same pixels as the hero's.
 .grid {
     // Fallbacks for before HeroGrid measures the screen; only the intro's timing reads them.
     --column-reach: 8;
@@ -19,7 +21,8 @@
 }
 
 @mixin line {
-    --line-start: calc(50% - var(--size-grid-cell) / 2 + var(--step) * var(--size-grid-cell));
+    --line-center: 50%;
+    --line-start: calc(var(--line-center) - var(--size-grid-cell) / 2 + var(--step) * var(--size-grid-cell));
     // 0 for the first line on screen from the top-left, 1 for the last; lines off screen clamp to the ends.
     --order: clamp(0, (var(--step) + var(--reach)) / (2 * var(--reach)), 1);
 
@@ -56,6 +59,7 @@
     @include line;
 
     --reach: var(--row-reach);
+    --line-center: 50svh;
     --line-scale-from: 0 1;
 
     inset-inline: 0;

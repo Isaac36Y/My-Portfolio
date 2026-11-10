@@ -1,34 +1,14 @@
 import Image from "next/image";
+import HeroGrid from "@/components/experience/HeroGrid";
+import HeroNav from "@/components/experience/HeroNav";
 import { siteConfig } from "@/site.config";
 import styles from "./Hero.module.scss";
-import { travelTypesFor } from "@/lib/motion/routeTravel";
-import Link from "next/link";
-import type { CSSProperties } from "react";
-import HeroGrid from "@/components/experience/HeroGrid";
-
-const services = [
-    { label: "Websites", href: "/my-work/websites", transitionType: travelTypesFor({ direction: "left" }) },
-    { label: "Custom Tools", href: "/my-work/custom-tools", transitionType: travelTypesFor({ direction: "up" }) },
-    { label: "SEO", href: "/my-work/seo", transitionType: travelTypesFor({ direction: "right" }) },
-    { label: "Log In", href: "/login" },
-];
 
 export default function Hero() {
     return (
         <section className={styles.hero} aria-labelledby="hero-title">
             <HeroGrid />
-            <nav className={styles.nav} aria-label="Services">
-                <ul role="list" className={styles.navList}>
-                    {services.map((service, index) => (
-                        <li key={service.href} className={styles.navItem} style={{ "--i": index } as CSSProperties}>
-                            <Link href={service.href} transitionTypes={service.transitionType} className={`${styles.navLink} body`}>
-                                <span className={styles.navWash} aria-hidden="true" />
-                                <span className={styles.navLabel}>{service.label}</span>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+            <HeroNav />
 
             <div className={styles.brand}>
                 <Image
@@ -40,8 +20,9 @@ export default function Hero() {
                     className={styles.mark}
                     preload
                     data-intro-mark
+                    data-portal-swap="mark"
                 />
-                <h1 id="hero-title" tabIndex={-1} className={styles.wordmark}>
+                <h1 id="hero-title" tabIndex={-1} className={styles.wordmark} data-portal-swap="copy">
                     Younger <br></br><span className={styles.systems}>Systems</span>
                     <span className={styles.version} aria-hidden="true">
                         v.new
@@ -49,7 +30,9 @@ export default function Hero() {
                 </h1>
             </div>
 
-            <p className={`${styles.tagline} body`}>{siteConfig.tagline}</p>
+            <p className={`${styles.tagline} body`} data-portal-swap="copy">
+                {siteConfig.tagline}
+            </p>
         </section>
     );
 }

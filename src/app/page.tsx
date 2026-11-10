@@ -1,5 +1,6 @@
 import Hero from "@/components/business/Hero";
 import Introduction from "@/components/business/Introduction";
+import FirstVisitOnly from "@/components/experience/FirstVisitOnly";
 import HomeIntro from "@/components/experience/HomeIntro";
 import RouteScene from "@/components/experience/RouteScene";
 import Stage from "@/components/experience/Stage";
@@ -14,6 +15,7 @@ export default function Home() {
                 </main>
             </RouteScene>
             <HomeIntro />
+            <FirstVisitOnly />
         </>
     );
 }

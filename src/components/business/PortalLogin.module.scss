@@ -1,0 +1,279 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// The same frame as the hero: one screen tall with the same insets, so the nav and grid land on the
+// same pixels and only the copy and the mark change between the two pages.
+.portal {
+    // Phones keep fixed spacing and may scroll on the smallest screens.
+    --portal-gap: var(--space-xl);
+    --portal-inset-end: var(--space-xxxl);
+    --portal-mark: var(--size-hero-mark);
+    --card-padding: var(--space-xl);
+    --card-gap: var(--space-lg);
+    --title-size: clamp(1.75rem, 1.5rem + 1vw, 2.1rem);
+    --form-gap: var(--space-lg);
+    --action-height: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--portal-gap);
+    min-height: 100svh;
+    padding: var(--hero-inset-block-start) var(--space-lg) var(--portal-inset-end);
+    color: var(--color-ice);
+    position: relative;
+    isolation: isolate;
+
+    @media (min-width: 30rem) {
+        --card-padding: var(--space-xxl);
+    }
+
+    // Tablets and up size everything from the screen's height, so the page is exactly one screen with no
+    // scroll: a scrolled page would also throw the swap back to the hero out of line. Controls never drop
+    // below the 44px tap target.
+    @include bp($tablet) {
+        --portal-gap: clamp(0.5rem, 2svh, 1.5rem);
+        --portal-inset-end: clamp(1rem, 4svh, 3rem);
+        --portal-mark: min(var(--size-hero-mark), 13svh);
+        --card-padding: clamp(1rem, 3.5svh, 2rem);
+        --card-gap: clamp(0.5rem, 1.8svh, 1rem);
+        --title-size: clamp(1.5rem, 4svh, 2.1rem);
+        --form-gap: clamp(0.5rem, 1.6svh, 1rem);
+        --action-height: clamp(var(--size-tap-target), 6svh, 3rem);
+
+        height: 100svh;
+    }
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--portal-gap);
+    width: min(100%, 29rem);
+    margin-block: auto;
+}
+
+.homeLink {
+    display: block;
+    border-radius: var(--br-sm);
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-sm);
+    }
+}
+
+// The hero's mark size, capped on short screens; the swap scales it as it moves.
+.mark {
+    width: var(--portal-mark);
+    height: auto;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    width: 100%;
+    padding: var(--card-padding);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-card);
+    box-shadow: 0 var(--space-xl) var(--space-xxxxl) calc(var(--space-lg) * -1) rgb(0 0 0 / 0.5);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.eyebrow {
+    font-size: var(--fs-sm);
+    color: var(--color-mint);
+    letter-spacing: 0.04em;
+}
+
+.title {
+    font-size: var(--title-size);
+    line-height: 1.1;
+    text-wrap: balance;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.lede {
+    font-size: 1.05rem;
+    color: var(--color-ice-muted);
+    text-wrap: pretty;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--form-gap);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.labelRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-lg);
+}
+
+.label {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.quietLink {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-ice-muted);
+    text-underline-offset: 0.2em;
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--color-mint);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+// 1rem text keeps iOS from zooming the page when a field is focused.
+.input {
+    min-height: var(--size-tap-target);
+    padding: var(--space-sm) var(--space-med);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-ice);
+    background-color: var(--color-navy-well);
+    border: 1px solid color-mix(in srgb, var(--color-ice) 18%, transparent);
+    border-radius: var(--br-med);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: border-color var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            border-color: color-mix(in srgb, var(--color-ice) 35%, transparent);
+        }
+    }
+
+    &:focus-visible {
+        border-color: var(--color-mint);
+        outline: 2px solid var(--color-mint);
+        outline-offset: 0;
+    }
+}
+
+.submit {
+    min-height: var(--action-height);
+    margin-top: var(--space-xs);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    background-color: var(--color-mint);
+    border-radius: var(--br-med);
+    cursor: pointer;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: background-color var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: color-mix(in srgb, var(--color-mint) 85%, var(--color-ice));
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+    }
+}
+
+.notice {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-ice-muted);
+
+    &:empty {
+        display: none;
+    }
+}
+
+// The way in for someone who isn't a client yet, set apart from the sign-in by a hairline.
+.getStarted {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--card-gap);
+    border-top: 1px solid color-mix(in srgb, var(--color-ice) 12%, transparent);
+}
+
+.getStartedTitle {
+    font-size: var(--fs-med);
+    line-height: 1.2;
+}
+
+.getStartedCopy {
+    font-size: 1rem;
+    color: var(--color-ice-muted);
+}
+
+.emailLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: var(--action-height);
+    margin-top: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-mint);
+    text-decoration: none;
+    border: 1px solid var(--color-mint);
+    border-radius: var(--br-med);
+    // A long address wraps instead of pushing the card wider on narrow phones.
+    overflow-wrap: anywhere;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: background-color var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: var(--color-mint-wash);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+    }
+}
+
+.emailIcon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+}

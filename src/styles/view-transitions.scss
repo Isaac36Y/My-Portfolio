@@ -252,3 +252,46 @@
         opacity: 0;
     }
 }
+
+// Between the hero and the login page. Ground, grid and nav sit on the same pixels on both pages, so the
+// root snapshots match and nothing there visibly changes. The mark glides between its two spots, and the
+// copy on either side gets its own group: the leaving copy fades out first, then the arriving copy rises in.
+// match-element keeps each piece of copy unpaired, so it only ever leaves or arrives, never morphs.
+@media (prefers-reduced-motion: no-preference) {
+    :root:active-view-transition-type(portal-swap) {
+        [data-portal-swap="mark"] {
+            view-transition-name: portal-mark;
+        }
+
+        [data-portal-swap="copy"] {
+            view-transition-name: match-element;
+            view-transition-class: portal-copy;
+        }
+    }
+}
+
+::view-transition-group(portal-mark) {
+    animation-duration: var(--duration-travel);
+    animation-timing-function: var(--ease-travel);
+}
+
+::view-transition-old(.portal-copy) {
+    animation: var(--duration-crossfade) var(--ease-out) both portal-copy-leave;
+}
+
+::view-transition-new(.portal-copy) {
+    animation: var(--duration-reveal) var(--ease-out) calc(var(--duration-crossfade) * 0.75) both portal-copy-arrive;
+}
+
+@keyframes portal-copy-leave {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes portal-copy-arrive {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-lg);
+    }
+}

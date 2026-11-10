@@ -67,21 +67,24 @@
 
 // ---------- Opener ----------
 
+// The title sits just below the wayfinding rather than at the foot of the screen, so the first section
+// shows beneath it and the visitor can see there is more page to scroll.
 .opener {
+    --opener-drop: clamp(var(--space-xxxl), 12svh, calc(var(--space-xxxxl) * 2));
+
     display: grid;
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-rows: auto var(--opener-drop) auto auto;
     grid-template-areas:
         "nav"
         "."
         "title"
         "lede";
     row-gap: var(--space-xl);
-    min-height: 100svh;
-    padding-block: var(--space-lg) var(--page-inset-block);
+    padding-top: var(--space-lg);
 
-    // The title and the line under it split the full width and share a baseline at the bottom of the screen.
+    // The title and the line under it split the full width and share a baseline.
     @include bp($desktop) {
-        grid-template-rows: auto 1fr auto;
+        grid-template-rows: auto var(--opener-drop) auto;
         grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
         grid-template-areas:
             "nav nav"

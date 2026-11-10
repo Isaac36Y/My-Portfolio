@@ -1,0 +1,78 @@
+// Sits centered in the gap below the tagline (the hero's bottom inset).
+.cue {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--hero-inset-block-end) / 2);
+    translate: -50% 50%;
+    width: 5.5rem;
+    height: 2.25rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--duration-reveal) var(--ease-out);
+
+    &[data-phase="shown"] {
+        opacity: 1;
+    }
+
+    &[data-phase="gone"] {
+        opacity: 0;
+        transition-duration: var(--duration-hover);
+    }
+}
+
+.arrow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+
+    path {
+        // Dim on purpose: it reads as part of the background until the streak catches the eye.
+        stroke: var(--color-grid-line);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+}
+
+// A mint band, three times the arrow's width, swept left to right once every 3s and then parked off the arrow.
+.streak {
+    --streak-mask: linear-gradient(to right, transparent 40%, #000 50%, transparent 60%);
+
+    -webkit-mask-image: var(--streak-mask);
+    mask-image: var(--streak-mask);
+    -webkit-mask-size: 300% 100%;
+    mask-size: 300% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: 100% 50%;
+    mask-position: 100% 50%;
+    filter: drop-shadow(0 0 3px var(--color-mint));
+
+    path {
+        stroke: var(--color-mint);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        // The easing applies per keyframe step, so the sweep eases out and the rest of the cycle is a pause.
+        animation: streak 3s var(--ease-out) infinite;
+    }
+
+    // Without the sweep the band would sit off the arrow anyway; hide it so nothing half-shows.
+    @media (prefers-reduced-motion: reduce) {
+        display: none;
+    }
+}
+
+@keyframes streak {
+    from {
+        -webkit-mask-position: 100% 50%;
+        mask-position: 100% 50%;
+    }
+    85%,
+    to {
+        -webkit-mask-position: 0% 50%;
+        mask-position: 0% 50%;
+    }
+}

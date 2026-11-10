@@ -1,6 +1,7 @@
 import Image from "next/image";
 import HeroGrid from "@/components/experience/HeroGrid";
 import HeroNav from "@/components/experience/HeroNav";
+import ScrollCue from "@/components/experience/ScrollCue";
 import { siteConfig } from "@/site.config";
 import styles from "./Hero.module.scss";
 
@@ -33,6 +34,8 @@ export default function Hero() {
             <p className={`${styles.tagline} body`} data-portal-swap="copy">
                 {siteConfig.tagline}
             </p>
+
+            <ScrollCue />
         </section>
     );
 }

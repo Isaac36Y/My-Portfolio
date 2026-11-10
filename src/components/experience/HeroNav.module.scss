@@ -1,0 +1,143 @@
+// Shared by the hero and the login page, which draw it in exactly the same place so it holds still
+// while the hero's copy and the login card swap.
+.nav {
+    align-self: stretch;
+}
+
+.navList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: var(--space-xs) var(--space-xl);
+    width: min(100%, 72rem);
+    margin-inline: auto;
+}
+
+@mixin framed {
+    &::before,
+    &::after {
+        opacity: 1;
+    }
+
+    &::before {
+        transform: translate(calc(var(--space-xs) * -1), calc(var(--space-xs) * -1));
+    }
+
+    &::after {
+        transform: translate(var(--space-xs), var(--space-xs));
+    }
+
+    .navWash {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+}
+
+// The intro's last beat: these drop in from above the screen, one after another, once everything else has settled.
+.navItem {
+    :global(html[data-intro="hold"]) & {
+        translate: 0 calc(-100% - var(--hero-inset-block-start) - var(--space-xxxxl));
+    }
+
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation: drop-in 700ms var(--ease-out) calc(var(--intro-nav-start) + var(--i) * var(--intro-nav-stagger)) both;
+    }
+}
+
+.navLink {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: var(--size-tap-target);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ice);
+    text-decoration: none;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: var(--space-sm);
+        height: var(--space-sm);
+        border: 0 solid var(--color-mint);
+        opacity: 0.35;
+        pointer-events: none;
+    }
+
+    &::before {
+        top: 0;
+        left: 0;
+        border-top-width: 1px;
+        border-left-width: 1px;
+        transform-origin: top left;
+        transform: scale(0.75);
+    }
+
+    &::after {
+        bottom: 0;
+        right: 0;
+        border-bottom-width: 1px;
+        border-right-width: 1px;
+        transform-origin: bottom right;
+        transform: scale(0.75);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        &::before,
+        &::after {
+            transition:
+                transform var(--duration-frame) var(--ease-out),
+                opacity var(--duration-frame) var(--ease-out);
+        }
+    }
+
+    // Touch screens keep :hover after a tap, which would leave the frame stuck on the last link.
+    @media (hover: hover) {
+        &:hover {
+            @include framed;
+        }
+    }
+
+    // The page the visitor is on keeps its frame drawn.
+    &[aria-current="page"] {
+        @include framed;
+    }
+
+    &:focus-visible {
+        @include framed;
+
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-sm);
+        border-radius: var(--br-sm);
+    }
+}
+
+// Origin sits on the right at rest so the wash leaves in the direction it entered.
+.navWash {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-mint-wash);
+    transform: scaleX(0);
+    transform-origin: right;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-frame) var(--ease-out);
+    }
+}
+
+.navLabel {
+    position: relative;
+}
+
+@keyframes drop-in {
+    from {
+        translate: 0 calc(-100% - var(--hero-inset-block-start) - var(--space-xxxxl));
+    }
+    to {
+        translate: 0 0;
+    }
+}

@@ -1,0 +1,117 @@
+// The block inset leaves the middle 80% of the screen for the three elements;
+// space-between splits the leftover height into two equal gaps, and gap is their floor on short screens.
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-xl);
+    // svh, not dvh: dvh changes while mobile toolbars slide and jolts the layout.
+    min-height: 100svh;
+    padding: var(--hero-inset-block-start) var(--space-lg) var(--hero-inset-block-end);
+    color: var(--color-ice);
+    // HeroGrid's lines sit at z-index -1 inside this; isolation keeps them above the scene's ground.
+    position: relative;
+    isolation: isolate;
+}
+
+.brand,
+.tagline {
+    @media (prefers-reduced-motion: no-preference) {
+        animation: rise var(--duration-reveal) var(--ease-out) both;
+    }
+
+    // The intro animates the wordmark and tagline itself, and the mark inside the brand must hold still to be
+    // landed on. Matches "done" too, so the usual entrance doesn't replay once the intro has finished.
+    // A return visit (back from the login page, say) arrives with everything already in place.
+    :global(html[data-intro]) &,
+    :global(html[data-revisit]) & {
+        animation: none;
+    }
+}
+
+// Painted at full opacity during the hold, under the curtain, so Largest Contentful Paint is recorded on first
+// paint as usual. The reveal starts while the curtain is still opaque, so the switch to hidden is never seen.
+.wordmark,
+.tagline {
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation: rise var(--duration-reveal) var(--ease-out) var(--intro-copy-start) both;
+    }
+}
+
+.tagline {
+    :global(html[data-intro="reveal"]) &,
+    :global(html[data-intro="landed"]) & {
+        animation-delay: calc(var(--intro-copy-start) + var(--intro-copy-stagger));
+    }
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.mark {
+    width: var(--size-hero-mark);
+    height: auto;
+    display: flex;
+    justify-content: center;
+
+    // The intro's logo stands in for it until it lands here.
+    :global(html[data-intro="hold"]) &,
+    :global(html[data-intro="reveal"]) & {
+        opacity: 0;
+    }
+}
+
+.wordmark {
+    position: relative;
+    font-size: var(--fs-display);
+    line-height: 0.9;
+
+    .systems {
+        color: var(--color-mint)
+    }
+}
+
+.version {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 80%;
+    margin-inline-start: var(--space-sm);
+    padding: var(--space-xxs) var(--space-sm);
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--color-navy);
+    background-color: var(--color-mint);
+    border-radius: var(--br-sm);
+
+    @media (min-width: 35rem) {
+        display: block;
+    }
+}
+
+.tagline {
+    max-width: 34rem;
+    text-align: center;
+    font-size: var(--fs-reg);
+    color: var(--color-ice);
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}

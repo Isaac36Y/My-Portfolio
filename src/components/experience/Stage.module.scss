@@ -1,0 +1,42 @@
+.stage {
+    position: fixed;
+    inset: 0 auto auto 0;
+    width: 100%;
+    // svh, not dvh: dvh changes while mobile toolbars slide and jolts the stage mid-move.
+    height: 100svh;
+    // clip, not hidden: a hidden box can still be scrolled by focus() and drag a scene out of place.
+    overflow: clip;
+    // Vertical pans are travel gestures here, so pinch zoom is the only gesture left to the browser.
+    touch-action: pinch-zoom;
+}
+
+.viewport,
+.world {
+    position: absolute;
+    inset: 0;
+}
+
+.scene {
+    position: absolute;
+    inset: 0;
+    // Oversized backdrops and figures would otherwise paint into the neighboring scene.
+    overflow: clip;
+    translate: calc(var(--scene-column) * 100%) calc(var(--scene-row) * 100%);
+
+    &[data-ground="navy"] {
+        background-color: var(--color-navy);
+    }
+
+    &[data-ground="ice"] {
+        background-color: var(--color-ice);
+    }
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

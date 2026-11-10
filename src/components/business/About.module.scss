@@ -1,0 +1,441 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// The card forms around Isaac once the route travel lands and the carried portrait has settled:
+// his ice backdrop rises behind him, the card body grows out from behind it and lifts off the page
+// (components/business/FlipCard.module.scss), the printing rises in line by line, then light sweeps
+// once across the laminate.
+@keyframes unfold-y {
+    from {
+        transform: scaleY(0);
+    }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(var(--space-lg));
+    }
+}
+
+@keyframes signal-pulse {
+    from {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(2.6);
+    }
+}
+
+.about {
+    --logo-backdrop-opacity: 1;
+    --photo-window-height: 26rem;
+    --phone-portrait-zoom: 2.6;
+
+    position: relative;
+    display: grid;
+    grid-template-areas:
+        "nav"
+        "header"
+        "card"
+        "story";
+    gap: var(--space-xxl);
+    min-height: 100svh;
+    padding: var(--space-lg) var(--space-lg) var(--space-xxxl);
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        grid-template-areas:
+            "nav card"
+            "header card"
+            "story card";
+        grid-template-rows: auto auto 1fr;
+        grid-template-columns: 1fr clamp(24rem, 36vw, 36rem);
+        column-gap: var(--space-xxxxl);
+        padding: var(--page-inset-block) var(--space-xxxl) var(--page-inset-block) var(--space-lg);
+    }
+}
+
+.wayfinding {
+    z-index: 1;
+    grid-area: nav;
+    display: flex;
+    justify-self: start;
+}
+
+.returnLink {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    // Runs into the edge Isaac's scene lies beyond, so the way back points toward him.
+    @include bp($desktop) {
+        padding-inline: 0 var(--space-lg);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.returnLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.returnArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .returnLink:hover & {
+            transform: translateX(calc(var(--space-med) * -1));
+        }
+    }
+}
+
+.header {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: header;
+    max-width: 40rem;
+
+    @include bp($desktop) {
+        padding-left: var(--space-xl);
+    }
+}
+
+.title {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.titleAccent {
+    color: var(--color-mint);
+}
+
+.card {
+    --card-inset: var(--space-lg);
+    // Both follow the screen's height: the back's fields spread out on a tall card and close up on a short one.
+    --space-back-field: clamp(var(--space-sm), 2svh, var(--space-lg));
+    --space-back-group: clamp(var(--space-sm), 6svh - var(--space-xxl), var(--space-xxxl));
+    --details-height: 15rem;
+    --window-bottom: var(--photo-window-height);
+    --portrait-inset-top: calc(var(--card-inset) + var(--space-xl));
+    --portrait-scale: 1;
+    --backdrop-rises-at: var(--duration-travel);
+    --card-forms-at: calc(var(--backdrop-rises-at) + var(--stagger) * 2);
+    --printing-at: calc(var(--card-forms-at) + var(--duration-frame));
+    --card-sheen-at: calc(var(--card-forms-at) + var(--duration-reveal));
+
+    position: relative;
+    z-index: 1;
+    grid-area: card;
+    display: grid;
+    color: var(--color-ice);
+
+    // Equal insets above and below keep the card centered on screen while the story scrolls past it.
+    @include bp($desktop) {
+        --card-height: calc(100svh - var(--page-inset-block) * 2);
+        --window-bottom: calc(var(--card-height) - var(--details-height));
+        --portrait-scale: var(--scale-portrait-in-card);
+
+        position: sticky;
+        top: var(--page-inset-block);
+        align-self: start;
+        height: var(--card-height);
+    }
+}
+
+.front {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: var(--window-bottom);
+
+    @include bp($desktop) {
+        padding-top: 0;
+    }
+}
+
+.photoBackdrop {
+    position: absolute;
+    inset: var(--card-inset) var(--card-inset) auto;
+    z-index: -1;
+    height: calc(var(--window-bottom) - var(--card-inset));
+    background-color: var(--color-photo-backdrop);
+    border-radius: var(--br-med);
+    transform-origin: bottom;
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: unfold-y var(--duration-reveal) var(--ease-out) var(--backdrop-rises-at) both;
+    }
+}
+
+// Sized like the introduction's portrait and zoomed with scale alone, so the carried portrait
+// crosses between the two pages without animating its width or height.
+.portrait {
+    --portrait-height: calc(var(--photo-window-height) * var(--phone-portrait-zoom));
+
+    position: absolute;
+    top: var(--portrait-inset-top);
+    left: 50%;
+    width: calc(var(--portrait-height) * 2 / 3);
+    max-width: none;
+    height: var(--portrait-height);
+    translate: -50% 0;
+    scale: var(--portrait-scale);
+    transform-origin: top center;
+
+    @include bp($desktop) {
+        --portrait-height: var(--height-portrait-standing);
+    }
+}
+
+.portraitImage {
+    // Isaac is printed only inside his backdrop. The cut is a mask on the image, not a clip on the card,
+    // so the carried portrait's snapshot already has it and his legs dissolve mid-travel instead of
+    // vanishing on landing. Measured in the image's own unscaled pixels, so the zoom is divided back out.
+    --backdrop-bottom-in-portrait: calc((var(--window-bottom) - var(--portrait-inset-top)) / var(--portrait-scale));
+
+    width: 100%;
+    height: 100%;
+    mask-image: linear-gradient(
+        to bottom,
+        rgb(0 0 0) var(--backdrop-bottom-in-portrait),
+        transparent var(--backdrop-bottom-in-portrait)
+    );
+}
+
+.details {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--card-inset);
+
+    @include bp($desktop) {
+        height: var(--details-height);
+    }
+}
+
+.name,
+.role,
+.stat,
+.frontFlip {
+    @media (prefers-reduced-motion: no-preference) {
+        animation: rise-in var(--duration-frame) var(--ease-out) both;
+        animation-delay: calc(var(--printing-at) + var(--stagger) * var(--reveal-order));
+    }
+}
+
+.identity {
+    display: grid;
+    gap: var(--space-xs);
+}
+
+.name {
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+}
+
+.role {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-ice-glow);
+}
+
+.stat {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+}
+
+.label {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.statValue {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+}
+
+.availableSignal {
+    position: relative;
+    flex-shrink: 0;
+    width: var(--space-sm);
+    height: var(--space-sm);
+    background-color: var(--color-mint);
+    border-radius: 50%;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: inherit;
+        border-radius: inherit;
+
+        @media (prefers-reduced-motion: no-preference) {
+            animation: signal-pulse var(--duration-signal-pulse) var(--ease-out) infinite;
+        }
+    }
+}
+
+// Takes the empty corner beside the status, which is where a thumb or eye lands after reading it.
+.frontFlip {
+    position: absolute;
+    right: var(--card-inset);
+    bottom: var(--space-lg);
+}
+
+.back {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--space-back-field);
+    padding: var(--space-xl) var(--card-inset) var(--space-lg);
+}
+
+.backFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+}
+
+.issuer {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.backFields {
+    display: grid;
+    align-content: center;
+}
+
+.fieldGroup {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-back-field) var(--space-xl);
+    padding-block: var(--space-back-group);
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+
+    & + & {
+        border-top: 1px solid var(--color-ice-glow);
+    }
+}
+
+.field {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+}
+
+.fullWidth {
+    grid-column: 1 / -1;
+}
+
+.fieldValue {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+
+    @include bp($desktop) {
+        font-size: var(--fs-card-copy);
+    }
+}
+
+.email {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--size-tap-target);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--color-ice);
+    text-decoration: underline;
+    text-decoration-color: var(--color-mint);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    overflow-wrap: anywhere;
+
+    @media (hover: hover) {
+        &:hover {
+            text-decoration-color: var(--color-ice);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: 2px;
+        border-radius: var(--br-sm);
+    }
+}
+
+.backNote {
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--color-ice-muted);
+}
+
+.story {
+    grid-area: story;
+    padding-top: var(--space-xxl);
+
+    @include bp($desktop) {
+        padding-left: var(--space-xl);
+    }
+}

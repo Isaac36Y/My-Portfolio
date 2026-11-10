@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { DM_Sans, Courier_Prime, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.scss";
-import { ThemeProvider } from "@/components/NavLogic/Provider";
+import "@/styles/view-transitions.scss";
 import { Analytics } from "@vercel/analytics/next"
+import { revisitScript } from "@/components/experience/firstVisit";
+import { introScript } from "@/components/experience/intro";
+import RouteWarmup from "@/components/experience/RouteWarmup";
 
 
 const dmSans = DM_Sans({
@@ -32,7 +35,7 @@ const themeScript = `(function(){try{document.documentElement.dataset.theme=wind
 
 const title = "Isaac Young | Websites, Custom Tools & SEO in Medford, OR";
 const description =
-  "Freelance developer in Medford, Oregon. I build websites and custom tools for small businesses, plus the SEO and digital marketing to get them found.";
+  "Freelance developer in Medford, Oregon. I build websites and custom tools for small businesses, plus the SEO and AI search visibility to get them found.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://isaacyoungs.dev"),
@@ -76,14 +79,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
   return (
-    <ThemeProvider>
-        <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
-            <head>
-                <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-            </head>
-            <Analytics />
-            <body>{children}</body>
-        </html>
-    </ThemeProvider>
+    <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${courierPrime.variable} ${dmSans.variable}`}>
+        <head>
+            <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+            <script dangerouslySetInnerHTML={{ __html: introScript }} />
+            <script dangerouslySetInnerHTML={{ __html: revisitScript }} />
+        </head>
+        <Analytics />
+        <body>
+            {children}
+            <RouteWarmup />
+        </body>
+    </html>
   );
 }

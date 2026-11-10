@@ -1,0 +1,414 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// Every piece is drawn in its finished state first. Where the browser can tie animation to scroll, each
+// term is ruled off as it arrives, and the send-off's two halves slide in from opposite edges to meet.
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+@keyframes draw-across {
+    from {
+        scale: 0 1;
+    }
+}
+
+@keyframes arrive-from-start {
+    from {
+        opacity: 0;
+        translate: calc(var(--space-xxxxl) * -2) 0;
+    }
+}
+
+@keyframes arrive-from-end {
+    from {
+        opacity: 0;
+        translate: calc(var(--space-xxxxl) * 2) 0;
+    }
+}
+
+.why {
+    --logo-backdrop-opacity: 1;
+    --section-gap: clamp(var(--space-xxxxl) * 1.5, 22svh, calc(var(--space-xxxxl) * 3.5));
+    --page-gutter: var(--space-lg);
+
+    position: relative;
+    display: grid;
+    gap: var(--section-gap);
+    min-height: 100svh;
+    padding: 0 var(--page-gutter) var(--section-gap);
+    // The send-off's halves start beyond the page edges; clip keeps them from widening the page.
+    overflow-x: clip;
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        --page-gutter: var(--space-xxxl);
+    }
+}
+
+// The title sits just below the wayfinding rather than at the foot of the screen, so the first section
+// shows beneath it and the visitor can see there is more page to scroll.
+.opener {
+    --opener-drop: clamp(var(--space-xxxl), 12svh, calc(var(--space-xxxxl) * 2));
+
+    display: grid;
+    grid-template-rows: auto var(--opener-drop) auto auto;
+    grid-template-areas:
+        "nav"
+        "."
+        "title"
+        "lede";
+    row-gap: var(--space-xl);
+    padding-top: var(--space-lg);
+
+    // The title and the line under it split the full width and share a baseline.
+    @include bp($desktop) {
+        grid-template-rows: auto var(--opener-drop) auto;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        grid-template-areas:
+            "nav nav"
+            ". ."
+            "title lede";
+        column-gap: var(--space-xxxl);
+        padding-top: var(--page-inset-block);
+    }
+}
+
+.wayfinding {
+    z-index: 1;
+    grid-area: nav;
+    display: flex;
+    justify-self: start;
+}
+
+.returnLink {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.returnLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+// Points up, toward the scene this page was reached from.
+.returnArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .returnLink:hover & {
+            transform: translateY(calc(var(--space-sm) * -1));
+        }
+    }
+}
+
+.title {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: title;
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.titleAccent {
+    color: var(--color-mint);
+}
+
+.lede {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    grid-area: lede;
+    align-self: end;
+    max-width: 30ch;
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+    color: var(--color-ice-muted);
+}
+
+.honest,
+.working {
+    display: grid;
+    gap: var(--space-xxxxl);
+}
+
+.sectionIntro {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.sectionHeading {
+    font-size: var(--fs-heading);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+}
+
+.sectionLede {
+    max-width: 40ch;
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+    color: var(--color-ice-muted);
+}
+
+// Read like the clauses of an agreement, ruled off one at a time across the full width of the page.
+.terms {
+    display: grid;
+}
+
+.term {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--space-xxxl) minmax(0, 1fr);
+    column-gap: var(--space-lg);
+    row-gap: var(--space-lg);
+    padding-block: var(--space-xxl) var(--space-xxxl);
+
+    @include bp($desktop) {
+        grid-template-columns: var(--space-xxxxl) minmax(0, 7fr) minmax(0, 5fr);
+        column-gap: var(--space-xxxl);
+        align-items: start;
+    }
+}
+
+.termRule {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--width-grid-line);
+    background-color: var(--color-mint);
+    transform-origin: left center;
+}
+
+.termNumber {
+    padding-top: var(--space-sm);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    color: var(--color-mint);
+}
+
+.termStatement {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+
+    @include bp($desktop) {
+        font-size: var(--fs-heading-sm);
+    }
+}
+
+.termDetail {
+    grid-column: 2;
+    max-width: 48ch;
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+
+    @include bp($desktop) {
+        grid-column: 3;
+        padding-top: var(--space-sm);
+    }
+}
+
+// The traits walk diagonally from one edge of the page to the other, the same way down the visitor came in.
+.traits {
+    --trait-width: 100%;
+
+    display: grid;
+    gap: var(--space-xxxl);
+
+    @include bp($desktop) {
+        --trait-width: min(36rem, 45%);
+
+        gap: var(--space-xxxxl);
+    }
+}
+
+.trait {
+    display: grid;
+    gap: var(--space-lg);
+    width: var(--trait-width);
+    margin-left: calc((100% - var(--trait-width)) * var(--trait-order) / (var(--trait-count) - 1));
+}
+
+.traitHeading {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+}
+
+.traitBody {
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+.sendOff {
+    display: grid;
+    align-content: center;
+    gap: var(--space-xxxxl);
+    min-height: 80svh;
+}
+
+// The visitor's half holds one edge and mine holds the other, so the sentence spans the whole page.
+.handshake {
+    display: grid;
+    gap: var(--space-sm);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+
+    @include bp($tablet) {
+        font-size: var(--fs-display);
+    }
+}
+
+.yourPart {
+    justify-self: start;
+}
+
+.myPart {
+    justify-self: end;
+    text-align: right;
+    color: var(--color-mint);
+}
+
+.invitation {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-xl);
+    justify-self: end;
+    max-width: 34rem;
+}
+
+.invitationText {
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+.helloLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-mint);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--color-ice);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+.helloArrow {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .helloLink:hover & {
+            transform: translateX(var(--space-med));
+        }
+    }
+}
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        // Finishes as each piece fully enters, so anything wholly on screen is wholly readable.
+        .revealsOnScroll {
+            animation: rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%;
+        }
+
+        // One timeline per term, so the rule is drawn first and the words follow it in.
+        .term {
+            view-timeline: --term block;
+        }
+
+        .termRule {
+            animation: draw-across linear both;
+            animation-timeline: --term;
+            animation-range: entry 0% entry 60%;
+        }
+
+        .termNumber,
+        .termStatement {
+            animation: rise-in linear both;
+            animation-timeline: --term;
+            animation-range: entry 20% entry 80%;
+        }
+
+        .termDetail {
+            animation: rise-in linear both;
+            animation-timeline: --term;
+            animation-range: entry 40% entry 100%;
+        }
+
+        .handshake {
+            view-timeline: --handshake block;
+        }
+
+        .yourPart {
+            animation: arrive-from-start linear both;
+            animation-timeline: --handshake;
+            animation-range: entry 0% entry 70%;
+        }
+
+        .myPart {
+            animation: arrive-from-end linear both;
+            animation-timeline: --handshake;
+            animation-range: entry 30% entry 100%;
+        }
+    }
+}

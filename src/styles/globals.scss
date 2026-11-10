@@ -10,15 +10,6 @@
     --color-accent-med-light: rgba(0,150,199, 0.4);
     --color-accent-light: rgba(0,150,199, 0.2);
 
-    /* Graph Color */
-    --graph-high: #043b4c;
-    --graph-med-high: #1f7690;
-    --graph-med: #3ba0bc;
-    --graph-med-low: #70bfd2;
-    --graph-low: #d1e6ea;
-
-    --color-gradient: linear-gradient(0deg, rgb(0, 0, 42) 50%, rgb(56, 62, 93) 70%, rgb(112, 123, 145) 80%, rgb(167, 185, 196) 90%, rgb(223, 246, 247) 100%);
-
     --font-heading: var(--font-space-grotesk);
     --font-body: var(--font-dm-sans);
     --font-tech: var(--font-courier-prime);
@@ -30,10 +21,12 @@
     --fs-subheading: clamp(2.2rem, 1.9073rem + 1.2488vw, 3rem);
     --fs-heading-sm: clamp(3rem, 2.561rem + 1.8732vw, 4.2rem);
     --fs-heading: clamp(4rem, 3.2683rem + 3.122vw, 6rem);
+    --fs-display: clamp(4rem, min(1rem + 6.5vw, 1rem + 11svh), 7.5rem);
 
     --br-sm: 0.2rem;
     --br-med: 0.6rem;
     --br-lg: 1rem;
+    --br-card: 1.5rem;
 
     --space-xxs: 0.1rem;
     --space-xs: 0.25rem;
@@ -48,7 +41,79 @@
     
 
     --elevated-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
-    --holo-shadow: 0 0 6px var(--color-accent-medium), 0 0 20px var(--color-accent-light);
+    --shadow-card:
+        var(--space-xxs) var(--space-xxs) var(--space-xs) var(--color-card-shadow),
+        var(--space-lg) var(--space-xl) var(--space-xxxxl) calc(var(--space-lg) * -1) var(--color-card-shadow);
+
+    --color-navy: #00002a;
+    --color-mint: #50dca0;
+    --color-ice: #dff6f7;
+    --color-mint-deep: #308561;
+    --color-mint-wash: color-mix(in srgb, var(--color-mint) 12%, transparent);
+    --color-navy-muted: color-mix(in srgb, var(--color-navy) 72%, var(--color-ice));
+    --color-ice-muted: color-mix(in srgb, var(--color-ice) 78%, var(--color-navy));
+    --color-navy-raised: color-mix(in srgb, var(--color-ice) 4%, var(--color-navy));
+    --color-navy-well: color-mix(in srgb, var(--color-ice) 9%, var(--color-navy));
+    --color-mint-hairline: color-mix(in srgb, var(--color-mint) 22%, transparent);
+    --color-ice-glow: color-mix(in srgb, var(--color-ice) 20%, transparent);
+    --color-card: color-mix(in srgb, var(--color-ice) 6%, var(--color-navy));
+    --color-card-lit: color-mix(in srgb, var(--color-ice) 15%, var(--color-navy));
+    --color-card-shade: color-mix(in srgb, var(--color-ice) 2%, var(--color-navy));
+    --color-card-rim: color-mix(in srgb, var(--color-ice) 30%, transparent);
+    --color-card-rim-shade: color-mix(in srgb, black 40%, transparent);
+    --color-card-glare: color-mix(in srgb, var(--color-ice) 34%, transparent);
+    --color-card-diffuse: color-mix(in srgb, var(--color-ice) 12%, transparent);
+    --color-card-falloff: color-mix(in srgb, black 35%, transparent);
+    --color-card-shadow: color-mix(in srgb, black 55%, transparent);
+    --color-photo-backdrop: color-mix(in srgb, var(--color-ice) 80%, transparent);
+    --color-grid-line: color-mix(in srgb, var(--color-ice) 15%, var(--color-navy));
+
+    --fs-body: 1rem;
+    --fs-label: 0.8125rem;
+    // Follows the screen's height, not its width: the card it sets is as tall as the screen allows.
+    --fs-card-copy: clamp(1rem, 0.4rem + 1.6svh, 1.25rem);
+    --fs-story: clamp(1rem, 0.8rem + 0.4vw, 1.3125rem);
+
+    --size-tap-target: 44px;
+    --hero-inset-block-start: 5svh;
+    --hero-inset-block-end: 15svh;
+    // Shared by the hero mark and the intro logo that lands on it, so the hand-off needs no resize.
+    --size-hero-mark: clamp(5.5rem, 4rem + 7vw, 9.5rem);
+    // The home intro's running order, each piece in its own beat, counted from the logo leaving the center
+    // (its flight is --duration-travel long). The lines start as it lands and take 1.5s to lay end to end,
+    // the copy rises halfway through them, and the nav drops in once everything else has settled.
+    --intro-lines-start: 650ms;
+    --intro-line-duration: 500ms;
+    --intro-lines-spread: 1000ms;
+    --intro-copy-start: 1400ms;
+    --intro-copy-stagger: 150ms;
+    --intro-nav-start: 2600ms;
+    --intro-nav-stagger: 150ms;
+    // Matches the business card, which fits about thirteen cells across its width.
+    --size-grid-cell: clamp(3rem, 7.75vw, 7rem);
+    --width-grid-line: 1px;
+    --page-inset-block: 6svh;
+    // Taller than the screen on purpose: Isaac's legs run off the bottom edge.
+    --height-portrait-standing: min(125svh, 90vw);
+    --scale-portrait-in-card: 1.25;
+
+    --duration-hover: 200ms;
+    --duration-frame: 450ms;
+    --duration-reveal: 900ms;
+    --duration-travel: 800ms;
+    --duration-crossfade: 400ms;
+    --duration-draw: 800ms;
+    --delay-arrival-reveal: 800ms;
+    --pause-before-paths: 0ms;
+    --stagger: 150ms;
+    --duration-signal-pulse: 2400ms;
+    --duration-tilt: 400ms;
+    --duration-flip: 800ms;
+    --duration-sheen: 1400ms;
+    --tilt-limit: 6deg;
+    --perspective-card: 1400px;
+    --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-travel: cubic-bezier(0.65, 0, 0.25, 1);
 }
 
 :root[data-theme="dark"] {
@@ -58,26 +123,12 @@
     --color-surface: rgb(7, 7, 52);
     --color-primary: rgb(223, 246, 247);
     --color-secondary: rgb(148,172,190);
-    --color-secondary-med: rgb(148,172,190, 0.6);
-    --color-secondary-med-light: rgb(148,172,190, 0.4);
-    --color-secondary-light: rgb(148,172,190, 0.4);
     --color-accent: rgb(80, 220, 160);
     --color-accent-medium: rgba(80, 220, 160, 0.6);
     --color-accent-med-light: rgba(80, 220, 160, 0.4);
     --color-accent-light: rgba(80, 220, 160, 0.2);
 
-    /* Graph Color */
-    --graph-high: #4ACA96;
-    --graph-med-high: #369c7b;
-    --graph-med: #2f826f;
-    --graph-med-low: #194843;
-    --graph-low: #0E263F;
-    
-
-    --color-gradient: linear-gradient(0deg, rgb(223, 246, 247) 50%, rgb(167, 185, 196) 70%, rgb(112, 123, 145) 80%, rgb(56, 62, 93) 90%, rgb(0, 0, 42) 100%);
-    --shadow-accent: 0 2px 6px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(80, 220, 160, 0.2) inset, 0 3px 12px rgba(80, 220, 160, 0.25);
     --elevated-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 2px 0 rgba(255, 255, 255, 0.12) inset, 0 0 0 1px rgba(255, 255, 255, 0.12);
-    --holo-shadow: 0 0 6px var(--color-accent-medium), 0 0 20px var(--color-accent-light);
 }
 
 *,
@@ -157,24 +208,7 @@ ol[role="list"] {
   list-style-type: none;
 }
 
-
 //utils 
-
-.primary-text {
-    color: var(--color-primary);
-}
-
-.secondary-text {
-    color: var(--color-secondary)
-}
-
-.accent-text {
-    color: var(--color-accent);
-}
-
-.title {
-    font-family: var(--font-heading);
-}
 
 .body {
     font-family: var(--font-body);
@@ -182,8 +216,4 @@ ol[role="list"] {
 
 .tech {
     font-family: var(--font-tech), monospace;
-}
-
-.bold {
-    font-weight: 700;
 }

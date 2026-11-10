@@ -1,0 +1,279 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// Switching paths redraws the curve from the left and brings the phases in one after another. The path
+// not picked stays behind as a faint dashed line, so the two roads can be compared at a glance.
+@keyframes draw-curve {
+    from {
+        stroke-dashoffset: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes pop {
+    from {
+        opacity: 0;
+        scale: 0;
+    }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-lg);
+    }
+}
+
+.timeline {
+    display: grid;
+    gap: var(--space-xxl);
+    min-width: 0;
+}
+
+// ---------- Picker ----------
+
+.picker {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-med);
+}
+
+.pickerLabel {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+// A two-way switch: the mint thumb slides under whichever choice is picked.
+.tabs {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 34rem);
+    padding: var(--space-xs);
+    background-color: var(--color-navy-well);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: 999px;
+}
+
+.tab {
+    position: relative;
+    z-index: 1;
+    min-height: var(--size-tap-target);
+    padding: var(--space-sm) var(--space-lg);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-reg);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-ice-muted);
+    cursor: pointer;
+    border-radius: 999px;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: color var(--duration-hover) var(--ease-out);
+    }
+
+    &[aria-selected="true"] {
+        color: var(--color-navy);
+    }
+
+    @media (hover: hover) {
+        &:not([aria-selected="true"]):hover {
+            color: var(--color-ice);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: 2px;
+    }
+}
+
+.tabThumb {
+    position: absolute;
+    inset-block: var(--space-xs);
+    left: var(--space-xs);
+    width: calc(50% - var(--space-xs));
+    background-color: var(--color-mint);
+    border-radius: 999px;
+    box-shadow: 0 0 var(--space-xl) var(--color-mint-hairline);
+    translate: calc(var(--thumb-index) * 100%) 0;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: translate var(--duration-frame) var(--ease-out);
+    }
+}
+
+// ---------- Panel ----------
+
+.panel {
+    display: grid;
+    gap: var(--space-xxl);
+}
+
+.summary {
+    max-width: 48ch;
+    font-size: var(--fs-story);
+    line-height: 1.6;
+}
+
+.chart {
+    display: grid;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-lg);
+
+    @include bp($desktop) {
+        padding: var(--space-xl) var(--space-xxl);
+    }
+}
+
+.chartArt {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.chartCaption {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.divider {
+    stroke: color-mix(in srgb, var(--color-ice) 14%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 4 6;
+}
+
+.baseline {
+    stroke: var(--color-mint-hairline);
+    stroke-width: 2;
+}
+
+.fillTop {
+    stop-color: var(--color-mint);
+    stop-opacity: 0.3;
+}
+
+.fillBottom {
+    stop-color: var(--color-mint);
+    stop-opacity: 0;
+}
+
+.ghost {
+    fill: none;
+    stroke: color-mix(in srgb, var(--color-ice) 28%, transparent);
+    stroke-width: 2;
+    stroke-dasharray: 6 8;
+}
+
+.curve {
+    fill: none;
+    stroke: var(--color-mint);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    filter: drop-shadow(0 0 8px var(--color-mint));
+}
+
+.endDot {
+    fill: var(--color-ice);
+    stroke: var(--color-mint);
+    stroke-width: 4;
+    filter: drop-shadow(0 0 8px var(--color-mint));
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+// ---------- Phases ----------
+
+// The phases line up under the chart's four columns on a wide screen.
+.phases {
+    display: grid;
+    gap: var(--space-xl);
+
+    @include bp($tablet) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp($desktop) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--space-xxl);
+    }
+}
+
+.phase {
+    display: grid;
+    align-content: start;
+    gap: var(--space-sm);
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-mint);
+}
+
+.phaseWhen {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.phaseName {
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.phaseBody {
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    color: var(--color-ice-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    // Held at the start until the chart scrolls into view.
+    .timeline[data-arrival="waiting"] {
+        .curve {
+            stroke-dashoffset: 1;
+        }
+
+        .area,
+        .endDot,
+        .phase {
+            opacity: 0;
+        }
+    }
+
+    .timeline[data-arrival="seen"] {
+        .curve {
+            animation: draw-curve 1100ms var(--ease-travel) both;
+        }
+
+        .area {
+            animation: fade-in 700ms var(--ease-out) 400ms both;
+        }
+
+        .endDot {
+            animation: pop 400ms var(--ease-out) 1000ms both;
+        }
+
+        .summary {
+            animation: fade-in var(--duration-frame) var(--ease-out) both;
+        }
+
+        .phase {
+            animation: rise-in var(--duration-frame) var(--ease-out) both;
+            animation-delay: calc(150ms + var(--phase-order) * var(--stagger));
+        }
+    }
+}

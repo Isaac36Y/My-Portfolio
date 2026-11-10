@@ -1,0 +1,361 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// The header rides in with the route travel; the categories rise once it lands.
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+.myWork {
+    --logo-backdrop-opacity: 1;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
+    min-height: 100svh;
+    padding: var(--space-lg) var(--space-lg) var(--space-xxxl);
+    color: var(--color-ice);
+
+    @include bp($desktop) {
+        padding: 12svh var(--space-xxxxl) var(--space-xxl) var(--space-xxxl);
+    }
+}
+
+.wayfinding {
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    @include bp($desktop) {
+        position: absolute;
+        top: var(--page-inset-block);
+        right: var(--space-lg);
+    }
+}
+
+.returnLink {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    padding-inline: var(--space-sm);
+    color: var(--color-ice);
+    text-decoration: none;
+
+    // Runs into the edge Isaac's scene lies beyond, so the way back points toward him.
+    @include bp($desktop) {
+        padding-inline: var(--space-lg) 0;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: calc(var(--space-xs) * -1);
+        border-radius: var(--br-sm);
+    }
+}
+
+.returnLabel {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.returnArrow {
+    color: var(--color-mint);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .returnLink:hover & {
+            transform: translateX(var(--space-med));
+        }
+    }
+}
+
+.header {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-width: 40rem;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-med);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+
+    &::after {
+        content: "";
+        width: var(--space-xxxl);
+        height: 1px;
+        background-color: currentColor;
+    }
+}
+
+.title {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.titleAccent {
+    color: var(--color-mint);
+}
+
+.lede {
+    font-size: var(--fs-med);
+    color: var(--color-ice-muted);
+}
+
+.categories {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-lg);
+
+    @include bp($desktop) {
+        flex: 1;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.category {
+    --category-padding: var(--space-lg);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    overflow: clip;
+    padding: var(--category-padding);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+
+    @include bp($desktop) {
+        --category-padding: var(--space-xl);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        animation: rise-in var(--duration-reveal) var(--ease-out) both;
+        animation-delay: calc(var(--delay-arrival-reveal) + var(--stagger) * var(--category-order));
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    // Rises in on the first visit this session only; FirstVisitOnly flags the repeats.
+    :global(html[data-revisit]) & {
+        animation: none;
+    }
+
+    // The resting border is a hairline; a full mint edge fades over it so only opacity animates.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 1px solid var(--color-mint);
+        border-radius: inherit;
+        opacity: 0;
+        pointer-events: none;
+
+        @media (prefers-reduced-motion: no-preference) {
+            transition: opacity var(--duration-hover) var(--ease-out);
+        }
+    }
+
+    &:has(.categoryLink:focus-visible) {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+    }
+
+    @media (hover: hover) {
+        &:hover::before {
+            opacity: 1;
+        }
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        &:hover {
+            transform: translateY(calc(var(--space-xs) * -1));
+        }
+    }
+}
+
+.categoryNumber {
+    font-size: var(--fs-sm);
+    color: var(--color-mint);
+}
+
+.categoryTitle {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+// The link covers the whole card, so the title stays the link's accessible name.
+.categoryLink {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+.categoryDescription {
+    font-size: var(--fs-body);
+    color: var(--color-ice-muted);
+}
+
+.categoryArrow {
+    display: grid;
+    place-items: center;
+    width: var(--space-xxl);
+    aspect-ratio: 1;
+    margin-top: var(--space-sm);
+    color: var(--color-mint);
+    border: 1px solid var(--color-mint);
+    border-radius: 50%;
+
+    svg {
+        width: var(--space-lg);
+        height: var(--space-lg);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        .category:hover & {
+            transform: translateX(var(--space-sm));
+        }
+    }
+}
+
+// The preview runs out through the card's right and bottom edges, so the device reads as sitting
+// behind the card rather than framed inside it.
+.preview {
+    --preview-bleed: var(--space-xxxl);
+
+    position: relative;
+    aspect-ratio: 16 / 10;
+    margin: var(--space-med) calc(var(--category-padding) * -1) calc(var(--category-padding) * -1) 0;
+
+    // On desktop the previews take whatever height the first screen has left, so the three
+    // categories finish on the fold instead of trailing below it.
+    @include bp($desktop) {
+        flex: 1;
+        aspect-ratio: auto;
+        min-height: var(--space-xxxxl);
+    }
+}
+
+// Sized to the space the card has left, so on a short screen the device shrinks instead of
+// climbing over the description.
+.previewImage {
+    --preview-lift: var(--space-sm);
+
+    position: absolute;
+    bottom: calc(var(--preview-bleed) * -1);
+    height: calc(100% + var(--preview-bleed));
+    object-fit: contain;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        .category:hover & {
+            transform: translate(calc(var(--preview-lift) * -1), calc(var(--preview-lift) * -1));
+        }
+    }
+}
+
+.laptop {
+    left: var(--space-xxl);
+    width: 100%;
+    object-position: right bottom;
+}
+
+// Anchored to the top of the preview and grown past its right and bottom edges, so the dashboard
+// sits right under the card text and runs out of the card. It fits whichever of the card's width or
+// height runs out first. The render's transparent margin lets it start past the card's left edge
+// without the panel itself touching it.
+.panel {
+    top: calc(var(--space-lg) * -1);
+    bottom: auto;
+    left: calc(var(--space-xxxl) * -1);
+    width: 130%;
+    max-width: none;
+    height: calc(100% + var(--preview-bleed) * 1.5);
+    object-position: left top;
+}
+
+// The render's own backlight was lost with its background, so it is repainted as a gradient behind
+// the panel. A gradient, not a drop-shadow filter, keeps the hover lift a pure transform.
+.preview:has(.panel)::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--space-xxl) * -1) 0 0 calc(var(--category-padding) * -1);
+    background: radial-gradient(closest-side, var(--color-ice-glow), transparent);
+    pointer-events: none;
+}
+
+// A laptop and phone pair sizes off one shared stage fitted to the space left, so the phone lands
+// on the laptop's corner whatever shape that space takes. The stage aspect is the laptop's 3:2
+// image at its share of the stage width.
+.preview:has(.phone) {
+    --laptop-share: 0.9;
+    --phone-share: 0.4;
+    --stage-aspect: calc(3 / 2 / var(--laptop-share));
+    --stage-width: min(100cqw, (100cqh + var(--preview-bleed)) * var(--stage-aspect));
+
+    container-type: size;
+
+    .previewImage {
+        height: auto;
+    }
+
+    .laptop {
+        left: auto;
+        right: calc(var(--stage-width) * (1 - var(--laptop-share)));
+        width: calc(var(--stage-width) * var(--laptop-share));
+    }
+}
+
+// Rendered after the laptop so it paints in front without a z-index that would cover the card link.
+// It lifts further on hover than the laptop, so the pair separates in depth.
+.phone {
+    --preview-lift: var(--space-med);
+
+    right: 0;
+    width: calc(var(--stage-width) * var(--phone-share));
+}

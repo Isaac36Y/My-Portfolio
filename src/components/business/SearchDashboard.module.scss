@@ -1,0 +1,469 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// Built in the look of the illustrated dashboard on My Work: a tilted glass panel, mint on deep navy.
+// Everything is drawn finished first. Where the browser can tie animation to scroll, the panel settles
+// flat as it arrives and each tile plays out as it comes into view: lines draw, bars rise, the pin drops.
+@keyframes settle {
+    from {
+        opacity: 0.35;
+        transform: perspective(1800px) rotateX(16deg) rotateY(-14deg) rotateZ(2deg) scale(0.9);
+    }
+}
+
+// Both ends stated as insets so the browser can interpolate between them. The negative insets leave room
+// for the line's glow, which would otherwise be trimmed at the top of the climb.
+@keyframes reveal-area {
+    from {
+        clip-path: inset(-20% 100% -20% -5%);
+    }
+
+    to {
+        clip-path: inset(-20% -5% -20% -5%);
+    }
+}
+
+@keyframes pop {
+    from {
+        opacity: 0;
+        scale: 0;
+    }
+}
+
+@keyframes rise-bar {
+    from {
+        scale: 1 0;
+    }
+}
+
+@keyframes drop-pin {
+    0% {
+        opacity: 0;
+        translate: 0 -40px;
+    }
+
+    70% {
+        opacity: 1;
+        translate: 0 4px;
+    }
+
+    100% {
+        translate: 0 0;
+    }
+}
+
+@keyframes spread-ring {
+    from {
+        opacity: 0;
+        scale: 0.2;
+    }
+}
+
+@keyframes pulse-ring {
+    from {
+        opacity: 0.9;
+        scale: 1;
+    }
+
+    to {
+        opacity: 0;
+        scale: 2.8;
+    }
+}
+
+@keyframes bubble-in {
+    from {
+        opacity: 0;
+        translate: 0 12px;
+    }
+}
+
+@keyframes grow-across {
+    from {
+        scale: 0 1;
+    }
+}
+
+.figure {
+    display: grid;
+    gap: var(--space-xl);
+    min-width: 0;
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.stage {
+    perspective: 1800px;
+}
+
+.panel {
+    --tile-ground: color-mix(in srgb, var(--color-ice) 5%, var(--color-navy));
+    --tile-edge: color-mix(in srgb, var(--color-ice) 12%, transparent);
+    --line-color: var(--color-mint);
+
+    display: grid;
+    gap: var(--space-xl);
+    padding: var(--space-lg);
+    background:
+        radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--color-ice) 10%, transparent), transparent 55%),
+        linear-gradient(160deg, var(--color-card-lit), var(--color-card) 25%, var(--color-card-shade));
+    border: 1px solid var(--color-card-rim);
+    border-radius: var(--br-card);
+    box-shadow:
+        inset 0 1px 0 var(--color-card-glare),
+        0 0 0 1px var(--color-card-rim-shade),
+        0 var(--space-xxxl) calc(var(--space-xxxxl) * 2) calc(var(--space-xl) * -1) var(--color-card-shadow),
+        0 0 calc(var(--space-xxxxl) * 1.5) color-mix(in srgb, var(--color-mint) 10%, transparent);
+    transform-origin: 50% 60%;
+
+    @include bp($tablet) {
+        padding: var(--space-xl);
+    }
+
+    @include bp($desktop) {
+        padding: var(--space-xxl);
+    }
+}
+
+.group {
+    display: grid;
+    gap: var(--space-med);
+}
+
+.tierLabel {
+    padding-inline: var(--space-xs);
+    font-size: var(--fs-label);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+// The tiles that show the business growing take most of the panel; the signals sit smaller underneath.
+.growthGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+        "calls calls"
+        "bookings bookings"
+        "map ai";
+    gap: var(--space-med);
+
+    @include bp($desktop) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-areas:
+            "calls calls bookings bookings"
+            "calls calls map ai";
+        gap: var(--space-lg);
+    }
+}
+
+.signalGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "traffic impressions";
+    gap: var(--space-med);
+
+    @include bp($desktop) {
+        gap: var(--space-lg);
+    }
+}
+
+.cell {
+    display: grid;
+    min-width: 0;
+}
+
+.tile {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-med);
+    min-width: 0;
+    padding: var(--space-med);
+    background-color: var(--tile-ground);
+    border: 1px solid var(--tile-edge);
+    border-radius: var(--br-lg);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-ice) 6%, transparent);
+
+    @include bp($tablet) {
+        padding: var(--space-lg) var(--space-xl);
+    }
+
+    &[data-tier="signal"] {
+        --line-color: color-mix(in srgb, var(--color-mint) 55%, var(--color-ice));
+
+        gap: var(--space-sm);
+        padding: var(--space-med);
+    }
+}
+
+.tileHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+
+.tileLabel {
+    font-size: clamp(0.7rem, 0.6rem + 0.4vw, 0.95rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ice);
+}
+
+.tileTrend {
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--line-color);
+}
+
+.tileChart {
+    display: grid;
+    align-items: end;
+    min-height: 0;
+}
+
+// ---------- Shared chart parts ----------
+
+.grid line {
+    stroke: color-mix(in srgb, var(--color-ice) 14%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 3 5;
+}
+
+// ---------- Line ----------
+
+.lineChart {
+    position: relative;
+    height: var(--chart-height, 9rem);
+
+    [data-tier="signal"] & {
+        --chart-height: 4.5rem;
+
+        @include bp($desktop) {
+            --chart-height: 5.5rem;
+        }
+    }
+}
+
+.lineArt {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.fillTop {
+    stop-color: var(--line-color);
+    stop-opacity: 0.4;
+}
+
+.fillBottom {
+    stop-color: var(--line-color);
+    stop-opacity: 0;
+}
+
+.line {
+    fill: none;
+    stroke: var(--line-color);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px var(--line-color));
+}
+
+.endDot {
+    position: absolute;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: var(--color-ice);
+    border: 3px solid var(--line-color);
+    border-radius: 50%;
+    box-shadow: 0 0 0.6rem var(--line-color);
+    translate: -50% -50%;
+}
+
+// ---------- Bars ----------
+
+// Calls & leads runs two rows tall, so its bars stretch to fill whatever height the grid gives it.
+.calls .tileChart {
+    position: relative;
+    min-height: 9rem;
+}
+
+.barChart {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.bar {
+    fill: var(--line-color);
+    fill-opacity: var(--bar-strength);
+    transform-box: fill-box;
+    transform-origin: bottom center;
+}
+
+// ---------- Map pin ----------
+
+.pinChart,
+.chatChart {
+    width: 100%;
+    height: auto;
+    max-height: 9rem;
+    overflow: visible;
+}
+
+.ring {
+    fill: color-mix(in srgb, var(--color-mint) 6%, transparent);
+    stroke: color-mix(in srgb, var(--color-mint) 40%, transparent);
+    stroke-width: 1.5;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.pulse {
+    fill: none;
+    stroke: var(--color-mint);
+    stroke-width: 1.5;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.pinBody {
+    fill: var(--color-mint);
+    filter: drop-shadow(0 0 10px var(--color-mint));
+}
+
+.pinHole {
+    fill: var(--color-navy);
+}
+
+// ---------- AI chat ----------
+
+.askBubble {
+    fill: var(--color-navy-well);
+    stroke: color-mix(in srgb, var(--color-ice) 18%, transparent);
+}
+
+.replyBubble {
+    fill: color-mix(in srgb, var(--color-ice) 3%, var(--color-navy));
+    stroke: color-mix(in srgb, var(--color-mint) 30%, transparent);
+}
+
+.textLine {
+    fill: color-mix(in srgb, var(--color-ice) 22%, transparent);
+}
+
+.namedChip {
+    fill: color-mix(in srgb, var(--color-mint) 16%, transparent);
+    stroke: var(--color-mint);
+    stroke-width: 1.25;
+}
+
+.namedDot {
+    fill: var(--color-mint);
+}
+
+.namedLine {
+    fill: var(--color-mint);
+}
+
+.named {
+    transform-box: fill-box;
+    transform-origin: left center;
+}
+
+.caption {
+    font-size: var(--fs-story);
+    color: var(--color-ice-muted);
+    text-align: center;
+}
+
+// ---------- Scroll-driven motion ----------
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .figure {
+            view-timeline: --dashboard block;
+        }
+
+        .panel {
+            animation: settle linear both;
+            animation-timeline: --dashboard;
+            animation-range: entry 0% cover 40%;
+        }
+
+        // Each tile keeps its own clock, so on a phone, where the panel is taller than the screen,
+        // the lower tiles still play out as they arrive instead of finishing out of sight.
+        .tile {
+            view-timeline: --tile block;
+        }
+
+        // The line and its fill are uncovered together, left to right, like the month-by-month record filling in.
+        .trace {
+            animation: reveal-area linear both;
+            animation-timeline: --tile;
+            animation-range: entry 10% cover 32%;
+        }
+
+        .endDot {
+            animation: pop linear both;
+            animation-timeline: --tile;
+            animation-range: cover 28% cover 35%;
+        }
+
+        .bar {
+            animation: rise-bar linear both;
+            animation-timeline: --tile;
+            animation-range: entry calc(10% + var(--bar-order) * 4%) cover calc(32% + var(--bar-order) * 1.5%);
+        }
+
+        .ring {
+            animation: spread-ring linear both;
+            animation-timeline: --tile;
+            animation-range: entry calc(20% + var(--ring-order) * 15%) cover calc(20% + var(--ring-order) * 5%);
+        }
+
+        .pin {
+            animation: drop-pin linear both;
+            animation-timeline: --tile;
+            animation-range: entry 10% cover 25%;
+        }
+
+        .ask {
+            animation: bubble-in linear both;
+            animation-timeline: --tile;
+            animation-range: entry 10% entry 60%;
+        }
+
+        .reply {
+            animation: bubble-in linear both;
+            animation-timeline: --tile;
+            animation-range: entry 40% cover 25%;
+        }
+
+        .named {
+            animation: grow-across linear both;
+            animation-timeline: --tile;
+            animation-range: cover 22% cover 32%;
+        }
+    }
+}
+
+// The pin keeps broadcasting once it lands, whether or not the browser ties motion to scroll.
+@media (prefers-reduced-motion: no-preference) {
+    .pulse {
+        animation: pulse-ring 2.6s var(--ease-out) infinite;
+    }
+}

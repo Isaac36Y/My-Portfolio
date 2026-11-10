@@ -1,0 +1,339 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// Every piece of the story is drawn in its finished state first. Where the browser can tie animation to
+// scroll, the trail is walked as the reader moves down it: the mint line runs to the reading line, each
+// waypoint lights as the line reaches it, and the copy rises in as it enters the screen.
+@keyframes walk-trail {
+    from {
+        scale: 1 0;
+    }
+}
+
+@keyframes reach-waypoint {
+    from {
+        scale: 0;
+    }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+.story {
+    --trail-gutter: var(--space-xxxl);
+    --waypoint-size: var(--space-med);
+    // Measured from the top of the screen. The walked trail always ends here, and a waypoint lights as it crosses it.
+    --reading-line: 50svh;
+    --chapter-gap: clamp(var(--space-xxxxl), 16svh, calc(var(--space-xxxxl) * 2.5));
+
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: start;
+    gap: var(--space-xxl);
+    max-width: 44rem;
+    color: var(--color-ice);
+
+    // Fills its column beside the card, so the space between the two never outgrows the gaps around them.
+    @include bp($desktop) {
+        max-width: none;
+    }
+}
+
+.storyLabel {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    justify-self: start;
+    font-size: var(--fs-label);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.journey {
+    position: relative;
+}
+
+.trail {
+    position: absolute;
+    top: var(--space-med);
+    bottom: 0;
+    left: calc(var(--waypoint-size) / 2);
+    width: var(--width-grid-line);
+    background-color: var(--color-ice-glow);
+    translate: -50% 0;
+}
+
+.trailWalked {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-mint);
+    transform-origin: top;
+}
+
+.chapters {
+    display: grid;
+    gap: var(--chapter-gap);
+    padding-left: var(--trail-gutter);
+}
+
+.chapter {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: grid;
+    gap: var(--space-xl);
+}
+
+.waypointMarker {
+    position: absolute;
+    top: var(--space-xs);
+    left: calc(var(--trail-gutter) * -1);
+    width: var(--waypoint-size);
+    height: var(--waypoint-size);
+    background-color: var(--color-navy);
+    border: 1px solid var(--color-ice-glow);
+    border-radius: 50%;
+}
+
+.waypointReached {
+    position: absolute;
+    inset: -1px;
+    background-color: var(--color-mint);
+    border-radius: inherit;
+}
+
+.waypoint {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.chapterNumber {
+    color: var(--color-mint);
+}
+
+.heading {
+    max-width: 22ch;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+
+    @include bp($desktop) {
+        max-width: 28ch;
+    }
+}
+
+.statement {
+    max-width: 16ch;
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+
+    @include bp($desktop) {
+        max-width: 20ch;
+    }
+}
+
+.headingAccent {
+    color: var(--color-mint);
+}
+
+.paragraph {
+    max-width: 68ch;
+    font-size: var(--fs-story);
+    line-height: 1.65;
+    color: var(--color-ice-muted);
+}
+
+.figures {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-ice-glow);
+}
+
+.figure {
+    display: grid;
+    align-content: start;
+    gap: var(--space-sm);
+}
+
+.figureValue {
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-heading-sm);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    font-variant-numeric: tabular-nums;
+}
+
+.figureLabel,
+.buildKind,
+.asideLabel {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.figureLabel {
+    color: var(--color-ice-muted);
+}
+
+.route {
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+    color: var(--color-ice-muted);
+}
+
+.builds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-xxl);
+}
+
+.build {
+    display: grid;
+    align-content: start;
+    gap: var(--space-sm);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-ice-glow);
+}
+
+.buildName {
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.buildKind {
+    margin-bottom: var(--space-sm);
+    color: var(--color-mint);
+}
+
+.aside {
+    display: grid;
+    gap: var(--space-sm);
+    max-width: 60ch;
+    padding-left: var(--space-lg);
+    border-left: 1px solid var(--color-mint);
+}
+
+.asideLabel {
+    color: var(--color-mint);
+}
+
+.asideText {
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+.closing {
+    @include clear-backdrop-behind(var(--color-navy));
+
+    display: grid;
+    justify-items: start;
+    gap: var(--space-lg);
+    margin-top: var(--chapter-gap);
+    padding-left: var(--trail-gutter);
+}
+
+.closingPrompt {
+    max-width: 26ch;
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+
+.closingLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-med);
+    min-height: var(--size-tap-target);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-mint);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--color-ice);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-mint);
+        outline-offset: var(--space-xs);
+        border-radius: var(--br-sm);
+    }
+}
+
+.closingArrow {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--duration-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .closingLink:hover & {
+            transform: translateX(var(--space-med));
+        }
+    }
+}
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        // Room for the last stretch of trail to scroll up to the reading line.
+        .story {
+            padding-bottom: calc(100svh - var(--reading-line));
+        }
+
+        .journey {
+            view-timeline: --journey block;
+        }
+
+        .trailWalked {
+            animation: walk-trail linear both;
+            animation-timeline: --journey;
+            animation-range: cover calc(100svh - var(--reading-line)) cover calc(100% - var(--reading-line));
+        }
+
+        .waypointReached {
+            animation: reach-waypoint linear both;
+            animation-timeline: view();
+            animation-range: cover calc(100svh - var(--reading-line) - var(--space-xxl))
+                cover calc(100svh - var(--reading-line));
+        }
+
+        // Finishes as each piece fully enters, so anything wholly on screen is wholly readable.
+        .revealsOnScroll {
+            animation: rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%;
+        }
+    }
+}

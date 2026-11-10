@@ -1,0 +1,60 @@
+// The attribute doubles the specificity so these win over the page's own wayfinding and link classes,
+// whatever order the modules load in.
+.pinned[data-shown] {
+    --chip-inset-block: max(var(--space-xxxl), env(safe-area-inset-top));
+
+    position: fixed;
+    z-index: 50;
+    top: var(--chip-inset-block);
+    inset-inline: var(--page-gutter, var(--space-lg));
+    // The row spans the page, but only the chips take clicks; the gap between them leaves the copy beneath reachable.
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity var(--duration-frame) var(--ease-out),
+        visibility 0s linear var(--duration-frame);
+
+    @media (prefers-reduced-motion: no-preference) {
+        translate: 0 calc(-100% - var(--chip-inset-block) - var(--space-xl));
+        transition:
+            opacity var(--duration-frame) var(--ease-out),
+            translate var(--duration-frame) var(--ease-out),
+            visibility 0s linear var(--duration-frame);
+    }
+
+    > * {
+        padding-inline: var(--space-lg);
+        border: 1px solid var(--color-mint-hairline);
+        border-radius: calc(var(--size-tap-target) / 2);
+        background-color: color-mix(in srgb, var(--color-navy) 88%, transparent);
+        backdrop-filter: blur(var(--space-sm));
+        box-shadow: 0 var(--space-xs) var(--space-lg) color-mix(in srgb, black 35%, transparent);
+        pointer-events: auto;
+
+        // The feathered patch some links carry for the backdrop logo would smear over scrolling copy; the chip replaces it.
+        &::before {
+            content: none;
+        }
+
+        &:focus-visible {
+            border-radius: calc(var(--size-tap-target) / 2);
+        }
+    }
+}
+
+.pinned[data-shown="true"] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+        opacity var(--duration-frame) var(--ease-out),
+        visibility 0s;
+
+    @media (prefers-reduced-motion: no-preference) {
+        translate: 0 0;
+        transition:
+            opacity var(--duration-frame) var(--ease-out),
+            translate var(--duration-frame) var(--ease-out),
+            visibility 0s;
+    }
+}

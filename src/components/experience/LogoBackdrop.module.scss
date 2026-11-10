@@ -1,0 +1,38 @@
+// One screen tall, matching a Stage scene, so the frame on a route page covers exactly what the scene it replaces did.
+.window {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 100svh;
+    overflow: clip;
+    pointer-events: none;
+}
+
+.staysInView {
+    position: fixed;
+}
+
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100vw, 120svh);
+    max-width: none;
+    height: auto;
+    translate: -50% -50%;
+    // On the image, not the window: a named view transition element's own opacity may not survive into its snapshot.
+    opacity: var(--logo-backdrop-opacity, 1);
+}
+
+// For a page that keeps scrolling past its first screen: the logo dissolves before the frame's bottom
+// edge instead of being cut off by it. The mask sits on the image for the same reason the opacity does,
+// and the image is centered in the frame, so the frame's bottom is 50svh below the image's middle.
+.fadesBeforeFold {
+    --fade-length: 40svh;
+    --frame-bottom: calc(50% + 50svh);
+
+    mask-image: linear-gradient(
+        to bottom,
+        rgb(0 0 0) calc(var(--frame-bottom) - var(--fade-length)),
+        transparent var(--frame-bottom)
+    );
+}

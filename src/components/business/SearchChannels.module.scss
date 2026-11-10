@@ -1,0 +1,389 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// One question fans out to four places to look, and all four lead back to the same business. On a wide
+// screen the wires are drawn as the diagram scrolls in; narrower screens stack the cards on a single stem.
+@keyframes draw-wire {
+    from {
+        stroke-dashoffset: 1;
+    }
+}
+
+@keyframes run-signal {
+    from {
+        stroke-dashoffset: 1.08;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+@keyframes glow-in {
+    from {
+        opacity: 0;
+        scale: 0.85;
+    }
+}
+
+// The box sits dark until the last wire reaches it, then lights up.
+@keyframes connect {
+    from {
+        border-color: var(--color-mint-hairline);
+        box-shadow: 0 0 0 transparent;
+    }
+}
+
+@keyframes light-up {
+    from {
+        opacity: 0;
+    }
+}
+
+.diagram {
+    // Lets the answer box below the wires read the wires' scroll timeline, so it lights up as they land.
+    timeline-scope: --wires-in;
+
+    display: grid;
+    justify-items: center;
+    min-width: 0;
+}
+
+.nodeLabel {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ice-muted);
+}
+
+.question {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-med);
+    text-align: center;
+}
+
+.bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-med);
+    padding: var(--space-med) var(--space-xl);
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    background-color: var(--color-navy-well);
+    border: 1px solid var(--color-ice-glow);
+    border-radius: var(--br-card) var(--br-card) var(--br-card) var(--br-sm);
+}
+
+.bubbleIcon {
+    flex-shrink: 0;
+    width: 1.25em;
+    height: 1.25em;
+    color: var(--color-mint);
+}
+
+// ---------- Wires ----------
+
+.wires {
+    display: none;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+
+    @include bp($desktop) {
+        display: block;
+    }
+}
+
+.wire {
+    fill: none;
+    stroke: var(--color-mint);
+    stroke-width: 2;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+}
+
+// White where the wire has been drawn, so the pulses masked by it only show along the drawn part.
+.wireMask {
+    fill: none;
+    stroke: white;
+    stroke-width: 14;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+}
+
+// A short bright pulse that runs down each wire, so the diagram reads as something flowing.
+.signal {
+    fill: none;
+    stroke: var(--color-mint);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0.08 1;
+    stroke-dashoffset: 1.08;
+    filter: drop-shadow(0 0 4px var(--color-mint));
+    opacity: 0;
+}
+
+// Below desktop the cards stack, so one straight stem stands in for the fan of wires.
+.stem {
+    width: var(--width-grid-line);
+    height: var(--space-xxxl);
+    background: linear-gradient(to bottom, transparent, var(--color-mint), transparent);
+
+    @include bp($desktop) {
+        display: none;
+    }
+}
+
+// ---------- Channels ----------
+
+.channels {
+    display: grid;
+    gap: var(--space-lg);
+    width: 100%;
+
+    @include bp($tablet) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    // No gap here: each column's center has to land exactly where its wires meet it.
+    @include bp($desktop) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0;
+    }
+}
+
+.channel {
+    display: grid;
+
+    @include bp($desktop) {
+        padding-inline: var(--space-sm);
+    }
+}
+
+.card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-med);
+    padding: var(--space-xl);
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+}
+
+.cardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-med);
+    margin-bottom: var(--space-sm);
+}
+
+.iconWell {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: var(--br-med);
+}
+
+.icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    color: var(--color-mint);
+}
+
+.discipline {
+    padding: var(--space-xs) var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--color-navy);
+    background-color: var(--color-mint);
+    border-radius: 999px;
+}
+
+.channelName {
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.summary {
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--color-ice-muted);
+}
+
+.readsLabel {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+    border-top: 1px solid var(--color-mint-hairline);
+}
+
+.reads {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.read {
+    position: relative;
+    padding-left: var(--space-lg);
+    font-size: var(--fs-body);
+    line-height: 1.45;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0.6em;
+        left: 0;
+        width: 0.35rem;
+        height: 0.35rem;
+        background-color: var(--color-mint);
+        border-radius: 50%;
+    }
+}
+
+// ---------- Answer ----------
+
+.answer {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xl) var(--space-xxxl);
+    overflow: hidden;
+    text-align: center;
+    background-color: var(--color-navy-raised);
+    border: 1px solid var(--color-mint);
+    border-radius: var(--br-lg);
+    box-shadow:
+        0 0 var(--space-xxxl) color-mix(in srgb, var(--color-mint) 30%, transparent),
+        0 0 calc(var(--space-xxxxl) * 1.5) var(--color-mint-hairline);
+
+    // The glow pours in from the edge the wires arrive at.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+            radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--color-mint) 38%, transparent), transparent 70%),
+            radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--color-mint) 10%, transparent), transparent 70%);
+    }
+}
+
+.answerIcon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    color: var(--color-navy);
+    background-color: var(--color-mint);
+    border-radius: 50%;
+
+    svg {
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+}
+
+.answerName {
+    font-family: var(--font-heading), sans-serif;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+// ---------- Scroll-driven motion ----------
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .question {
+            animation: rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%;
+        }
+
+        .wiresOut {
+            view-timeline: --wires-out block;
+        }
+
+        .wiresIn {
+            view-timeline: --wires-in block;
+        }
+
+        // A short stretch of scroll draws each set of wires, and the mask that lets the pulses through
+        // draws on exactly the same clock.
+        .wiresOut .wire,
+        .wiresOut .wireMask {
+            animation: draw-wire linear both;
+            animation-timeline: --wires-out;
+            animation-range: entry 60% cover 40%;
+        }
+
+        .wiresIn .wire,
+        .wiresIn .wireMask {
+            animation: draw-wire linear both;
+            animation-timeline: --wires-in;
+            animation-range: entry 60% cover 40%;
+        }
+
+        .channel {
+            animation: rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry calc(10% + var(--channel-order) * 8%) entry calc(60% + var(--channel-order) * 8%);
+        }
+
+        // Lights up the moment the wires finish drawing into it.
+        .answer {
+            animation:
+                rise-in linear both,
+                connect linear both;
+            animation-timeline: view(), --wires-in;
+            animation-range:
+                entry 0% entry 100%,
+                cover 40% cover 48%;
+        }
+
+        .answer::before {
+            animation: light-up linear both;
+            animation-timeline: --wires-in;
+            animation-range: cover 40% cover 52%;
+        }
+
+        .answerIcon {
+            animation: glow-in linear both;
+            animation-timeline: --wires-in;
+            animation-range: cover 38% cover 48%;
+        }
+
+        .signal {
+            opacity: 1;
+            animation: run-signal 2.4s var(--ease-travel) infinite;
+            animation-delay: calc(var(--wire-order) * 0.3s);
+        }
+
+        .wiresIn .signal {
+            animation-delay: calc(1.2s + var(--wire-order) * 0.3s);
+        }
+    }
+}

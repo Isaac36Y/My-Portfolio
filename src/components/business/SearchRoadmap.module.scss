@@ -1,0 +1,363 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// The process reads as a route: each stop sits on alternating sides of the page and one continuous road
+// winds between them. RoadmapRoad measures the stops and draws the road; the whole of it shows faintly
+// from the start and fills in as a single line behind the visitor as they scroll. On a phone it runs straight.
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 var(--space-xl);
+    }
+}
+
+@keyframes orbit {
+    to {
+        rotate: 360deg;
+    }
+}
+
+@keyframes counter-orbit {
+    to {
+        rotate: -360deg;
+    }
+}
+
+// Lit the moment the comet arrives, then cooling until it comes round again.
+@keyframes stage-pass {
+    0% {
+        color: var(--color-navy);
+        background-color: var(--color-mint);
+        box-shadow: 0 0 var(--space-xl) color-mix(in srgb, var(--color-mint) 60%, transparent);
+    }
+
+    22%,
+    100% {
+        color: var(--color-ice);
+        background-color: var(--color-navy);
+        box-shadow: 0 0 0 transparent;
+    }
+}
+
+.route {
+    position: relative;
+    --node-size: 2.75rem;
+    --node-center: calc(var(--node-size) / 2);
+    --bend-height: var(--space-xxxl);
+    --stop-width: 100%;
+
+    display: grid;
+
+    @include bp($desktop) {
+        --node-size: 3.5rem;
+        --bend-height: clamp(9rem, 20svh, 13rem);
+        --stop-width: 44%;
+    }
+}
+
+.step {
+    position: relative;
+    padding-bottom: var(--bend-height);
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+}
+
+.stop {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--node-size) minmax(0, 1fr);
+    column-gap: var(--space-lg);
+    width: var(--stop-width);
+
+    @include bp($desktop) {
+        column-gap: var(--space-xl);
+    }
+
+    [data-side="right"] > & {
+        margin-left: calc(100% - var(--stop-width));
+    }
+}
+
+// ---------- The road ----------
+
+.road {
+    --road-width: 2px;
+
+    position: relative;
+}
+
+.roadArt {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.roadTrack,
+.roadFill {
+    fill: none;
+    stroke-width: var(--road-width);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.roadTrack {
+    stroke: color-mix(in srgb, var(--color-mint) 22%, transparent);
+}
+
+.roadFill {
+    stroke: var(--color-mint);
+    filter: drop-shadow(0 0 4px var(--color-mint));
+}
+
+// ---------- Stops ----------
+
+.node {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: var(--node-size);
+    height: var(--node-size);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--color-navy);
+    background-color: var(--color-mint);
+    border: 1px solid var(--color-mint);
+    border-radius: 50%;
+    box-shadow: 0 0 var(--space-xl) color-mix(in srgb, var(--color-mint) 45%, transparent);
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition:
+            background-color var(--duration-frame) var(--ease-out),
+            color var(--duration-frame) var(--ease-out),
+            box-shadow var(--duration-frame) var(--ease-out),
+            filter var(--duration-frame) var(--ease-out);
+    }
+}
+
+// Once the road is live, each node waits dark until the road reaches it.
+.road[data-road="live"] .node:not(.finaleNode, [data-reached]) {
+    color: var(--color-ice-muted);
+    background-color: var(--color-navy);
+    box-shadow: 0 0 0 transparent;
+}
+
+.road[data-road="live"] .finaleNode:not([data-reached]) {
+    filter: grayscale(0.8) brightness(0.6);
+}
+
+.copy {
+    display: grid;
+    align-content: start;
+    gap: var(--space-med);
+    padding-top: var(--space-sm);
+    min-width: 0;
+}
+
+.name {
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+.heading {
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+}
+
+.body {
+    max-width: 48ch;
+    margin-top: var(--space-xs);
+    font-size: var(--fs-story);
+    line-height: 1.6;
+    color: var(--color-ice-muted);
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+.detail {
+    padding: var(--space-xs) var(--space-med);
+    font-size: var(--fs-label);
+    letter-spacing: 0.03em;
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-mint-hairline);
+    border-radius: 999px;
+}
+
+// ---------- Finale ----------
+
+.finaleNode {
+    background:
+        radial-gradient(circle at 35% 30%, var(--color-ice), var(--color-mint) 55%, var(--color-mint-deep));
+    box-shadow:
+        0 0 0 var(--space-sm) var(--color-mint-wash),
+        0 0 var(--space-xxl) color-mix(in srgb, var(--color-mint) 60%, transparent);
+}
+
+.dial {
+    position: relative;
+    width: min(100%, 24rem);
+    aspect-ratio: 1;
+    margin-top: var(--space-xl);
+}
+
+.dialArt {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.coreInner {
+    stop-color: var(--color-mint);
+    stop-opacity: 0.16;
+}
+
+.coreOuter {
+    stop-color: var(--color-mint);
+    stop-opacity: 0;
+}
+
+.outerRing {
+    fill: none;
+    stroke: color-mix(in srgb, var(--color-ice) 10%, transparent);
+    stroke-width: 1;
+}
+
+.tick {
+    stroke: color-mix(in srgb, var(--color-ice) 18%, transparent);
+    stroke-width: 1;
+}
+
+.tickMajor {
+    stroke: color-mix(in srgb, var(--color-mint) 70%, transparent);
+    stroke-width: 1.5;
+}
+
+.ticks,
+.innerRing,
+.comet {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+}
+
+.track {
+    fill: none;
+    stroke: color-mix(in srgb, var(--color-mint) 26%, transparent);
+    stroke-width: 2;
+}
+
+.innerRing {
+    fill: none;
+    stroke: color-mix(in srgb, var(--color-mint) 30%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 2 6;
+}
+
+.tailFaded {
+    stop-color: var(--color-mint);
+    stop-opacity: 0;
+}
+
+.tailBright {
+    stop-color: var(--color-mint);
+    stop-opacity: 1;
+}
+
+.tail {
+    fill: none;
+    stroke: url(#seo-dial-tail);
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+
+.head {
+    fill: var(--color-ice);
+    stroke: var(--color-mint);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 6px var(--color-mint)) drop-shadow(0 0 14px var(--color-mint));
+}
+
+.cycle {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+}
+
+.cycleValue {
+    font-family: var(--font-heading), sans-serif;
+    font-size: clamp(2.5rem, 2rem + 2vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.cycleLabel {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-mint);
+}
+
+// Each stage sits on the ring itself, as a pill the comet runs through.
+.stage {
+    position: absolute;
+    padding: var(--space-xs) var(--space-med);
+    font-size: clamp(0.65rem, 0.6rem + 0.25vw, 0.8rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-ice);
+    background-color: var(--color-navy);
+    border: 1px solid var(--color-mint);
+    border-radius: 999px;
+    translate: -50% -50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .comet {
+        animation: orbit 9s linear infinite;
+    }
+
+    .innerRing {
+        animation: counter-orbit 40s linear infinite;
+    }
+
+    // One pass of the comet is 9s, and the stages sit a third of the way apart, so each lights 3s after the last.
+    .stage {
+        animation: stage-pass 9s linear infinite;
+        animation-delay: calc(var(--stage-order) * 3s);
+    }
+}
+
+// ---------- Scroll-driven motion ----------
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .stop {
+            view-timeline: --stop block;
+        }
+
+        .copy {
+            animation: rise-in linear both;
+            animation-timeline: --stop;
+            animation-range: entry 0% entry 50%;
+        }
+    }
+}

@@ -1,0 +1,59 @@
+// Hidden unless the head script started the intro, so without JavaScript this markup never shows.
+.intro {
+    display: none;
+
+    :global(html[data-intro="hold"]) &,
+    :global(html[data-intro="reveal"]) & {
+        display: block;
+    }
+}
+
+.curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: var(--color-navy);
+
+    :global(html[data-intro="reveal"]) & {
+        pointer-events: none;
+        // Navy on navy: with every piece still hidden, lifting it early changes nothing the visitor can see.
+        animation: curtain-lift var(--duration-hover) linear both;
+    }
+}
+
+.flyer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1001;
+    width: var(--size-hero-mark);
+    translate: -50% -50%;
+    pointer-events: none;
+}
+
+.flyerImage {
+    width: 100%;
+    height: auto;
+    scale: 1.15;
+
+    :global(html[data-intro="hold"]) & {
+        animation: idle 1600ms ease-in-out infinite alternate;
+    }
+}
+
+@keyframes idle {
+    from {
+        scale: 1.15;
+        opacity: 1;
+    }
+    to {
+        scale: 1.2;
+        opacity: 0.7;
+    }
+}
+
+@keyframes curtain-lift {
+    to {
+        opacity: 0;
+    }
+}

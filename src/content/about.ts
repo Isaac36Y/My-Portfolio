@@ -97,8 +97,8 @@ export const about = {
                 waypoint: "Burgos to Santiago",
                 heading: "At 24, I saved up and went to Europe alone.",
                 paragraphs: [
-                    "I knew the route wasn’t the life I wanted. So I flew out with a backpack and started walking the Camino de Santiago from Burgos.",
-                    "The friends I made on that walk carried the rest of the trip. Their couches and company meant the next five months cost almost nothing, and I came home with a much clearer sense of what I wanted.",
+                    "I knew delivery wasn’t the life I wanted. So I flew out with just a backpack and started walking the Camino de Santiago.",
+                    "The friends I made on that walk carried the rest of the trip. Their couches and company meant the next five months cost almost nothing and felt far more local. The adventure was once in a lifetime, and I came home with a much clearer sense of what I wanted.",
                 ],
                 figures: [
                     { value: "300", label: "Miles on foot" },
@@ -113,20 +113,20 @@ export const about = {
                 heading: "My next job was telling people the truth about their power bill.",
                 paragraphs: [
                     "Back home, I screened customers for a solar company. I’d look over someone’s house and their power bills, and if solar wasn’t going to work for them, I told them so. The ones it did fit, I set up with a consultant.",
-                    "Your business gets that same habit. I dig into what you actually need before anything gets built, and if the honest answer is a smaller project than the one you came in asking for, that’s the answer you’ll hear.",
+                    "I carried that habit with me to Younger Systems. If you come to me with a project and I think something simpler would work, I’ll tell you.",
                 ],
             },
             {
                 id: "all-in",
                 waypoint: "All in",
-                heading: "Getting laid off was the push I needed.",
+                heading: "Getting laid off was the opportunity I needed.",
                 paragraphs: [
                     "For about a year I’d studied on and off, wrestling with JavaScript in whatever hours were left over. When the solar job ended, I stopped fitting code around my life and went all in.",
-                    "The next eight months were fifty- and sixty-hour weeks. No classroom, no schedule, and nobody checking whether I showed up. Teaching yourself means finding your own gaps and filling them, one stubborn problem at a time.",
+                    "The next eight months were fifty- and sixty-hour weeks. No classroom, no schedule, and nobody but me holding myself accountable to show up every day to become a better developer. Teaching yourself means finding your own gaps and filling them, one stubborn problem at a time.",
                 ],
                 aside: {
                     label: "Side note",
-                    text: "I named my AI assistant Quincy, after freeCodeCamp’s founder, Quincy Larson. That free course was the door into all of this, and I don’t think I’d be here without it.",
+                    text: "I named my AI assistant Quincy, after freeCodeCamp’s founder, Quincy Larson. That free course was my door into all of this, and I don’t think I’d be here without it.",
                 },
             },
             {
@@ -153,10 +153,10 @@ export const about = {
                 id: "why-i-stay",
                 waypoint: "Why I’m still here",
                 heading: "Code was supposed to be my ticket to travel.",
-                headingAccent: "It became the work I’d pick over anything.",
+                headingAccent: "It became a hobby and a passion.",
                 isStatement: true,
                 paragraphs: [
-                    "I wake up wanting to get back to whatever I left unsolved. I’m at my best stuck on something hard, talking it out loud until it gives. And because I taught myself every piece, I understand every line I hand you, so when your business changes, I know exactly where to make the change.",
+                    "I wake up wanting to get back to whatever I left unsolved. I take joy in finding where software can take the pain out of someone’s work.",
                 ],
             },
             {
@@ -164,7 +164,7 @@ export const about = {
                 waypoint: `${siteConfig.location}, today`,
                 heading: "Now I build for the businesses around me.",
                 paragraphs: [
-                    `${siteConfig.name} is just me: Websites and Custom Tools for Southern Oregon businesses, built from scratch around how you already work. When you reach out, you’re talking to the person doing the work.`,
+                    `${siteConfig.name} is just me. Websites and Custom Tools for Southern Oregon businesses, built from scratch around how you already work. When you reach out, you’re talking to me, the person doing the work.`,
                 ],
             },
         ] satisfies StoryChapter[],

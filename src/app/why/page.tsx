@@ -5,7 +5,7 @@ import RouteScene from "@/components/experience/RouteScene";
 import { siteConfig } from "@/site.config";
 import styles from "./page.module.scss";
 
-const description = `Honest quotes, plans in plain English, and Websites and Custom Tools built from scratch by Isaac Young at ${siteConfig.name} in ${siteConfig.location}.`;
+const description = `How working with Isaac Young at ${siteConfig.name} in ${siteConfig.location} compares to an agency, a site builder, off-the-shelf software, or code an AI wrote for you.`;
 
 export const metadata: Metadata = {
     title: `Why ${siteConfig.name}`,

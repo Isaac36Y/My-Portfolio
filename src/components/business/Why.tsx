@@ -6,12 +6,8 @@ import SceneLink from "@/components/experience/SceneLink";
 import { why } from "@/content/why";
 import styles from "./Why.module.scss";
 
-function formatTermNumber(order: number) {
-    return String(order + 1).padStart(2, "0");
-}
-
 export default function Why() {
-    const { titleLead, titleAccent, lede, returnLabel, honest, working, sendOff } = why;
+    const { titleLead, titleAccent, lede, returnLabel, alternatives, nextSteps, sendOff } = why;
 
     return (
         <section className={styles.why} aria-labelledby="why-title" data-travel-layer="foreground">
@@ -35,52 +31,48 @@ export default function Why() {
                 <p className={`${styles.lede} body`}>{lede}</p>
             </header>
 
-            <section className={styles.honest} aria-labelledby="why-honest-title">
-                <div className={`${styles.sectionIntro} ${styles.revealsOnScroll}`}>
-                    <h2 id="why-honest-title" className={styles.sectionHeading}>
-                        {honest.heading}
-                    </h2>
-                    <p className={`${styles.sectionLede} body`}>{honest.intro}</p>
-                </div>
+            <section className={styles.alternatives} aria-labelledby="why-alternatives-title">
+                <h2 id="why-alternatives-title" className={`${styles.sectionHeading} ${styles.revealsOnScroll}`}>
+                    {alternatives.heading}
+                </h2>
 
-                <ol role="list" className={styles.terms}>
-                    {honest.terms.map((term, order) => (
-                        <li key={term.id} className={styles.term}>
-                            <span className={styles.termRule} aria-hidden="true" />
-                            <span className={`${styles.termNumber} tech`} aria-hidden="true">
-                                {formatTermNumber(order)}
-                            </span>
-                            <h3 className={styles.termStatement}>{term.statement}</h3>
-                            <p className={`${styles.termDetail} body`}>{term.detail}</p>
-                        </li>
-                    ))}
-                </ol>
-            </section>
-
-            <section className={styles.working} aria-labelledby="why-working-title">
-                <div className={`${styles.sectionIntro} ${styles.revealsOnScroll}`}>
-                    <h2 id="why-working-title" className={styles.sectionHeading}>
-                        {working.heading}
-                    </h2>
-                    <p className={`${styles.sectionLede} body`}>{working.intro}</p>
-                </div>
-
-                <ul
-                    role="list"
-                    className={styles.traits}
-                    style={{ "--trait-count": working.traits.length } as CSSProperties}
-                >
-                    {working.traits.map((trait, order) => (
-                        <li
-                            key={trait.id}
-                            className={`${styles.trait} ${styles.revealsOnScroll}`}
-                            style={{ "--trait-order": order } as CSSProperties}
-                        >
-                            <h3 className={styles.traitHeading}>{trait.heading}</h3>
-                            <p className={`${styles.traitBody} body`}>{trait.body}</p>
+                <ul role="list" className={styles.options}>
+                    {alternatives.options.map((alternative) => (
+                        <li key={alternative.id} className={styles.exchange}>
+                            <div className={styles.yourSide}>
+                                <h3 className={styles.option}>{alternative.option}</h3>
+                                <p className={`${styles.whatHappens} body`}>{alternative.whatHappens}</p>
+                            </div>
+                            <div className={styles.mySide}>
+                                <p className={`${styles.myAnswerLabel} tech`}>{alternatives.myAnswerLabel}</p>
+                                <p className={styles.myAnswer}>{alternative.myAnswer}</p>
+                            </div>
                         </li>
                     ))}
                 </ul>
+            </section>
+
+            <section className={styles.nextSteps} aria-labelledby="why-next-steps-title">
+                <h2 id="why-next-steps-title" className={`${styles.sectionHeading} ${styles.revealsOnScroll}`}>
+                    {nextSteps.heading}
+                </h2>
+
+                <ol
+                    role="list"
+                    className={styles.steps}
+                    style={{ "--step-count": nextSteps.steps.length } as CSSProperties}
+                >
+                    {nextSteps.steps.map((step, order) => (
+                        <li
+                            key={step.id}
+                            className={`${styles.step} ${styles.revealsOnScroll}`}
+                            style={{ "--step-order": order } as CSSProperties}
+                        >
+                            <h3 className={`${styles.moment} tech`}>{step.moment}</h3>
+                            <p className={`${styles.whatYouGet} body`}>{step.whatYouGet}</p>
+                        </li>
+                    ))}
+                </ol>
             </section>
 
             <footer className={styles.sendOff}>
